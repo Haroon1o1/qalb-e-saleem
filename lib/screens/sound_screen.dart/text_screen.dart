@@ -5,6 +5,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
+import 'package:provider/provider.dart';
+import 'package:qalb/providers/DataProvider.dart';
 
 class TextScreen extends StatefulWidget {
   final String image;
@@ -18,9 +20,13 @@ class TextScreen extends StatefulWidget {
 
 class _TextScreenState extends State<TextScreen> {
   String fileText = '';
+  Map<String, dynamic> images = {};
+
 
   @override
   void initState() {
+       images =  Provider.of<DataProvider>(context, listen: false).imageMap;
+
     super.initState();
     textFile();
   }
@@ -63,7 +69,7 @@ class _TextScreenState extends State<TextScreen> {
                                 children: [
                                   getImageAddress() == "" ? Image.network(
                                     widget.image, width:80
-                                  ) :Image.asset(
+                                  ) :Image.network(
                                     getImageAddress(),
                                     width: 80,
                                   ),
@@ -169,17 +175,17 @@ class _TextScreenState extends State<TextScreen> {
 
   String getImageAddress() {
     final imageMap = {
-      "1منقبت": "assets/images/manqabat-white.png",
-      "اظہار تشکر": "assets/images/izhar-white.png",
-      "الفراق": "assets/images/alfiraq-white.png",
-      "مقّدمۃ الکتاب": "assets/images/muqadma-white.png",
-      "پیش لفظ": "assets/images/paish_lafz-white.png",
-      "سوانح حیات": "assets/images/sawana-white.png",
-      "قلبِ سلیم": "assets/images/qalbesaleem.png",
-      "شجرٔہ قادریہ حسبیہ": "assets/images/shajra_hasbia.jpg",
-      "شجرٔہ قادریہ نسبیہ": "assets/images/shajra_nasbia.png",
-      "قطعہ تاریخ وصال": "assets/images/qata-white.png",
-      "2منقبت": "assets/images/manqabat2-white.png",
+      "1منقبت": images["manqabat-white"],
+      "اظہار تشکر": images["izhar-white"],
+      "الفراق": images["alfiraq-white"],
+      "مقّدمۃ الکتاب": images["muqadma-white"],
+      "پیش لفظ": images["paish_lafz-white"],
+      "سوانح حیات": images["sawana-white"],
+      "قلبِ سلیم": images["qalbesaleem"],
+      "شجرٔہ قادریہ حسبیہ": images["shajra_hasbia"],
+      "شجرٔہ قادریہ نسبیہ": images["shajra_nasbia"],
+      "قطعہ تاریخ وصال": images["qata-white"],
+      "2منقبت": images["manqabat2-white"],
     };
     return imageMap[widget.name] ?? "";
   }

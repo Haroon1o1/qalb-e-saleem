@@ -1,6 +1,8 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+import 'package:qalb/providers/DataProvider.dart';
 import 'package:qalb/screens/sound_screen.dart/text_screen.dart';
 
 class SoundPlayer extends StatefulWidget {
@@ -200,4 +202,6 @@ class _SoundPlayerState extends State<SoundPlayer> with WidgetsBindingObserver {
       ),
     );
   }
+
+
 }

@@ -1,4 +1,6 @@
 
+import 'dart:developer';
+
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 
@@ -12,11 +14,13 @@ class DataProvider with ChangeNotifier {
   List<int> _shajraNasbiyaImageIndex = [];
   List<String> _simpleSound = [];
   List<String> _majlisText = [];
+  Map<String, String> _imageMap = {};
 
 
 
 
 
+  Map<String, String> get imageMap => _imageMap;
   List<String?> get shajraHasbiyaImageUrls => _shajraHasbiyaImageUrls;
   List<int> get shajraHasbiyaImageIndex => _shajraHasbiyaImageIndex;
   List<String?> get shajraNasbiyaImageUrls => _shajraNasbiyaImageUrls;
@@ -49,6 +53,26 @@ class DataProvider with ChangeNotifier {
 
     notifyListeners();
   }
+
+void getAllImageUrl() async {
+  final ListResult result = await FirebaseStorage.instance.ref().child("pngs/").listAll();
+
+  for (final Reference ref in result.items) {
+    final String url = await ref.getDownloadURL();
+
+    // Extract the file name without the extension
+    String fileName = ref.name.replaceAll('.png', '');
+
+    // Save to map with format: fileName : url
+    imageMap[fileName] = url;
+  }
+
+  // Print or use the map as needed
+  log("${imageMap}");
+  notifyListeners();
+}
+
+
   void getSounds() async {
     final ListResult result =
         await FirebaseStorage.instance.ref().child("aqwal_voice/").listAll();

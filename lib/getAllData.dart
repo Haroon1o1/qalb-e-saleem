@@ -13,6 +13,7 @@ class  GetAllData{
           Provider.of<DataProvider>(context, listen: false).getMajlisThumbUrl();
           Provider.of<DataProvider>(context, listen: false).getSounds();
           Provider.of<DataProvider>(context, listen: false).getakwalImageUrl();
+          Provider.of<DataProvider>(context, listen: false).getAllImageUrl();
           Provider.of<DataProvider>(context, listen: false).getMajlisText();
   }
 }
