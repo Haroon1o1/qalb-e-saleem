@@ -1,5 +1,3 @@
-import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -75,8 +73,14 @@ class _MajlisState extends State<Majlis> {
                               ],
                             ),
                             SizedBox(width: 20),
-                            Image.asset("assets/images/back-arrow-white.png",
-                                width: 25),
+                            InkWell(
+                              onTap: () {
+                                Navigator.pop(context);
+                              },
+                              child: Image.asset(
+                                  "assets/images/back-arrow-white.png",
+                                  width: 25),
+                            ),
                           ],
                         ),
                         const SizedBox(width: 10),

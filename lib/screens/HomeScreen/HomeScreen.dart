@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:qalb/Transition/CustomPageTransition.dart';
 import 'package:qalb/screens/HomeScreen/LongBox.dart';
 import 'package:qalb/screens/HomeScreen/smallContainer.dart';
 import 'package:qalb/screens/Shajr_e_Qadria/Shajr_e_Qadria.dart';
@@ -25,8 +26,12 @@ class _HomescreenState extends State<Homescreen> {
               SizedBox(height: 60),
               GestureDetector(
                 onTap: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => Majlis()));
+                  Navigator.push(
+                    context,
+                    CustomPageNavigation(
+                      child: Majlis(),
+                    ),
+                  );
                 },
                 child: Container(
                   width: double.infinity,
@@ -81,7 +86,7 @@ class _HomescreenState extends State<Homescreen> {
                       imagePath: 'assets/images/manqabat-dark.png',
                       text: 'منقبت',
                       sub: "حضرت سّید محمد ظفر مشہدی قادری رحمة اهلل عليه",
-                     audioPath: 'Audios/al firaaq.mp3',
+                      audioPath: 'Audios/al firaaq.mp3',
                     ),
                     SmallContainer(
                       backgroundColor: const Color.fromARGB(255, 20, 5, 128),
@@ -102,7 +107,7 @@ class _HomescreenState extends State<Homescreen> {
                       imagePath: 'assets/images/paish_lafz-dark.png',
                       text: 'پیش لفظ',
                       sub: 'عبد الحمید قادری عفی عنہ',
-                     audioPath: 'Audios/al firaaq.mp3',
+                      audioPath: 'Audios/al firaaq.mp3',
                     ),
                   ],
                 ),
@@ -237,11 +242,11 @@ class _HomescreenState extends State<Homescreen> {
                         GestureDetector(
                           onTap: () {
                             Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      ShajrEQadriaScreen(text: "nasbiya"),
-                                ));
+                              context,
+                              CustomPageNavigation(
+                                child: ShajrEQadriaScreen(text: "nasbiya"),
+                              ),
+                            );
                           },
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(
@@ -259,11 +264,11 @@ class _HomescreenState extends State<Homescreen> {
                         GestureDetector(
                           onTap: () {
                             Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      ShajrEQadriaScreen(text: "hasbiya"),
-                                ));
+                              context,
+                              CustomPageNavigation(
+                                child: ShajrEQadriaScreen(text: "hasbiya"),
+                              ),
+                            );
                           },
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(
@@ -287,11 +292,11 @@ class _HomescreenState extends State<Homescreen> {
                         GestureDetector(
                           onTap: () {
                             Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      ShajrEQadriaScreen(text: "nasbiya"),
-                                ));
+                              context,
+                              CustomPageNavigation(
+                                child: ShajrEQadriaScreen(text: "nasbiya"),
+                              ),
+                            );
                           },
                           child: Container(
                             height: 75,
@@ -315,11 +320,10 @@ class _HomescreenState extends State<Homescreen> {
                         GestureDetector(
                           onTap: () {
                             Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      ShajrEQadriaScreen(text: "hasbiya"),
-                                ));
+                              context,
+                              CustomPageNavigation(
+                                  child: ShajrEQadriaScreen(text: "hasbiya")),
+                            );
                           },
                           child: Container(
                             height: 75,
@@ -350,15 +354,16 @@ class _HomescreenState extends State<Homescreen> {
                         GestureDetector(
                           onTap: () {
                             Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => SoundPlayer(
-                                    image: "assets/images/shajra_nasbia.png",
-                                    name: "شجرٔہ قادریہ نسبیہ",
-                                    sub: "منظوم مع تضمین",
-                                    audioPath: '',
-                                  ),
-                                ));
+                              context,
+                              CustomPageNavigation(
+                                child: SoundPlayer(
+                                  image: "assets/images/shajra_nasbia.png",
+                                  name: "شجرٔہ قادریہ نسبیہ",
+                                  sub: "منظوم مع تضمین",
+                                  audioPath: '',
+                                ),
+                              ),
+                            );
                           },
                           child: Container(
                             height: 75,
@@ -399,15 +404,15 @@ class _HomescreenState extends State<Homescreen> {
                         GestureDetector(
                           onTap: () {
                             Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => SoundPlayer(
-                                    image: "assets/images/shajra_hasbia.jpg",
-                                    name: "شجرٔہ قادریہ حسبیہ",
-                                    sub: "منظوم مع تضمین",
-                                    audioPath: '',
-                                  ),
-                                ));
+                              context,
+                              CustomPageNavigation(
+                                  child: SoundPlayer(
+                                image: "assets/images/shajra_hasbia.jpg",
+                                name: "شجرٔہ قادریہ حسبیہ",
+                                sub: "منظوم مع تضمین",
+                                audioPath: '',
+                              )),
+                            );
                           },
                           child: Container(
                             height: 75,
@@ -472,15 +477,16 @@ class _HomescreenState extends State<Homescreen> {
                     GestureDetector(
                       onTap: () {
                         Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => SoundPlayer(
-                                image: "assets/images/manqabat2-dark.png",
-                                name: "منقبت",
-                                sub: 'عبد الحمید قادری عفی عنہ',
-                                audioPath: 'Audios/al firaaq.mp3',
-                              ),
-                            ));
+                          context,
+                          CustomPageNavigation(
+                            child: SoundPlayer(
+                              image: "assets/images/manqabat2-dark.png",
+                              name: "منقبت",
+                              sub: 'عبد الحمید قادری عفی عنہ',
+                              audioPath: 'Audios/al firaaq.mp3',
+                            ),
+                          ),
+                        );
                       },
                       child: Container(
                         height: 60,
@@ -503,22 +509,21 @@ class _HomescreenState extends State<Homescreen> {
                     GestureDetector(
                       onTap: () {
                         Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => SoundPlayer(
-                                image: "assets/images/qata-dark.png",
-                                name: "قطعہ تاریخ وصال",
-                                sub:
-                                    'حضرت ابو الحقائق پیر سّید امانت علی شاہ چشتی نظامی',
-                                audioPath: 'Audios/al firaaq.mp3',
-                              ),
-                            ));
+                          context,
+                          CustomPageNavigation(
+                            child: SoundPlayer(
+                              image: "assets/images/qata-dark.png",
+                              name: "قطعہ تاریخ وصال",
+                              sub:
+                                  'حضرت ابو الحقائق پیر سّید امانت علی شاہ چشتی نظامی',
+                              audioPath: 'Audios/al firaaq.mp3',
+                            ),
+                          ),
+                        );
                       },
                       child: Container(
                         height: 60,
-                        width: MediaQuery.of(context).size.width *
-                            0.46, // Set the desired width
-
+                        width: MediaQuery.of(context).size.width * 0.46,
                         alignment: Alignment.center,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadiusDirectional.circular(20),
@@ -539,10 +544,11 @@ class _HomescreenState extends State<Homescreen> {
               GestureDetector(
                 onTap: () {
                   Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => hawashiwahawalajatScreen(),
-                      ));
+                    context,
+                    CustomPageNavigation(
+                      child: hawashiwahawalajatScreen(),
+                    ),
+                  );
                 },
                 child: Container(
                   margin: EdgeInsets.symmetric(horizontal: 10),

@@ -70,8 +70,14 @@ class _AqwalWaIrshadaatScreenState extends State<AqwalWaIrshadaatScreen> {
                         Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            Image.asset("assets/images/back-arrow-white.png",
-                                width: 25),
+                            InkWell(
+                              onTap: () {
+                                Navigator.pop(context);
+                              },
+                              child: Image.asset(
+                                  "assets/images/back-arrow-white.png",
+                                  width: 25),
+                            ),
                           ],
                         ),
                       ],
