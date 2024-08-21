@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "247408680959",
+    "project_id": "qalb-e-saleem-c7987",
+    "storage_bucket": "qalb-e-saleem-c7987.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:247408680959:android:777851df57909bd8fa51ca",
+        "android_client_info": {
+          "package_name": "com.example.qalb"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCfnEK6mARMixokyKkzw9zJN-lxzcE6LHo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
