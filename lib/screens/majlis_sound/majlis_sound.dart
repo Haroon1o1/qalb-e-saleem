@@ -11,7 +11,8 @@ class Majlis_Sound extends StatefulWidget {
   String name;
   String sub;
   int index;
-   Majlis_Sound({super.key, required this.image, required this.index, required this.name, required this.sub});
+  String audioPath;
+   Majlis_Sound({super.key, required this.image, required this.index, required this.name, required this.sub, required this.audioPath});
 
   @override
   State<Majlis_Sound> createState() => _Majlis_SoundState();
@@ -117,7 +118,7 @@ Row(
   children: [
     GestureDetector(
       onTap: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context) => Majlis_Text(image: widget.image, name: widget.name,file:Provider.of<DataProvider>(context, listen: false).majlisText[widget.index]),));
+                Navigator.push(context, MaterialPageRoute(builder: (context) => Majlis_Text(audioPath: widget.audioPath,image: widget.image, name: widget.name,file:Provider.of<DataProvider>(context, listen: false).majlisText[widget.index]),));
 
       },
       child: 

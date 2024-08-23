@@ -39,13 +39,13 @@ class _MajlisState extends State<Majlis> {
                     height: MediaQuery.of(context).size.height * 0.26,
                     decoration: const BoxDecoration(
                       image: DecorationImage(
-                        image: AssetImage("assets/images/majlis/upergrad.png"),
+                        image: AssetImage("assets/images/upergrad.png"),
                         fit: BoxFit.cover,
                       ),
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(bottom: 0.0, right: 10),
+                    padding: const EdgeInsets.only(bottom: 0.0, right: 0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
@@ -72,7 +72,7 @@ class _MajlisState extends State<Majlis> {
                                 ),
                               ],
                             ),
-                            SizedBox(width: 20),
+                            SizedBox(width: 05),
                             InkWell(
                               onTap: () {
                                 Navigator.pop(context);
@@ -118,7 +118,7 @@ class _MajlisState extends State<Majlis> {
                 itemCount: TextData.majlisUrdu.length,
                 itemBuilder: (context, index) {
                   return majlisContainer(
-                      "assets/images/majlis/${index + 1}.png", index);
+                      Provider.of<DataProvider>(context, listen: false).majlisImages[index], index);
                 },
               ),
             ),
@@ -140,6 +140,7 @@ class _MajlisState extends State<Majlis> {
                 index: index,
                 name: TextData.majlisUrdu[index],
                 sub: TextData.majlisEnglish[index],
+                audioPath: "",
               ),
             ));
       },
@@ -160,7 +161,7 @@ class _MajlisState extends State<Majlis> {
             Container(
               height: 115,
               width: MediaQuery.of(context).size.width * 0.87,
-              child: Image.asset(image, fit: BoxFit.fill),
+              child: Image.network(image, fit: BoxFit.fill),
             ),
             const SizedBox(height: 5), // Added spacing
             Container(
@@ -248,6 +249,4 @@ class _MajlisState extends State<Majlis> {
       ),
     );
   }
-
-  Future<void> _loadImage(String image) async {}
 }

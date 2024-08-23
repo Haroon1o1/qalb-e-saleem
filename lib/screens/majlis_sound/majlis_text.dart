@@ -11,8 +11,9 @@ class Majlis_Text extends StatefulWidget {
   final String image;
   final String name;
   final String file;
+  final String audioPath;
 
-  Majlis_Text({super.key, required this.image, required this.name,required this.file});
+  Majlis_Text({super.key, required this.image, required this.name,required this.file,required this.audioPath});
 
   @override
   State<Majlis_Text> createState() => _Majlis_TextState();

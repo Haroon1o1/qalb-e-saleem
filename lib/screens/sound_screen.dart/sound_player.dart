@@ -137,6 +137,7 @@ class SoundPlayer extends StatelessWidget {
                                     builder: (context) => TextScreen(
                                       image: image,
                                       name: name,
+                                      audioPath: audioPath,
                                     ),
                                   ));
                             },

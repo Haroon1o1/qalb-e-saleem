@@ -206,6 +206,7 @@ class _HomescreenState extends State<Homescreen> {
                   ],
                 ),
               ),
+              SizedBox(height:30),
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 10, vertical: 60),
                 width: double.infinity,
@@ -213,7 +214,7 @@ class _HomescreenState extends State<Homescreen> {
                 decoration: BoxDecoration(
                     image: DecorationImage(
                         image: AssetImage(
-                          "assets/images/majlis/upergrad.png",
+                          "assets/images/upergrad.png",
                         ),
                         fit: BoxFit.fill)),
                 child: Column(
@@ -270,16 +271,21 @@ class _HomescreenState extends State<Homescreen> {
                               ),
                             );
                           },
+
+///ISKO SET KRIIIIIIN 
+
+
+
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(
                                 20.0), // Radius of the corners
                             child: Image.asset(
-                              "assets/images/majlis/majlis1.png", // Replace with your image asset
+                              "assets/images/shajra_hasbia.jpg", // Replace with your image asset
                               width: MediaQuery.of(context).size.width *
                                   0.46, // Set the desired width
                               height: 110.0, // Set the desired height
                               fit: BoxFit
-                                  .cover, // Ensures the image covers the entire area
+                                  .fill, // Ensures the image covers the entire area
                             ),
                           ),
                         ),

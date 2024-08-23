@@ -10,9 +10,11 @@ import 'package:qalb/providers/DataProvider.dart';
 
 class TextScreen extends StatefulWidget {
   final String image;
+  
   final String name;
+  final String audioPath;
 
-  TextScreen({super.key, required this.image, required this.name});
+  TextScreen({super.key, required this.image, required this.name, required this.audioPath});
 
   @override
   State<TextScreen> createState() => _TextScreenState();
@@ -175,7 +177,7 @@ class _TextScreenState extends State<TextScreen> {
 
   String getImageAddress() {
     final imageMap = {
-      "1منقبت": images["manqabat-white"],
+      "منقبت": images["manqabat-white"],
       "اظہار تشکر": images["izhar-white"],
       "الفراق": images["alfiraq-white"],
       "مقّدمۃ الکتاب": images["muqadma-white"],
@@ -228,5 +230,21 @@ class _TextScreenState extends State<TextScreen> {
     };
     return textFileMap[widget.name] ?? "";
   }
+
+//  Color getColor() {
+//     final color = {
+//       "اظہار تشکر": "assets/textFiles/tashakur.html",
+//       "مقّدمۃ الکتاب": "assets/textFiles/maqadma.html",
+//       "الفراق": "assets/textFiles/alfiraq.html",
+//       "پیش لفظ": "assets/textFiles/peshLafz.html",
+//       "سوانح حیات": "assets/textFiles/sawana.html",
+//       "قلبِ سلیم": "assets/textFiles/qalb.html",
+//       "شجرٔہ قادریہ حسبیہ": "assets/textFiles/hasbia.html",
+//       "شجرٔہ قادریہ نسبیہ": "assets/textFiles/nasbiya.html",
+//       "قطعہ تاریخ وصال": "assets/textFiles/qata.html",
+//       "1منقبت": "assets/textFiles/manqabat1.html",
+//       "2منقبت": "assets/textFiles/manqabat2.html",
+
+//     }
   
 }
