@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:qalb/Transition/CustomPageTransition.dart';
 import 'package:qalb/screens/aqwal_wa_irshadaat/aqwal_wa_irshadaat.dart';
 import 'package:qalb/screens/sound_screen.dart/sound_player.dart';
 
@@ -22,26 +23,25 @@ class LongBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String image = "";
-
     return GestureDetector(
       onTap: () {
         if (getImageAddress() == "akwal") {
           Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => AqwalWaIrshadaatScreen()));
+            context,
+            CustomPageNavigation(child: AqwalWaIrshadaatScreen()),
+          );
         } else {
           Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => SoundPlayer(
-                  image: getImageAddress(),
-                  name: mainText,
-                  sub: subText2,
-                  audioPath: audioPath,
-                ),
-              ));
+            context,
+            CustomPageNavigation(
+              child: SoundPlayer(
+                image: getImageAddress(),
+                name: mainText,
+                sub: subText2,
+                audioPath: audioPath,
+              ),
+            ),
+          );
         }
       },
       child: Container(

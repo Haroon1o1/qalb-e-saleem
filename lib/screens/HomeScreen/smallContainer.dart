@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:qalb/Transition/CustomPageTransition.dart';
 import 'package:qalb/screens/sound_screen.dart/sound_player.dart';
 
 class SmallContainer extends StatelessWidget {
@@ -7,14 +8,14 @@ class SmallContainer extends StatelessWidget {
   final String imagePath;
   final String text;
   final String sub;
-  final String audioPath; 
+  final String audioPath;
 
   SmallContainer({
     required this.backgroundColor,
     required this.imagePath,
     required this.text,
     required this.sub,
-    required this.audioPath, 
+    required this.audioPath,
   });
 
   @override
@@ -23,8 +24,8 @@ class SmallContainer extends StatelessWidget {
       onTap: () {
         Navigator.push(
           context,
-          MaterialPageRoute(
-            builder: (context) => SoundPlayer(
+          CustomPageNavigation(
+            child: SoundPlayer(
               image: imagePath,
               name: text,
               sub: sub,
