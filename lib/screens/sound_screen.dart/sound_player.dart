@@ -21,7 +21,6 @@ class SoundPlayer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('________________________________________________TEST');
     return ChangeNotifierProvider(
       create: (_) => SoundPlayerProvider(),
       child: Scaffold(
@@ -106,7 +105,6 @@ class SoundPlayer extends StatelessWidget {
                         },
                       ),
                     ),
-                    // ----------------------TIME of AUDIO---------------
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16.0),
                       child: Row(
@@ -132,14 +130,19 @@ class SoundPlayer extends StatelessWidget {
                         GestureDetector(
                             onTap: () {
                               Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => TextScreen(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      ChangeNotifierProvider.value(
+                                    value: soundPlayerProvider,
+                                    child: TextScreen(
                                       image: image,
                                       name: name,
                                       audioPath: audioPath,
                                     ),
-                                  ));
+                                  ),
+                                ),
+                              );
                             },
                             child: Image.asset(
                               "assets/images/read.png",
@@ -172,7 +175,8 @@ class SoundPlayer extends StatelessWidget {
   }
 }
 
-// --------------------------SIDER STYLE------------------------------
+// -----------------------------------------------SLIDER STYLE
+
 class CustomRoundSliderThumbShape extends SliderComponentShape {
   @override
   Size getPreferredSize(bool isEnabled, bool isDiscrete) {
