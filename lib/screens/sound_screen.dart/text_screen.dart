@@ -121,11 +121,29 @@ class _TextScreenState extends State<TextScreen> {
                             // Slider added here
                             Consumer<SoundPlayerProvider>(
                               builder: (context, soundPlayerProvider, _) {
-                                return Column(
+                                return Row(
                                   children: [
+                                    Row(
+                                            children: [
+                                              Image.asset(
+                                                  "assets/images/clock-white.png",
+                                                  width: 15),
+                                              SizedBox(width: 5),
+                                              Text(
+                                                soundPlayerProvider
+                                                    .formatDuration(
+                                                        soundPlayerProvider
+                                                            .position),
+                                                style: GoogleFonts.almarai(
+                                                  fontSize: 12,
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
                                     SliderTheme(
                                       data: SliderTheme.of(context).copyWith(
-                                        activeTrackColor: Colors.grey,
+                                        activeTrackColor: Colors.grey[100],
                                         inactiveTrackColor: Colors.grey[300],
                                         thumbColor: Colors.grey,
                                         thumbShape:
@@ -154,24 +172,7 @@ class _TextScreenState extends State<TextScreen> {
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Row(
-                                            children: [
-                                              Image.asset(
-                                                  "assets/images/clock-white.png",
-                                                  width: 15),
-                                              SizedBox(width: 5),
-                                              Text(
-                                                soundPlayerProvider
-                                                    .formatDuration(
-                                                        soundPlayerProvider
-                                                            .position),
-                                                style: GoogleFonts.almarai(
-                                                  fontSize: 12,
-                                                  color: Colors.white,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
+                                          
                                           LottieBuilder.asset(
                                               "assets/images/voice.json",
                                               width: 20),
@@ -182,7 +183,7 @@ class _TextScreenState extends State<TextScreen> {
                                 );
                               },
                             ),
-                            SizedBox(height: 10),
+                            SizedBox(height: 0),
                           ],
                         ),
                       ),
