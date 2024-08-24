@@ -283,7 +283,7 @@ class _TextScreenState extends State<TextScreen> {
       "شجرٔہ قادریہ حسبیہ": "assets/textFiles/hasbia.html",
       "شجرٔہ قادریہ نسبیہ": "assets/textFiles/nasbiya.html",
       "قطعہ تاریخ وصال": "assets/textFiles/qata.html",
-      "1منقبت": "assets/textFiles/manqabat1.html",
+      "منقبت": "assets/textFiles/manqabat1.html",
       "2منقبت": "assets/textFiles/manqabat2.html",
     };
     return textFileMap[widget.name] ?? "";
