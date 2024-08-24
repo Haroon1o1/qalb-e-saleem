@@ -83,7 +83,7 @@ class _TextScreenState extends State<TextScreen> {
                                 Row(
                                   children: [
                                     getImageAddress() == ""
-                                        ? Image.network(widget.image, width: 80)
+                                        ? Image.network("https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png", width: 80)
                                         : Image.network(
                                             getImageAddress(),
                                             width: 80,
