@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_html/flutter_html.dart';
@@ -7,14 +6,20 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:qalb/providers/DataProvider.dart';
+import 'package:qalb/providers/SoundPlayerProvider.dart';
+import 'package:audioplayers/audioplayers.dart';
 
 class TextScreen extends StatefulWidget {
   final String image;
-  
   final String name;
   final String audioPath;
 
-  TextScreen({super.key, required this.image, required this.name, required this.audioPath});
+  TextScreen({
+    super.key,
+    required this.image,
+    required this.name,
+    required this.audioPath,
+  });
 
   @override
   State<TextScreen> createState() => _TextScreenState();
@@ -24,13 +29,19 @@ class _TextScreenState extends State<TextScreen> {
   String fileText = '';
   Map<String, dynamic> images = {};
 
-
   @override
   void initState() {
-       images =  Provider.of<DataProvider>(context, listen: false).imageMap;
-
+    images = Provider.of<DataProvider>(context, listen: false).imageMap;
     super.initState();
     textFile();
+    playAudio(); // Play the audio when the screen is initialized
+  }
+
+  Future<void> playAudio() async {
+    final player = AudioPlayer();
+    await player.play(DeviceFileSource(
+      'Audios/al firaaq.mp3',
+    ));
   }
 
   Future<void> textFile() async {
@@ -43,134 +54,202 @@ class _TextScreenState extends State<TextScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
-        alignment: Alignment.bottomCenter,
-        children: [
-          Container(
-            height: MediaQuery.of(context).size.height,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    Container(
-                      width: double.infinity,
-                      height: MediaQuery.of(context).size.height * 0.26,
-                      decoration: BoxDecoration(color: Colors.blue),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 30),
-                      child: Column(
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Row(
-                                children: [
-                                  getImageAddress() == "" ? Image.network(
-                                    widget.image, width:80
-                                  ) :Image.network(
-                                    getImageAddress(),
-                                    width: 80,
-                                  ),
-                                  SizedBox(width: 10),
-                                  Image.asset(
-                                    "assets/images/pause-white.png",
-                                    width: 35,
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    widget.name,
-                                    style: GoogleFonts.almarai(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                  SizedBox(width: 10),
-                                  Image.asset(
-                                    "assets/images/back-arrow-white.png",
-                                    width: 25,
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                          SizedBox(height: 10),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                            child: Row(
+    return ChangeNotifierProvider(
+      create: (_) => SoundPlayerProvider(),
+      child: Scaffold(
+        body: Stack(
+          alignment: Alignment.bottomCenter,
+          children: [
+            Container(
+              height: MediaQuery.of(context).size.height,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      Container(
+                        width: double.infinity,
+                        height: MediaQuery.of(context).size.height * 0.26,
+                        decoration: BoxDecoration(color: Colors.blue),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 30),
+                        child: Column(
+                          children: [
+                            Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Row(
                                   children: [
-                                    Image.asset("assets/images/clock-white.png", width: 15),
-                                    SizedBox(width: 5),
-                                    Text("0:00", style: GoogleFonts.almarai(fontSize: 12, color: Colors.white)),
+                                    getImageAddress() == ""
+                                        ? Image.network(widget.image, width: 80)
+                                        : Image.network(
+                                            getImageAddress(),
+                                            width: 80,
+                                          ),
+                                    SizedBox(width: 10),
+                                    InkWell(
+                                      onTap: () {},
+                                      child: Image.asset(
+                                        "assets/images/pause-white.png",
+                                        width: 35,
+                                      ),
+                                    ),
                                   ],
                                 ),
-                                LottieBuilder.asset("assets/images/voice.json", width: 20),
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      widget.name,
+                                      style: GoogleFonts.almarai(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    SizedBox(width: 10),
+                                    Image.asset(
+                                      "assets/images/back-arrow-white.png",
+                                      width: 25,
+                                    ),
+                                  ],
+                                ),
                               ],
                             ),
-                          ),
-                        ],
+                            // Slider added here
+                            Consumer<SoundPlayerProvider>(
+                              builder: (context, soundPlayerProvider, _) {
+                                return Column(
+                                  children: [
+                                    SliderTheme(
+                                      data: SliderTheme.of(context).copyWith(
+                                        activeTrackColor: Colors.grey,
+                                        inactiveTrackColor: Colors.grey[300],
+                                        thumbColor: Colors.grey,
+                                        thumbShape:
+                                            CustomRoundSliderThumbShape(),
+                                        overlayColor:
+                                            Colors.grey.withOpacity(0.2),
+                                        trackHeight: 4.0,
+                                      ),
+                                      child: Slider(
+                                        value: soundPlayerProvider
+                                            .position.inSeconds
+                                            .toDouble(),
+                                        min: 0.0,
+                                        max: soundPlayerProvider
+                                            .duration.inSeconds
+                                            .toDouble(),
+                                        onChanged: (value) {
+                                          soundPlayerProvider.seekAudio(value);
+                                        },
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 15.0),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Row(
+                                            children: [
+                                              Image.asset(
+                                                  "assets/images/clock-white.png",
+                                                  width: 15),
+                                              SizedBox(width: 5),
+                                              Text(
+                                                soundPlayerProvider
+                                                    .formatDuration(
+                                                        soundPlayerProvider
+                                                            .position),
+                                                style: GoogleFonts.almarai(
+                                                  fontSize: 12,
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          LottieBuilder.asset(
+                                              "assets/images/voice.json",
+                                              width: 20),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                );
+                              },
+                            ),
+                            SizedBox(height: 10),
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-          Positioned(
-            top: MediaQuery.of(context).size.height * 0.21,
-            left: 0,
-            right: 0,
-            child: Container(
-              padding: EdgeInsets.symmetric(vertical: 25),
-              height: MediaQuery.of(context).size.height * 0.8,
-              decoration: BoxDecoration(
-                color: Colors.grey[300],
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(40),
-                  topRight: Radius.circular(40),
-                ),
-              ),
-              child: Container(
-                height: MediaQuery.of(context).size.height * 0.7,
-                margin: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-                padding: EdgeInsets.symmetric(vertical: 20, horizontal: 15),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(20),
-                  border: Border.all(
-                    color: Colors.grey.shade300,
-                    width: 1.0,
-                  ),
-                ),
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      Image.asset("assets/images/motive.png", width: 100, ),
-                      SizedBox(height: 30),
-                      Text(widget.name, style: TextStyle(fontFamily:"al-quran",fontSize: 25,color: Color.fromARGB(255, 15, 199, 181)),),
-        SizedBox(height:widget.name == "شجرٔہ قادریہ نسبیہ" || widget.name == "شجرٔہ قادریہ حسبیہ" ? 0 : 30),
-                      Html(data: fileText),
-                      SizedBox(height: 30),
-                      Image.asset("assets/images/motive.png", width: 100),
-                      SizedBox(height: 100),
                     ],
                   ),
+                ],
+              ),
+            ),
+            Positioned(
+              top: MediaQuery.of(context).size.height * 0.21,
+              left: 0,
+              right: 0,
+              child: Container(
+                padding: EdgeInsets.symmetric(vertical: 25),
+                height: MediaQuery.of(context).size.height * 0.8,
+                decoration: BoxDecoration(
+                  color: Colors.grey[300],
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(40),
+                    topRight: Radius.circular(40),
+                  ),
+                ),
+                child: Container(
+                  height: MediaQuery.of(context).size.height * 0.7,
+                  margin: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+                  padding: EdgeInsets.symmetric(vertical: 20, horizontal: 15),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(20),
+                    border: Border.all(
+                      color: Colors.grey.shade300,
+                      width: 1.0,
+                    ),
+                  ),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        Image.asset(
+                          "assets/images/motive.png",
+                          width: 100,
+                        ),
+                        SizedBox(height: 30),
+                        Text(
+                          widget.name,
+                          style: TextStyle(
+                            fontFamily: "al-quran",
+                            fontSize: 25,
+                            color: Color.fromARGB(255, 15, 199, 181),
+                          ),
+                        ),
+                        SizedBox(
+                            height: widget.name == "شجرٔہ قادریہ نسبیہ" ||
+                                    widget.name == "شجرٔہ قادریہ حسبیہ"
+                                ? 0
+                                : 30),
+                        Html(data: fileText),
+                        SizedBox(height: 30),
+                        Image.asset("assets/images/motive.png", width: 100),
+                        SizedBox(height: 100),
+                      ],
+                    ),
+                  ),
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -191,7 +270,6 @@ class _TextScreenState extends State<TextScreen> {
     };
     return imageMap[widget.name] ?? "";
   }
-  
 
   String getTextFile() {
     final textFileMap = {
@@ -206,45 +284,45 @@ class _TextScreenState extends State<TextScreen> {
       "قطعہ تاریخ وصال": "assets/textFiles/qata.html",
       "1منقبت": "assets/textFiles/manqabat1.html",
       "2منقبت": "assets/textFiles/manqabat2.html",
-      "1": "assets/textFiles/01.html",
-      "2": "assets/textFiles/02.html",
-      "3": "assets/textFiles/03.html",
-      "4": "assets/textFiles/04.html",
-      "5": "assets/textFiles/05.html",
-      "6": "assets/textFiles/06.html",
-      "7": "assets/textFiles/07.html",
-      "8": "assets/textFiles/08.html",
-      "9": "assets/textFiles/09.html",
-      "10": "assets/textFiles/10.html",
-      "11": "assets/textFiles/11.html",
-      "12": "assets/textFiles/12.html",
-      "13": "assets/textFiles/13.html",
-      "14": "assets/textFiles/14.html",
-      "15": "assets/textFiles/15.html",
-      "16": "assets/textFiles/16.html",
-      "17": "assets/textFiles/17.html",
-      "18": "assets/textFiles/18.html",
-      "19": "assets/textFiles/19.html",
-      "20": "assets/textFiles/20.html",
-
     };
     return textFileMap[widget.name] ?? "";
   }
+}
 
-//  Color getColor() {
-//     final color = {
-//       "اظہار تشکر": "assets/textFiles/tashakur.html",
-//       "مقّدمۃ الکتاب": "assets/textFiles/maqadma.html",
-//       "الفراق": "assets/textFiles/alfiraq.html",
-//       "پیش لفظ": "assets/textFiles/peshLafz.html",
-//       "سوانح حیات": "assets/textFiles/sawana.html",
-//       "قلبِ سلیم": "assets/textFiles/qalb.html",
-//       "شجرٔہ قادریہ حسبیہ": "assets/textFiles/hasbia.html",
-//       "شجرٔہ قادریہ نسبیہ": "assets/textFiles/nasbiya.html",
-//       "قطعہ تاریخ وصال": "assets/textFiles/qata.html",
-//       "1منقبت": "assets/textFiles/manqabat1.html",
-//       "2منقبت": "assets/textFiles/manqabat2.html",
+// --------------------------SIDER STYLE------------------------------
+class CustomRoundSliderThumbShape extends SliderComponentShape {
+  @override
+  Size getPreferredSize(bool isEnabled, bool isDiscrete) {
+    return Size(24.0, 24.0);
+  }
 
-//     }
-  
+  @override
+  void paint(
+    PaintingContext context,
+    Offset center, {
+    required Animation<double> activationAnimation,
+    required Animation<double> enableAnimation,
+    required bool isDiscrete,
+    required TextPainter labelPainter,
+    required RenderBox parentBox,
+    required SliderThemeData sliderTheme,
+    required TextDirection textDirection,
+    required double value,
+    required double textScaleFactor,
+    required Size sizeWithOverflow,
+  }) {
+    final Canvas canvas = context.canvas;
+
+    final Paint outerPaint = Paint()
+      ..color = sliderTheme.thumbColor!
+      ..style = PaintingStyle.fill;
+
+    canvas.drawCircle(center, 12.0, outerPaint);
+
+    final Paint innerPaint = Paint()
+      ..color = Colors.white
+      ..style = PaintingStyle.fill;
+
+    canvas.drawCircle(center, 5.0, innerPaint);
+  }
 }
