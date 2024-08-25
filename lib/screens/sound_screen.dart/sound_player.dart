@@ -23,16 +23,13 @@ class SoundPlayer extends StatefulWidget {
 }
 
 class _SoundPlayerState extends State<SoundPlayer> {
+  Map<String, dynamic> images = {};
 
-    Map<String, dynamic> images = {};
-
-    @override
+  @override
   void initState() {
     images = Provider.of<DataProvider>(context, listen: false).audioMap;
     super.initState();
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -109,8 +106,7 @@ class _SoundPlayerState extends State<SoundPlayer> {
                       trackHeight: 4.0,
                     ),
                     child: Slider(
-                      value:
-                          soundPlayerProvider.position.inSeconds.toDouble(),
+                      value: soundPlayerProvider.position.inSeconds.toDouble(),
                       min: 0.0,
                       max: soundPlayerProvider.duration.inSeconds.toDouble(),
                       onChanged: (value) {
@@ -142,16 +138,14 @@ class _SoundPlayerState extends State<SoundPlayer> {
                     children: [
                       GestureDetector(
                           onTap: () {
-                            Navigator.push(      
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    TextScreen(
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => TextScreen(
                                     image: widget.image,
                                     name: widget.name,
                                   ),
-                              )
-                            );
+                                ));
                           },
                           child: Image.asset(
                             "assets/images/read.png",
@@ -182,8 +176,7 @@ class _SoundPlayerState extends State<SoundPlayer> {
     );
   }
 
-  
-   String getAudio() {
+  String getAudio() {
     final imageMap = {
       "منقبت": images["manqabat1"],
       "اظہار تشکر": images["tashakur"],
@@ -238,5 +231,4 @@ class CustomRoundSliderThumbShape extends SliderComponentShape {
 
     canvas.drawCircle(center, 5.0, innerPaint);
   }
-
 }

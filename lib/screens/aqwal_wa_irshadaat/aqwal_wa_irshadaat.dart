@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:qalb/providers/DataProvider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+// import 'package:audioplayers/audioplayers.dart';
 
 class AqwalWaIrshadaatScreen extends StatefulWidget {
   const AqwalWaIrshadaatScreen({super.key});
@@ -15,16 +16,25 @@ class AqwalWaIrshadaatScreen extends StatefulWidget {
 
 class _AqwalWaIrshadaatScreenState extends State<AqwalWaIrshadaatScreen> {
   final PageController _pageController = PageController(viewportFraction: 0.8);
+  // late AudioPlayer _audioPlayer;
+
+  @override
+  void initState() {
+    super.initState();
+    // _audioPlayer = AudioPlayer();
+  }
 
   @override
   void dispose() {
     _pageController.dispose();
+    // _audioPlayer.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    log("${Provider.of<DataProvider>(context, listen: false).akwalImageUrls}");
+    final akwalAudio = Provider.of<DataProvider>(context).akwalAudio;
+
     return Scaffold(
       body: Stack(
         alignment: Alignment.bottomCenter,
@@ -97,7 +107,7 @@ class _AqwalWaIrshadaatScreenState extends State<AqwalWaIrshadaatScreen> {
             left: 0,
             right: 0,
             child: Container(
-              padding: EdgeInsets.symmetric(vertical: 20),
+              padding: const EdgeInsets.symmetric(vertical: 20),
               height: MediaQuery.of(context).size.height * 0.8,
               decoration: const BoxDecoration(
                 color: Colors.white,
@@ -108,33 +118,54 @@ class _AqwalWaIrshadaatScreenState extends State<AqwalWaIrshadaatScreen> {
               ),
               child: Column(
                 children: [
-                  SizedBox(height: 30),
-                  Container(
-                    
-  height: MediaQuery.of(context).size.height * 0.5,
-  child: ListView.builder(
-    scrollDirection: Axis.horizontal,
-    itemCount: Provider.of<DataProvider>(context, listen: false).akwalImageUrls.length,
-    itemBuilder: (context, index) {     
-      return _buildPage(Provider.of<DataProvider>(context, listen: false).akwalImageUrls[index]);
-    },
-  ),
-),
-
-                  SizedBox(height: 30),
+                  const SizedBox(height: 30),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.5,
+                    child: PageView.builder(
+                      controller: _pageController,
+                      itemCount:
+                          Provider.of<DataProvider>(context, listen: false)
+                              .akwalImageUrls
+                              .length,
+                      itemBuilder: (context, index) {
+                        return _buildPage(
+                          Provider.of<DataProvider>(context, listen: false)
+                              .akwalImageUrls[index],
+                        );
+                      },
+                    ),
+                  ),
+                  const SizedBox(height: 30),
                   SmoothPageIndicator(
                     controller: _pageController,
-                    count: Provider.of<DataProvider>(context, listen: false).akwalImageUrls.length,
+                    count: Provider.of<DataProvider>(context, listen: false)
+                        .akwalImageUrls
+                        .length,
                     effect: WormEffect(
-                      dotHeight: 8,
-                      dotWidth: 8,
+                      dotHeight: 4,
+                      dotWidth: 4,
                       activeDotColor: Colors.blue,
                     ),
                   ),
-                  SizedBox(height: 30),
-                  Image.asset(
-                    "assets/images/play.png",
-                    height: 60,
+                  const SizedBox(height: 30),
+                  InkWell(
+                    // onTap: () {
+                    //   // final _audioPlayer = AudioPlayer();
+                    //   if (Provider.of<DataProvider>(context, listen: false)
+                    //       .akwalAudio
+                    //       .isNotEmpty) {
+                    //     _audioPlayer.play(UrlSource(
+                    //         Provider.of<DataProvider>(context, listen: false)
+                    //             .akwalAudio[0]));
+                    //   } else {
+                    //     _audioPlayer
+                    //         .play(DeviceFileSource('Audios/al firaaq.mp3'));
+                    //   }
+                    // },
+                    child: Image.asset(
+                      "assets/images/play.png",
+                      height: 60,
+                    ),
                   ),
                 ],
               ),
@@ -146,9 +177,12 @@ class _AqwalWaIrshadaatScreenState extends State<AqwalWaIrshadaatScreen> {
   }
 
   Widget _buildPage(String imagePath) {
-    return Image.network(
-      imagePath,
-      fit: BoxFit.contain,
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Image.network(
+        imagePath,
+        fit: BoxFit.contain,
+      ),
     );
   }
 }
