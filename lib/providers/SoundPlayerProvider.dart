@@ -14,10 +14,12 @@ class SoundPlayerProvider with ChangeNotifier {
   Duration get position => _position;
 
   SoundPlayerProvider() {
-    _audioPlayer.onDurationChanged.listen((duration) {
-      _duration = duration;
-      notifyListeners();
-    });
+  _audioPlayer.onDurationChanged.listen((duration) {
+  _duration = duration;
+  log("Duration updated: $_duration");
+  notifyListeners();
+});
+
 
     _audioPlayer.onPositionChanged.listen((position) {
       _position = position;

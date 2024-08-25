@@ -42,9 +42,8 @@ class _TextScreenState extends State<TextScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => SoundPlayerProvider(),
-      child: Scaffold(
+    log("${Provider.of<SoundPlayerProvider>(context, listen: false).position}--------------------");
+    return  Scaffold(
         body: Stack(
           alignment: Alignment.bottomCenter,
           children: [
@@ -80,7 +79,9 @@ class _TextScreenState extends State<TextScreen> {
                                           ),
                                     SizedBox(width: 10),
                                     InkWell(
-                                      onTap: () {},
+                                      onTap: () {
+                                        
+                                      },
                                       child: Image.asset(
                                         "assets/images/pause-white.png",
                                         width: 35,
@@ -100,9 +101,14 @@ class _TextScreenState extends State<TextScreen> {
                                       ),
                                     ),
                                     SizedBox(width: 10),
-                                    Image.asset(
-                                      "assets/images/back-arrow-white.png",
-                                      width: 25,
+                                    GestureDetector(
+                                      onTap: (){
+                                        Navigator.pop(context);
+                                      },
+                                      child: Image.asset(
+                                        "assets/images/back-arrow-white.png",
+                                        width: 25,
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -242,7 +248,7 @@ SizedBox(height: 30),
             ),
           ],
         ),
-      ),
+      
     );
   }
 

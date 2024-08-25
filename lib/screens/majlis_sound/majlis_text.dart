@@ -4,7 +4,11 @@ import 'package:flutter_html/flutter_html.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 import 'dart:convert';
+
+import 'package:qalb/providers/SoundPlayerProvider.dart';
+import 'package:qalb/screens/sound_screen.dart/sound_player.dart';
 
 
 class Majlis_Text extends StatefulWidget {
@@ -63,6 +67,7 @@ late Future<String> _htmlContent;
                                   SizedBox(width: 10),
                                   Image.asset(
                                     "assets/images/pause-white.png",
+                                    
                                     width: 35,
                                   ),
                                 ],
@@ -83,31 +88,89 @@ late Future<String> _htmlContent;
                                     ),
                                   ),
                                   SizedBox(width: 10),
-                                  Image.asset(
-                                    "assets/images/back-arrow-white.png",
-                                    width: 25,
+                                  GestureDetector(
+                                    onTap: (){
+                                      Navigator.pop(context);
+                                    },
+                                    child: Image.asset(
+                                      
+                                      "assets/images/back-arrow-white.png",
+                                      width: 25,
+                                    ),
                                   ),
                                 ],
                               ),
                             ],
                           ),
-                          SizedBox(height: 10),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Row(
+
+                          Consumer<SoundPlayerProvider>(
+                              builder: (context, soundPlayerProvider, _) {
+                                return Row(
                                   children: [
-                                    Image.asset("assets/images/clock-white.png", width: 15),
-                                    SizedBox(width: 5),
-                                    Text("0:00", style: GoogleFonts.almarai(fontSize: 12, color: Colors.white)),
+                                    Row(
+                                      children: [
+                                        Image.asset(
+                                            "assets/images/clock-white.png",
+                                            width: 15),
+                                        SizedBox(width: 5),
+                                        Text(
+                                          soundPlayerProvider.formatDuration(
+                                              soundPlayerProvider.position),
+                                          style: GoogleFonts.almarai(
+                                            fontSize: 12,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    SliderTheme(
+                                      data: SliderTheme.of(context).copyWith(
+                                        activeTrackColor: Colors.grey[100],
+                                        inactiveTrackColor: Colors.grey[300],
+                                        thumbColor: Colors.grey,
+                                        thumbShape:
+                                            CustomRoundSliderThumbShape(),
+                                        overlayColor:
+                                            Colors.grey.withOpacity(0.2),
+                                        trackHeight: 4.0,
+                                      ),
+                                      child: Slider(
+                                        value: soundPlayerProvider
+                                            .position.inSeconds
+                                            .toDouble(),
+                                        min: 0.0,
+                                        max: soundPlayerProvider
+                                            .duration.inSeconds
+                                            .toDouble(),
+                                        onChanged: (value) {
+                                          soundPlayerProvider.seekAudio(value);
+                                        },
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 15.0),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          LottieBuilder.asset(
+                                            animate:
+                                                Provider.of<SoundPlayerProvider>(
+                                                        context,
+                                                        listen: false)
+                                                    .isPlaying,
+                                            "assets/images/voice.json",
+                                            width: 20,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
                                   ],
-                                ),
-                                LottieBuilder.asset("assets/images/voice.json", width: 20),
-                              ],
+                                );
+                              },
                             ),
-                          ),
+                         
                         ],
                       ),
                     ),
