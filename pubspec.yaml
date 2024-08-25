@@ -42,7 +42,7 @@ dependencies:
   firebase_storage: ^11.6.0
   provider: ^6.1.2
   smooth_page_indicator: ^1.2.0+3
-  audioplayers: ^5.2.1
+  # audioplayers: ^5.2.1
   flutter_svg: ^2.0.10+1
   
 

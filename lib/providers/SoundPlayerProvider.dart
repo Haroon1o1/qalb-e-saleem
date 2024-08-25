@@ -1,10 +1,10 @@
 import 'dart:developer';
 
-import 'package:audioplayers/audioplayers.dart';
+// import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 
 class SoundPlayerProvider with ChangeNotifier {
-  final AudioPlayer _audioPlayer = AudioPlayer();
+  // final AudioPlayer _audioPlayer = AudioPlayer();
   bool _isPlaying = false;
   Duration _duration = Duration.zero;
   Duration _position = Duration.zero;
@@ -14,33 +14,33 @@ class SoundPlayerProvider with ChangeNotifier {
   Duration get position => _position;
 
   SoundPlayerProvider() {
-  _audioPlayer.onDurationChanged.listen((duration) {
-  _duration = duration;
-  log("Duration updated: $_duration");
-  notifyListeners();
-});
+  // _audioPlayer.onDurationChanged.listen((duration) {
+//   _duration = duration;
+//   log("Duration updated: $_duration");
+//   notifyListeners();
+// });
 
 
-    _audioPlayer.onPositionChanged.listen((position) {
-      _position = position;
-      notifyListeners();
-    });
+    // _audioPlayer.onPositionChanged.listen((position) {
+    //   _position = position;
+    //   notifyListeners();
+    // });
 
-    _audioPlayer.onPlayerComplete.listen((_) {
-      _isPlaying = false;
-      _position = Duration.zero;
-      notifyListeners();
-    });
+    // _audioPlayer.onPlayerComplete.listen((_) {
+    //   _isPlaying = false;
+    //   _position = Duration.zero;
+    //   notifyListeners();
+    // });
   }
 
   void togglePlayStop(String audioPath) async {
     log("${audioPath}--------------");
     if (_isPlaying) {
-      await _audioPlayer.pause();
+      // await _audioPlayer.pause();
       _isPlaying = false;
     } else {
       try {
-        await _audioPlayer.play(UrlSource(audioPath));
+        // await _audioPlayer.play(UrlSource(audioPath));
         _isPlaying = true;
       } catch (e) {
         print('Error playing audio: $e');
@@ -51,7 +51,7 @@ class SoundPlayerProvider with ChangeNotifier {
 
   void seekAudio(double value) async {
     final position = Duration(seconds: value.toInt());
-    await _audioPlayer.seek(position);
+    // await _audioPlayer.seek(position);
     _position = position;
     notifyListeners();
   }
@@ -65,7 +65,7 @@ class SoundPlayerProvider with ChangeNotifier {
 
   @override
   void dispose() {
-    _audioPlayer.dispose();
+    // _audioPlayer.dispose();
     super.dispose();
   }
 }
