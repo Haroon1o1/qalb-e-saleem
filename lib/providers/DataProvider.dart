@@ -15,6 +15,8 @@ class DataProvider with ChangeNotifier {
   List<String> _simpleSound = [];
   List<String> _majlisSound = [];
   List<String> _majlisText = [];
+  List<String> _akwalAudio = [];
+
   Map<String, String> _imageMap = {};
   Map<String, String> _audioMap = {};
 
@@ -29,6 +31,7 @@ class DataProvider with ChangeNotifier {
   List<String?> get shajraNasbiyaImageUrls => _shajraNasbiyaImageUrls;
   List<String> get simpleSound => _simpleSound;
   List<String> get majlisSound => _majlisSound;
+  List<String> get akwalAudio => _akwalAudio;
   List<int> get shajraNasbiyaImageIndex => _shajraNasbiyaImageIndex;
   List<String> get akwalImageUrls => _akwalImageUrls;
   List<String> get majlisText => _majlisText;
@@ -53,6 +56,18 @@ class DataProvider with ChangeNotifier {
       shajraNasbiyaImageIndex.add(extractIndexFromFileName(ref.toString()));
 
       shajraNasbiyaImageUrls.add(url);
+    }
+
+    notifyListeners();
+  }
+  void getAkwalAudio() async {
+    final ListResult result =
+        await FirebaseStorage.instance.ref().child("aqwal_voice/").listAll();
+
+    for (final Reference ref in result.items) {
+      final String url = await ref.getDownloadURL();
+
+      akwalAudio.add(url);
     }
 
     notifyListeners();
