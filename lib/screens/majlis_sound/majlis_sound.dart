@@ -44,26 +44,43 @@ class _Majlis_SoundState extends State<Majlis_Sound> {
                 child: Column(
                   children: [
                     SizedBox(height: 70),
-                    Padding(
-                      padding: EdgeInsets.only(
-                          left: MediaQuery.of(context).size.width * 0.32),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text("قلبِ سلیم",
-                              style: GoogleFonts.almarai(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.grey[500])),
-                          InkWell(
-                              onTap: () {
-                                Navigator.pop(context);
-                              },
-                              child: Image.asset(
-                                  "assets/images/back-arrow-grey.png",
-                                  width: 25)),
-                        ],
-                      ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            Container(
+                                        alignment: Alignment.center,
+                                        decoration:  BoxDecoration(
+                    color: Colors.grey[500],
+                    shape: BoxShape.circle,
+                                        ),
+                                        width: 25,
+                                        height: 25,
+                                        child: Text(
+                    "${widget.index + 1}",
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
+                                        ),
+                                      ),
+                                      SizedBox(width: 5,),
+                            Text("مجلس",
+                                style: GoogleFonts.almarai(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.grey[500])),
+                          ],
+                        ),
+                        InkWell(
+                            onTap: () {
+                              Navigator.pop(context);
+                            },
+                            child: Image.asset(
+                                "assets/images/back-arrow-grey.png",
+                                width: 25)),
+                      ],
                     ),
                     SizedBox(height: 50),
                     Hero(

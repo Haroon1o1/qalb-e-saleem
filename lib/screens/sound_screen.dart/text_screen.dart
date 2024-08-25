@@ -214,7 +214,26 @@ class _TextScreenState extends State<TextScreen> {
                   child: SingleChildScrollView(
                     child: Column(
                       children: [
+                        Image.asset("assets/images/motive.png", width: 100),
+SizedBox(height: 30),
+                        Text(
+                          widget.name,
+                          style: TextStyle(
+                            fontFamily: "al-quran",
+                            fontSize: 25,
+                            color: Color.fromARGB(255, 15, 199, 181),
+                          ),
+                        ),
+                        SizedBox(
+                            height: widget.name == "شجرٔہ قادریہ نسبیہ" ||
+                                    widget.name == "شجرٔہ قادریہ حسبیہ"
+                                ? 0
+                                : 30),
                         Html(data: fileText),
+                        SizedBox(height: 20,),
+                                                Image.asset("assets/images/motive.png", width: 100),
+
+                        SizedBox(height: 100,)
                       ],
                     ),
                   ),
@@ -227,15 +246,41 @@ class _TextScreenState extends State<TextScreen> {
     );
   }
 
-  String getTextFile() {
-    return Provider.of<DataProvider>(context, listen: false)
-            .imageMap[widget.name] ??
-        '';
+
+String getTextFile() {
+    final textFileMap = {
+      "اظہار تشکر": "assets/textFiles/tashakur.html",
+      "مقّدمۃ الکتاب": "assets/textFiles/maqadma.html",
+      "الفراق": "assets/textFiles/alfiraq.html",
+      "پیش لفظ": "assets/textFiles/peshLafz.html",
+      "سوانح حیات": "assets/textFiles/sawana.html",
+      "قلبِ سلیم": "assets/textFiles/qalb.html",
+      "شجرٔہ قادریہ حسبیہ": "assets/textFiles/hasbia.html",
+      "شجرٔہ قادریہ نسبیہ": "assets/textFiles/nasbiya.html",
+      "قطعہ تاریخ وصال": "assets/textFiles/qata.html",
+      "منقبت": "assets/textFiles/manqabat1.html",
+      "2منقبت": "assets/textFiles/manqabat2.html",
+    };
+    return textFileMap[widget.name] ?? "";
+  }
+  String getImageAddress() {
+    final imageMap = {
+      "منقبت": images["manqabat-white"],
+      "اظہار تشکر": images["izhar-white"],
+      "الفراق": images["alfiraq-white"],
+      "مقّدمۃ الکتاب": images["muqadma-white"],
+      "پیش لفظ": images["paish_lafz-white"],
+      "سوانح حیات": images["sawana-white"],
+      "قلبِ سلیم": images["qalbesaleem"],
+      "شجرٔہ قادریہ حسبیہ": images["shajra_hasbia"],
+      "شجرٔہ قادریہ نسبیہ": images["shajra_nasbia"],
+      "قطعہ تاریخ وصال": images["qata-white"],
+      "2منقبت": images["manqabat2-white"],
+    };
+    return imageMap[widget.name] ?? "";
   }
 
-  String getImageAddress() {
-    return images[widget.name] ?? '';
-  }
+ 
 }
 
 // -----------------------------------------------SLIDER STYLE
