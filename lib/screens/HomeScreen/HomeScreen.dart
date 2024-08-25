@@ -366,7 +366,6 @@ class _HomescreenState extends State<Homescreen> {
                                   image: "assets/images/shajra_nasbia.png",
                                   name: "شجرٔہ قادریہ نسبیہ",
                                   sub: "منظوم مع تضمین",
-                                  audioPath: '',
                                 ),
                               ),
                             );
@@ -416,7 +415,6 @@ class _HomescreenState extends State<Homescreen> {
                                 image: "assets/images/shajra_hasbia.jpg",
                                 name: "شجرٔہ قادریہ حسبیہ",
                                 sub: "منظوم مع تضمین",
-                                audioPath: '',
                               )),
                             );
                           },
@@ -489,7 +487,6 @@ class _HomescreenState extends State<Homescreen> {
                               image: "assets/images/manqabat2-dark.png",
                               name: "منقبت",
                               sub: 'عبد الحمید قادری عفی عنہ',
-                              audioPath: 'Audios/al firaaq.mp3',
                             ),
                           ),
                         );
@@ -522,7 +519,6 @@ class _HomescreenState extends State<Homescreen> {
                               name: "قطعہ تاریخ وصال",
                               sub:
                                   'حضرت ابو الحقائق پیر سّید امانت علی شاہ چشتی نظامی',
-                              audioPath: 'Audios/al firaaq.mp3',
                             ),
                           ),
                         );

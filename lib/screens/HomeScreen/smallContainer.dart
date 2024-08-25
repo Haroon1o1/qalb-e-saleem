@@ -29,7 +29,6 @@ class SmallContainer extends StatelessWidget {
               image: imagePath,
               name: text,
               sub: sub,
-              audioPath: audioPath,
             ),
           ),
         );

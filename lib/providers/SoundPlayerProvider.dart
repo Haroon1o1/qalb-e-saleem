@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 
@@ -30,12 +32,13 @@ class SoundPlayerProvider with ChangeNotifier {
   }
 
   void togglePlayStop(String audioPath) async {
+    log("${audioPath}--------------");
     if (_isPlaying) {
       await _audioPlayer.pause();
       _isPlaying = false;
     } else {
       try {
-        await _audioPlayer.play(AssetSource(audioPath));
+        await _audioPlayer.play(UrlSource(audioPath));
         _isPlaying = true;
       } catch (e) {
         print('Error playing audio: $e');

@@ -1,27 +1,42 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'package:google_fonts/google_fonts.dart';
+import 'package:qalb/providers/DataProvider.dart';
 import 'package:qalb/providers/SoundPlayerProvider.dart';
 import 'package:qalb/screens/sound_screen.dart/text_screen.dart';
 
-class SoundPlayer extends StatelessWidget {
+class SoundPlayer extends StatefulWidget {
   final String image;
   final String name;
   final String sub;
-  final String audioPath;
 
   SoundPlayer({
     super.key,
     required this.image,
     required this.name,
     required this.sub,
-    required this.audioPath,
   });
 
   @override
+  State<SoundPlayer> createState() => _SoundPlayerState();
+}
+
+class _SoundPlayerState extends State<SoundPlayer> {
+
+    Map<String, dynamic> images = {};
+
+    @override
+  void initState() {
+    images = Provider.of<DataProvider>(context, listen: false).audioMap;
+    super.initState();
+  }
+
+
+
+  @override
   Widget build(BuildContext context) {
-    print('________________________________________________TEST');
     return ChangeNotifierProvider(
       create: (_) => SoundPlayerProvider(),
       child: Scaffold(
@@ -62,7 +77,7 @@ class SoundPlayer extends StatelessWidget {
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(20.0),
                         child: Image.asset(
-                          image,
+                          widget.image,
                           width: double.infinity,
                           height: 320.0,
                           fit: BoxFit.fill,
@@ -71,7 +86,7 @@ class SoundPlayer extends StatelessWidget {
                     ),
                     SizedBox(height: 30),
                     Text(
-                      name,
+                      widget.name,
                       style: GoogleFonts.almarai(
                           fontSize: 20,
                           color: Colors.black,
@@ -80,7 +95,7 @@ class SoundPlayer extends StatelessWidget {
                     Text(
                       textDirection: TextDirection.rtl,
                       overflow: TextOverflow.ellipsis,
-                      sub,
+                      widget.sub,
                       style: GoogleFonts.almarai(
                         fontSize: 13,
                         color: Colors.black,
@@ -135,9 +150,8 @@ class SoundPlayer extends StatelessWidget {
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) => TextScreen(
-                                      image: image,
-                                      name: name,
-                                      audioPath: audioPath,
+                                      image: widget.image,
+                                      name: widget.name,
                                     ),
                                   ));
                             },
@@ -147,10 +161,10 @@ class SoundPlayer extends StatelessWidget {
                             )),
                         GestureDetector(
                           onTap: () =>
-                              soundPlayerProvider.togglePlayStop(audioPath),
+                              soundPlayerProvider.togglePlayStop(getAudio()),
                           child: Image.asset(
                             soundPlayerProvider.isPlaying
-                                ? "assets/images/play.png"
+                                ? "assets/images/pause.png"
                                 : "assets/images/play.png",
                             width: 60,
                           ),
@@ -169,6 +183,24 @@ class SoundPlayer extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  
+   String getAudio() {
+    final imageMap = {
+      "منقبت": images["manqabat1"],
+      "اظہار تشکر": images["tashakur"],
+      "الفراق": images["alfiraq"],
+      "مقّدمۃ الکتاب": images["muqadma"],
+      "پیش لفظ": images["paishlafz"],
+      "سوانح حیات": images["sawana"],
+      "قلبِ سلیم": images["qalb"],
+      "شجرٔہ قادریہ حسبیہ": images["shajra_hasbiya"],
+      "شجرٔہ قادریہ نسبیہ": images["shajra_nasbiya"],
+      "قطعہ تاریخ وصال": images["qata"],
+      "2منقبت": images["manqabat2"],
+    };
+    return imageMap[widget.name] ?? "";
   }
 }
 
@@ -208,4 +240,5 @@ class CustomRoundSliderThumbShape extends SliderComponentShape {
 
     canvas.drawCircle(center, 5.0, innerPaint);
   }
+
 }

@@ -12,13 +12,11 @@ import 'package:audioplayers/audioplayers.dart';
 class TextScreen extends StatefulWidget {
   final String image;
   final String name;
-  final String audioPath;
 
   TextScreen({
     super.key,
     required this.image,
     required this.name,
-    required this.audioPath,
   });
 
   @override
@@ -34,18 +32,11 @@ class _TextScreenState extends State<TextScreen> {
     images = Provider.of<DataProvider>(context, listen: false).imageMap;
     super.initState();
     textFile();
-    playAudio(); // Play the audio when the screen is initialized
   }
 
-  Future<void> playAudio() async {
-    final player = AudioPlayer();
-    await player.play(DeviceFileSource(
-      'Audios/al firaaq.mp3',
-    ));
-  }
+
 
   Future<void> textFile() async {
-    log("--------------${widget.name}-----${getTextFile()}");
     String fileContent = await rootBundle.loadString(getTextFile());
     setState(() {
       fileText = fileContent;
@@ -91,10 +82,11 @@ class _TextScreenState extends State<TextScreen> {
                                     SizedBox(width: 10),
                                     InkWell(
                                       onTap: () {},
-                                      child: Image.asset(
-                                        "assets/images/pause-white.png",
-                                        width: 35,
-                                      ),
+                                      child: 
+                                             Image.asset(
+                                              "assets/images/pause-white.png",width: 35,),
+                                        
+                                    
                                     ),
                                   ],
                                 ),
@@ -174,6 +166,8 @@ class _TextScreenState extends State<TextScreen> {
                                         children: [
                                           
                                           LottieBuilder.asset(
+                                            animate:Provider.of<SoundPlayerProvider>(context, listen: false).isPlaying,
+
                                               "assets/images/voice.json",
                                               width: 20),
                                         ],

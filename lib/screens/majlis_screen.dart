@@ -17,9 +17,7 @@ class _MajlisState extends State<Majlis> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    // Provider.of<DataProvider>(context, listen: false).getMajlisImagesUrl();
-    // Provider.of<DataProvider>(context, listen: false)
-    //     .getMajlisThumbUrl();
+
   }
 
   @override
@@ -140,7 +138,8 @@ class _MajlisState extends State<Majlis> {
                 index: index,
                 name: TextData.majlisUrdu[index],
                 sub: TextData.majlisEnglish[index],
-                audioPath: "",
+                audioPath: Provider.of<DataProvider>(context, listen: false)
+                    .majlisSound[index],
               ),
             ));
       },

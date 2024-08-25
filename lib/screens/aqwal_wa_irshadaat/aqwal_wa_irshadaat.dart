@@ -1,5 +1,9 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+import 'package:qalb/providers/DataProvider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class AqwalWaIrshadaatScreen extends StatefulWidget {
@@ -20,6 +24,7 @@ class _AqwalWaIrshadaatScreenState extends State<AqwalWaIrshadaatScreen> {
 
   @override
   Widget build(BuildContext context) {
+    log("${Provider.of<DataProvider>(context, listen: false).akwalImageUrls}");
     return Scaffold(
       body: Stack(
         alignment: Alignment.bottomCenter,
@@ -35,7 +40,7 @@ class _AqwalWaIrshadaatScreenState extends State<AqwalWaIrshadaatScreen> {
                     height: MediaQuery.of(context).size.height * 0.26,
                     decoration: const BoxDecoration(
                       image: DecorationImage(
-                        image: AssetImage("assets/images/majlis/upergrad.png"),
+                        image: AssetImage("assets/images/upergrad.png"),
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -105,27 +110,21 @@ class _AqwalWaIrshadaatScreenState extends State<AqwalWaIrshadaatScreen> {
                 children: [
                   SizedBox(height: 30),
                   Container(
-                    height: MediaQuery.of(context).size.height * 0.5,
-                    child: PageView(
-                      controller: _pageController,
-                      children: [
-                        _buildPage(
-                            'assets/images/Aqwal_E_Irshadaat_Pictures/aq_01-min.png'),
-                        _buildPage(
-                            'assets/images/Aqwal_E_Irshadaat_Pictures/aq_02.png'),
-                        _buildPage(
-                            'assets/images/Aqwal_E_Irshadaat_Pictures/aq_03.png'),
-                        _buildPage(
-                            'assets/images/Aqwal_E_Irshadaat_Pictures/aq_04.png'),
-                        _buildPage(
-                            'assets/images/Aqwal_E_Irshadaat_Pictures/aq_05.png'),
-                      ],
-                    ),
-                  ),
+                    
+  height: MediaQuery.of(context).size.height * 0.5,
+  child: ListView.builder(
+    scrollDirection: Axis.horizontal,
+    itemCount: Provider.of<DataProvider>(context, listen: false).akwalImageUrls.length,
+    itemBuilder: (context, index) {     
+      return _buildPage(Provider.of<DataProvider>(context, listen: false).akwalImageUrls[index]);
+    },
+  ),
+),
+
                   SizedBox(height: 30),
                   SmoothPageIndicator(
                     controller: _pageController,
-                    count: 5,
+                    count: Provider.of<DataProvider>(context, listen: false).akwalImageUrls.length,
                     effect: WormEffect(
                       dotHeight: 8,
                       dotWidth: 8,
@@ -147,7 +146,7 @@ class _AqwalWaIrshadaatScreenState extends State<AqwalWaIrshadaatScreen> {
   }
 
   Widget _buildPage(String imagePath) {
-    return Image.asset(
+    return Image.network(
       imagePath,
       fit: BoxFit.contain,
     );

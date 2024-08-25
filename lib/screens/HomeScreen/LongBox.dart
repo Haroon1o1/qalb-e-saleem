@@ -38,7 +38,6 @@ class LongBox extends StatelessWidget {
                 image: getImageAddress(),
                 name: mainText,
                 sub: subText2,
-                audioPath: audioPath,
               ),
             ),
           );

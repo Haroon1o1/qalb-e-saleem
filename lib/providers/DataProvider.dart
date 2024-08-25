@@ -13,18 +13,22 @@ class DataProvider with ChangeNotifier {
   List<String> _shajraNasbiyaImageUrls = [];
   List<int> _shajraNasbiyaImageIndex = [];
   List<String> _simpleSound = [];
+  List<String> _majlisSound = [];
   List<String> _majlisText = [];
   Map<String, String> _imageMap = {};
+  Map<String, String> _audioMap = {};
 
 
 
 
 
   Map<String, String> get imageMap => _imageMap;
+  Map<String, String> get audioMap => _audioMap;
   List<String?> get shajraHasbiyaImageUrls => _shajraHasbiyaImageUrls;
   List<int> get shajraHasbiyaImageIndex => _shajraHasbiyaImageIndex;
   List<String?> get shajraNasbiyaImageUrls => _shajraNasbiyaImageUrls;
   List<String> get simpleSound => _simpleSound;
+  List<String> get majlisSound => _majlisSound;
   List<int> get shajraNasbiyaImageIndex => _shajraNasbiyaImageIndex;
   List<String> get akwalImageUrls => _akwalImageUrls;
   List<String> get majlisText => _majlisText;
@@ -53,6 +57,18 @@ class DataProvider with ChangeNotifier {
 
     notifyListeners();
   }
+  void getMajlisAudios() async {
+    final ListResult result =
+        await FirebaseStorage.instance.ref().child("majlis_audio/").listAll();
+
+    for (final Reference ref in result.items) {
+      final String url = await ref.getDownloadURL();
+
+      majlisSound.add(url);
+    }
+
+    notifyListeners();
+  }
 
 void getAllImageUrl() async {
   final ListResult result = await FirebaseStorage.instance.ref().child("pngs/").listAll();
@@ -60,15 +76,12 @@ void getAllImageUrl() async {
   for (final Reference ref in result.items) {
     final String url = await ref.getDownloadURL();
 
-    // Extract the file name without the extension
     String fileName = ref.name.replaceAll('.png', '');
 
-    // Save to map with format: fileName : url
     imageMap[fileName] = url;
   }
 
   // Print or use the map as needed
-  log("${imageMap}");
   notifyListeners();
 }
 
@@ -91,16 +104,23 @@ void getAllImageUrl() async {
 
 
   void getakwalImageUrl() async {
+
     final ListResult result =
-        await FirebaseStorage.instance.ref().child("akwal/").listAll();
+        await FirebaseStorage.instance.ref().child("aqwal/").listAll();
 
     for (final Reference ref in result.items) {
+
+         
+
       final String url = await ref.getDownloadURL();
 
       akwalImageUrls.add(url);
-    }
 
-    notifyListeners();
+
+    }
+              notifyListeners();
+
+
   }
   void getMajlisText() async {
     final ListResult result =
@@ -183,6 +203,23 @@ void getAllImageUrl() async {
       String url = await ref.getDownloadURL();
 
       _pngUrls[fileName] = url;
+    }
+
+    notifyListeners();
+  }
+
+
+  Future<void> getAudios() async {
+    pngUrls.clear();
+    final ListResult result =
+        await FirebaseStorage.instance.ref('audio/').listAll();
+
+    for (Reference ref in result.items) {
+      String fileName = ref.name.split('.').first;
+
+      String url = await ref.getDownloadURL();
+
+      audioMap[fileName] = url;
     }
 
     notifyListeners();
