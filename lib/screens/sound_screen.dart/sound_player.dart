@@ -121,7 +121,6 @@ class _SoundPlayerState extends State<SoundPlayer> {
                         },
                       ),
                     ),
-                    // ----------------------TIME of AUDIO---------------
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16.0),
                       child: Row(
@@ -146,14 +145,19 @@ class _SoundPlayerState extends State<SoundPlayer> {
                       children: [
                         GestureDetector(
                             onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => TextScreen(
+                              Navigator.push(      
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      ChangeNotifierProvider.value(
+                                    value: soundPlayerProvider,
+                                    child: TextScreen(
                                       image: widget.image,
                                       name: widget.name,
                                     ),
-                                  ));
+                                  ),
+                                ),
+                              );
                             },
                             child: Image.asset(
                               "assets/images/read.png",
@@ -204,7 +208,8 @@ class _SoundPlayerState extends State<SoundPlayer> {
   }
 }
 
-// --------------------------SIDER STYLE------------------------------
+// -----------------------------------------------SLIDER STYLE
+
 class CustomRoundSliderThumbShape extends SliderComponentShape {
   @override
   Size getPreferredSize(bool isEnabled, bool isDiscrete) {

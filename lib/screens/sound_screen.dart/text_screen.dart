@@ -7,7 +7,6 @@ import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:qalb/providers/DataProvider.dart';
 import 'package:qalb/providers/SoundPlayerProvider.dart';
-import 'package:audioplayers/audioplayers.dart';
 
 class TextScreen extends StatefulWidget {
   final String image;
@@ -33,8 +32,6 @@ class _TextScreenState extends State<TextScreen> {
     super.initState();
     textFile();
   }
-
-
 
   Future<void> textFile() async {
     String fileContent = await rootBundle.loadString(getTextFile());
@@ -74,7 +71,9 @@ class _TextScreenState extends State<TextScreen> {
                                 Row(
                                   children: [
                                     getImageAddress() == ""
-                                        ? Image.network("https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png", width: 80)
+                                        ? Image.network(
+                                            "https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png",
+                                            width: 80)
                                         : Image.network(
                                             getImageAddress(),
                                             width: 80,
@@ -82,11 +81,10 @@ class _TextScreenState extends State<TextScreen> {
                                     SizedBox(width: 10),
                                     InkWell(
                                       onTap: () {},
-                                      child: 
-                                             Image.asset(
-                                              "assets/images/pause-white.png",width: 35,),
-                                        
-                                    
+                                      child: Image.asset(
+                                        "assets/images/pause-white.png",
+                                        width: 35,
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -116,23 +114,21 @@ class _TextScreenState extends State<TextScreen> {
                                 return Row(
                                   children: [
                                     Row(
-                                            children: [
-                                              Image.asset(
-                                                  "assets/images/clock-white.png",
-                                                  width: 15),
-                                              SizedBox(width: 5),
-                                              Text(
-                                                soundPlayerProvider
-                                                    .formatDuration(
-                                                        soundPlayerProvider
-                                                            .position),
-                                                style: GoogleFonts.almarai(
-                                                  fontSize: 12,
-                                                  color: Colors.white,
-                                                ),
-                                              ),
-                                            ],
+                                      children: [
+                                        Image.asset(
+                                            "assets/images/clock-white.png",
+                                            width: 15),
+                                        SizedBox(width: 5),
+                                        Text(
+                                          soundPlayerProvider.formatDuration(
+                                              soundPlayerProvider.position),
+                                          style: GoogleFonts.almarai(
+                                            fontSize: 12,
+                                            color: Colors.white,
                                           ),
+                                        ),
+                                      ],
+                                    ),
                                     SliderTheme(
                                       data: SliderTheme.of(context).copyWith(
                                         activeTrackColor: Colors.grey[100],
@@ -164,12 +160,15 @@ class _TextScreenState extends State<TextScreen> {
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                          
                                           LottieBuilder.asset(
-                                            animate:Provider.of<SoundPlayerProvider>(context, listen: false).isPlaying,
-
-                                              "assets/images/voice.json",
-                                              width: 20),
+                                            animate:
+                                                Provider.of<SoundPlayerProvider>(
+                                                        context,
+                                                        listen: false)
+                                                    .isPlaying,
+                                            "assets/images/voice.json",
+                                            width: 20,
+                                          ),
                                         ],
                                       ),
                                     ),
@@ -215,28 +214,7 @@ class _TextScreenState extends State<TextScreen> {
                   child: SingleChildScrollView(
                     child: Column(
                       children: [
-                        Image.asset(
-                          "assets/images/motive.png",
-                          width: 100,
-                        ),
-                        SizedBox(height: 30),
-                        Text(
-                          widget.name,
-                          style: TextStyle(
-                            fontFamily: "al-quran",
-                            fontSize: 25,
-                            color: Color.fromARGB(255, 15, 199, 181),
-                          ),
-                        ),
-                        SizedBox(
-                            height: widget.name == "شجرٔہ قادریہ نسبیہ" ||
-                                    widget.name == "شجرٔہ قادریہ حسبیہ"
-                                ? 0
-                                : 30),
                         Html(data: fileText),
-                        SizedBox(height: 30),
-                        Image.asset("assets/images/motive.png", width: 100),
-                        SizedBox(height: 100),
                       ],
                     ),
                   ),
@@ -249,42 +227,19 @@ class _TextScreenState extends State<TextScreen> {
     );
   }
 
-  String getImageAddress() {
-    final imageMap = {
-      "منقبت": images["manqabat-white"],
-      "اظہار تشکر": images["izhar-white"],
-      "الفراق": images["alfiraq-white"],
-      "مقّدمۃ الکتاب": images["muqadma-white"],
-      "پیش لفظ": images["paish_lafz-white"],
-      "سوانح حیات": images["sawana-white"],
-      "قلبِ سلیم": images["qalbesaleem"],
-      "شجرٔہ قادریہ حسبیہ": images["shajra_hasbia"],
-      "شجرٔہ قادریہ نسبیہ": images["shajra_nasbia"],
-      "قطعہ تاریخ وصال": images["qata-white"],
-      "2منقبت": images["manqabat2-white"],
-    };
-    return imageMap[widget.name] ?? "";
+  String getTextFile() {
+    return Provider.of<DataProvider>(context, listen: false)
+            .imageMap[widget.name] ??
+        '';
   }
 
-  String getTextFile() {
-    final textFileMap = {
-      "اظہار تشکر": "assets/textFiles/tashakur.html",
-      "مقّدمۃ الکتاب": "assets/textFiles/maqadma.html",
-      "الفراق": "assets/textFiles/alfiraq.html",
-      "پیش لفظ": "assets/textFiles/peshLafz.html",
-      "سوانح حیات": "assets/textFiles/sawana.html",
-      "قلبِ سلیم": "assets/textFiles/qalb.html",
-      "شجرٔہ قادریہ حسبیہ": "assets/textFiles/hasbia.html",
-      "شجرٔہ قادریہ نسبیہ": "assets/textFiles/nasbiya.html",
-      "قطعہ تاریخ وصال": "assets/textFiles/qata.html",
-      "منقبت": "assets/textFiles/manqabat1.html",
-      "2منقبت": "assets/textFiles/manqabat2.html",
-    };
-    return textFileMap[widget.name] ?? "";
+  String getImageAddress() {
+    return images[widget.name] ?? '';
   }
 }
 
-// --------------------------SIDER STYLE------------------------------
+// -----------------------------------------------SLIDER STYLE
+
 class CustomRoundSliderThumbShape extends SliderComponentShape {
   @override
   Size getPreferredSize(bool isEnabled, bool isDiscrete) {
