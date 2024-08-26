@@ -59,7 +59,9 @@ class _TextScreenState extends State<TextScreen> {
                       Container(
                         width: double.infinity,
                         height: MediaQuery.of(context).size.height * 0.27,
-                        decoration: BoxDecoration(color: getColor()),
+                        decoration: getColor() == null ?BoxDecoration(
+                          image: DecorationImage(image: AssetImage("assets/images/upergrad.png"), fit: BoxFit.fill)
+                        ) :  BoxDecoration(color: getColor()),
                       ),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 30),
@@ -287,7 +289,7 @@ String getTextFile() {
     log("${imageMap[widget.name]}");
     return imageMap[widget.name] ?? "";
   }
-  Color getColor() {
+  Color? getColor() {
     final color = {
       "منقبت": Color(0xFF10A7E2),
       "اظہار تشکر": Color(0xFF2B3491),
@@ -301,7 +303,7 @@ String getTextFile() {
       "قطعہ تاریخ وصال": Color(0xFF1373BF),
       "2منقبت": Color(0xFF00A79D),
     };
-    return color[widget.name] ?? Colors.transparent ;
+    return color[widget.name] ?? null ;
   }
 
  

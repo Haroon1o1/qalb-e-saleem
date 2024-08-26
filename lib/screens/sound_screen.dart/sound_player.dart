@@ -86,15 +86,16 @@ class _SoundPlayerState extends State<SoundPlayer> {
                         ],
                       ),
                     ),
+                    SizedBox(height:30),
                    Container(
-                    height: MediaQuery.of(context).size.height * 0.5,
+                    height: MediaQuery.of(context).size.height * 0.42,
                     decoration: BoxDecoration(
                       image: DecorationImage(image: AssetImage(
                         widget.image,
                        
                         
                       ),
-                      fit: BoxFit.fitWidth,
+                      fit: BoxFit.fill,
                                       )   ,
                                       borderRadius: BorderRadiusDirectional.circular(5)               ),
                    )
@@ -189,7 +190,7 @@ class _SoundPlayerState extends State<SoundPlayer> {
                         ),
                         Image.asset(
                           "assets/images/share-grey.png",
-                          width: 35,
+                          width: 30,
                         ),
                       ],
                     ),

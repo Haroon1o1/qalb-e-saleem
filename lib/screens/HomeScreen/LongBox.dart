@@ -44,12 +44,16 @@ class LongBox extends StatelessWidget {
         }
       },
       child: Container(
+        
         padding: const EdgeInsets.only(right: 10.0),
         margin: const EdgeInsets.symmetric(horizontal: 5.0),
-        height: 110,
+        height: 120,
         width: double.infinity,
         decoration: BoxDecoration(
-            color: backgroundColor,
+          image: DecorationImage(image: AssetImage("assets/new_images/long_container.png"),fit: BoxFit.fill, colorFilter: ColorFilter.mode(
+        backgroundColor, // Adjust opacity as needed
+        BlendMode.srcATop, // Choose the blend mode that works best
+      ),),
             borderRadius: BorderRadiusDirectional.circular(15)),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -57,13 +61,13 @@ class LongBox extends StatelessWidget {
           children: [
             Column(
               crossAxisAlignment: CrossAxisAlignment.end,
-              mainAxisAlignment: MainAxisAlignment.end,
               children: [
+                SizedBox(height:20),
                 Text(
                   mainText,
                   style: GoogleFonts.almarai(
                       fontWeight: FontWeight.bold,
-                      fontSize: 20,
+                      fontSize: 19,
                       color: Colors.white),
                 ),
                 SizedBox(height: 15),
@@ -84,7 +88,7 @@ class LongBox extends StatelessWidget {
                     subText2,
                     textDirection: TextDirection.rtl,
                     style:
-                        GoogleFonts.almarai(fontSize: 9, color: Colors.white),
+                        GoogleFonts.almarai(fontSize: 10, color: Colors.white),
                   ),
                 ),
                 SizedBox(height: 10),
@@ -95,8 +99,8 @@ class LongBox extends StatelessWidget {
               borderRadius: BorderRadius.circular(20.0),
               child: Image.asset(
                 imagePath,
-                width: 95.0,
-                height: 95.0,
+                width: 85.0,
+                height: 85.0,
                 fit: BoxFit.fill,
               ),
             ),

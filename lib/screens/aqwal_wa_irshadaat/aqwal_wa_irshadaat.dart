@@ -117,6 +117,7 @@ class _AqwalWaIrshadaatScreenState extends State<AqwalWaIrshadaatScreen> {
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 0.5,
                     child: PageView.builder(
+                      reverse: true,
                       controller: _pageController,
                       itemCount: akwalImageUrls.length,
                       itemBuilder: (context, index) {

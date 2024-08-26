@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:qalb/firebase_options.dart';
 import 'package:qalb/providers/DataProvider.dart';
@@ -20,6 +21,13 @@ void main() async {
         
       ],
       child: MyApp(),
+    ),
+  );
+
+   SystemChrome.setSystemUIOverlayStyle(
+    SystemUiOverlayStyle(
+      statusBarColor: Colors.black, // Set the status bar color to black
+      statusBarIconBrightness: Brightness.light, // Set the icon brightness to light (white icons)
     ),
   );
 }
