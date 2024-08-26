@@ -51,7 +51,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyCfnEK6mARMixokyKkzw9zJN-lxzcE6LHo',
-    appId: '1:247408680959:android:777851df57909bd8fa51ca',
+    appId: '1:247408680959:android:4f7aa0689782c69cfa51ca',
     messagingSenderId: '247408680959',
     projectId: 'qalb-e-saleem-c7987',
     storageBucket: 'qalb-e-saleem-c7987.appspot.com',
@@ -59,10 +59,11 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyCdNdSHB2w_ytFeL79A7x0A9SVHVULQk80',
-    appId: '1:247408680959:ios:7fb2f809e5b20754fa51ca',
+    appId: '1:247408680959:ios:00ea71eee0f83d94fa51ca',
     messagingSenderId: '247408680959',
     projectId: 'qalb-e-saleem-c7987',
     storageBucket: 'qalb-e-saleem-c7987.appspot.com',
     iosBundleId: 'com.example.qalb',
   );
+
 }

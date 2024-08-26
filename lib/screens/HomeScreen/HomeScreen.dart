@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:qalb/Transition/CustomPageTransition.dart';
@@ -7,6 +9,7 @@ import 'package:qalb/screens/Shajr_e_Qadria/Shajr_e_Qadria.dart';
 import 'package:qalb/screens/hawashi_wa_hawalajat.dart';
 import 'package:qalb/screens/majlis_screen.dart';
 import 'package:qalb/screens/sound_screen.dart/sound_player.dart';
+import 'package:appinio_video_player/appinio_video_player.dart';
 
 class Homescreen extends StatefulWidget {
   const Homescreen({super.key});
@@ -16,6 +19,28 @@ class Homescreen extends StatefulWidget {
 }
 
 class _HomescreenState extends State<Homescreen> {
+  late CustomVideoPlayerController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+      initPlayer();
+  }
+   @override
+  void dispose() {
+    super.dispose();
+  }
+
+    initPlayer() {
+    late VideoPlayerController _video;
+    _video = VideoPlayerController.asset("assets/video.mp4")
+      ..initialize().then((value) {
+        setState(() {});
+      });
+    _controller = CustomVideoPlayerController(
+        context: context, videoPlayerController: _video);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -206,7 +231,17 @@ class _HomescreenState extends State<Homescreen> {
                   ],
                 ),
               ),
-              SizedBox(height:30),
+              SizedBox(height:20),
+Container(
+  color: Colors.red,
+  height: 200, width: MediaQuery.of(context).size.width*0.8,
+  child: Container(decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.red),
+  width:50, height: 50,
+  child: Icon(Icons.play_arrow, color:Colors.white),
+  ),
+),
+SizedBox(height: 20,),
+
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 10, vertical: 60),
                 width: double.infinity,
@@ -478,7 +513,7 @@ class _HomescreenState extends State<Homescreen> {
               ),
               SizedBox(height: 20),
               Padding(
-                padding: EdgeInsetsDirectional.symmetric(horizontal: 10),
+                padding: EdgeInsetsDirectional.symmetric(horizontal: 15),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -498,7 +533,7 @@ class _HomescreenState extends State<Homescreen> {
                       child: Container(
                         height: 60,
                         width: MediaQuery.of(context).size.width *
-                            0.46, // Set the desired width
+                            0.44, // Set the desired width
 
                         alignment: Alignment.center,
                         decoration: BoxDecoration(
@@ -529,7 +564,7 @@ class _HomescreenState extends State<Homescreen> {
                       },
                       child: Container(
                         height: 60,
-                        width: MediaQuery.of(context).size.width * 0.46,
+                        width: MediaQuery.of(context).size.width * 0.44,
                         alignment: Alignment.center,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadiusDirectional.circular(20),
@@ -557,7 +592,7 @@ class _HomescreenState extends State<Homescreen> {
                   );
                 },
                 child: Container(
-                  margin: EdgeInsets.symmetric(horizontal: 10),
+                  margin: EdgeInsets.symmetric(horizontal: 15),
                   height: 60,
                   width: double.infinity, // Set the desired width
 

@@ -44,7 +44,7 @@ class LongBox extends StatelessWidget {
         }
       },
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 0),
+        padding: const EdgeInsets.only(right: 10.0),
         margin: const EdgeInsets.symmetric(horizontal: 5.0),
         height: 110,
         width: double.infinity,
