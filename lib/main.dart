@@ -15,29 +15,29 @@ void main() async {
   runApp(
     MultiProvider(
       providers: [
-        
-        ChangeNotifierProvider(create: (context) => DataProvider(),),
-        ChangeNotifierProvider(create: (context) => SoundPlayerProvider(),),
-        
+        ChangeNotifierProvider(create: (context) => DataProvider()),
+        ChangeNotifierProvider(create: (context) => SoundPlayerProvider()),
       ],
       child: MyApp(),
     ),
   );
-
-   SystemChrome.setSystemUIOverlayStyle(
-    SystemUiOverlayStyle(
-      statusBarColor: Colors.black, // Set the status bar color to black
-      statusBarIconBrightness: Brightness.light, // Set the icon brightness to light (white icons)
-    ),
-  );
 }
+
+
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(
+        statusBarColor: Colors.black, // Set the status bar color to black
+        statusBarIconBrightness: Brightness.light, // Set the icon brightness to light (white icons)
+      ),
+    );
     return MaterialApp(
+      
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(

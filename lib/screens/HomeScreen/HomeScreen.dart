@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:qalb/Transition/CustomPageTransition.dart';
 import 'package:qalb/screens/HomeScreen/LongBox.dart';
@@ -21,7 +22,6 @@ class Homescreen extends StatefulWidget {
 }
 
 class _HomescreenState extends State<Homescreen> {
-   late VideoPlayerController _videoPlayerController;
 
 
   @override
@@ -41,15 +41,15 @@ class _HomescreenState extends State<Homescreen> {
 
   @override
   Widget build(BuildContext context) {
+     SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(
+        statusBarColor: Colors.black, // Set the status bar color to black
+        statusBarIconBrightness: Brightness.light, // Set the icon brightness to light (white icons)
+      ),
+    );
     return Scaffold(
-      extendBodyBehindAppBar: true,
       
-     appBar: AppBar(
-      
-      backgroundColor: Colors.transparent,
-      actions: [
-      IconButton(onPressed: (){}, icon: Icon(Icons.menu, color: Colors.white, size:30))
-     ],),
+     
       body: Container(
         child: SingleChildScrollView(
           child: Column(
@@ -68,9 +68,10 @@ class _HomescreenState extends State<Homescreen> {
                   height: MediaQuery.of(context).size.height * 0.49,
                   margin: EdgeInsets.symmetric(horizontal: 0, vertical: 30),
                   decoration: BoxDecoration(
+                    color:Colors.transparent,
                       image: DecorationImage(
                           image: AssetImage("assets/images/darbar.png"),
-                          fit: BoxFit.cover)),
+                          fit: BoxFit.fitHeight)),
                   child: Column(
                     children: [
                       SizedBox(height: 40),
@@ -404,8 +405,9 @@ SizedBox(height: 20,),
                           },
                           child: Container(
                            alignment: Alignment.center,
-                        width: 165,
-                        height: 70,
+                         width: MediaQuery.of(context).size.width *
+                                0.46,
+                        height: 75,
                         decoration: BoxDecoration(
                           image: DecorationImage(image: AssetImage("assets/new_images/long_container.png", ),fit: BoxFit.fill,colorFilter: ColorFilter.mode(
         Color(0xFF2B3491), // Adjust opacity as needed
@@ -432,8 +434,9 @@ SizedBox(height: 20,),
 
                           child: Container(
   alignment: Alignment.center,
-  width: 165,
-  height: 70,
+ width: MediaQuery.of(context).size.width *
+                                0.46,
+  height: 75,
   child: Stack(
     children: [
       Transform(
@@ -488,7 +491,7 @@ SizedBox(height: 20,),
                             );
                           },
                             child: Container(
-  height: 70,
+  height: 75,
   width: MediaQuery.of(context).size.width * 0.46, // Set the desired width
   alignment: Alignment.center,
   child: Stack(
