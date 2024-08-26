@@ -10,16 +10,16 @@ class SoundPlayerProvider with ChangeNotifier {
   Duration _position = Duration.zero;
 
   bool get isPlaying => _isPlaying;
+  AudioPlayer get audioPlayer => _audioPlayer;
   Duration get duration => _duration;
   Duration get position => _position;
 
   SoundPlayerProvider() {
-  _audioPlayer.onDurationChanged.listen((duration) {
-  _duration = duration;
-  log("Duration updated: $_duration");
-  notifyListeners();
-});
-
+    _audioPlayer.onDurationChanged.listen((duration) {
+      _duration = duration;
+      log("Duration updated: $_duration");
+      notifyListeners();
+    });
 
     _audioPlayer.onPositionChanged.listen((position) {
       _position = position;
@@ -61,6 +61,16 @@ class SoundPlayerProvider with ChangeNotifier {
     final minutes = twoDigits(duration.inMinutes.remainder(60));
     final seconds = twoDigits(duration.inSeconds.remainder(60));
     return '$minutes:$seconds';
+  }
+
+  void stopAudio() async {
+    if (_isPlaying) {
+      await _audioPlayer.stop();
+      _isPlaying = false;
+      _position = Duration.zero;
+      _duration = Duration.zero;
+      notifyListeners();
+    }
   }
 
   @override

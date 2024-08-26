@@ -44,6 +44,7 @@ dependencies:
   smooth_page_indicator: ^1.2.0+3
   audioplayers: ^5.2.1
   flutter_svg: ^2.0.10+1
+  cached_network_image: ^3.4.1
   
 
 dev_dependencies:

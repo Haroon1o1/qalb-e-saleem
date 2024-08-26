@@ -47,6 +47,7 @@ class _TextScreenState extends State<TextScreen> {
         body: Stack(
           alignment: Alignment.bottomCenter,
           children: [
+     
             Container(
               height: MediaQuery.of(context).size.height,
               child: Column(
@@ -57,8 +58,8 @@ class _TextScreenState extends State<TextScreen> {
                     children: [
                       Container(
                         width: double.infinity,
-                        height: MediaQuery.of(context).size.height * 0.26,
-                        decoration: BoxDecoration(color: Colors.blue),
+                        height: MediaQuery.of(context).size.height * 0.27,
+                        decoration: BoxDecoration(color: getColor()),
                       ),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 30),
@@ -283,7 +284,24 @@ String getTextFile() {
       "قطعہ تاریخ وصال": images["qata-white"],
       "2منقبت": images["manqabat2-white"],
     };
+    log("${imageMap[widget.name]}");
     return imageMap[widget.name] ?? "";
+  }
+  Color getColor() {
+    final color = {
+      "منقبت": Color(0xFF10A7E2),
+      "اظہار تشکر": Color(0xFF2B3491),
+      "الفراق": Color(0xFF281E63),
+      "مقّدمۃ الکتاب": Color(0xFF692592),
+      "پیش لفظ": Color(0xFF00B771),
+      "سوانح حیات": Color(0xFF00BEAE),
+      "قلبِ سلیم": Color(0xFF1373BF),
+      "شجرٔہ قادریہ حسبیہ": null,
+      "شجرٔہ قادریہ نسبیہ": null,
+      "قطعہ تاریخ وصال": Color(0xFF1373BF),
+      "2منقبت": Color(0xFF00A79D),
+    };
+    return color[widget.name] ?? Colors.transparent ;
   }
 
  

@@ -31,9 +31,9 @@ class _hawashiwahawalajatScreenState extends State<hawashiwahawalajatScreen> {
                       decoration: BoxDecoration(
                           image: DecorationImage(
                               image: AssetImage(
-                                "assets/images/majlis/upergrad.png",
+                                "assets/images/upergrad.png",
                               ),
-                              fit: BoxFit.contain)),
+                              fit: BoxFit.fill)),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(bottom: 0.0, right: 10),
@@ -67,10 +67,15 @@ class _hawashiwahawalajatScreenState extends State<hawashiwahawalajatScreen> {
                           Column(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
-                                Container(
-                                  child: Image.asset(
-                                    "assets/images/back-arrow-white.png",
-                                    width: 26,
+                                GestureDetector(
+                                  onTap: (){
+                                    Navigator.pop(context);
+                                  },
+                                  child: Container(
+                                    child: Image.asset(
+                                      "assets/images/back-arrow-white.png",
+                                      width: 26,
+                                    ),
                                   ),
                                 ),
                               ]),
@@ -124,7 +129,7 @@ class _hawashiwahawalajatScreenState extends State<hawashiwahawalajatScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Image.asset("assets/images/hawalajat1.png", width: 150),
-                      Image.asset("assets/images/hawalajat2.png", width: 160),
+                      Image.asset("assets/images/hawalajat2.png", width: 150),
                     ],
                   ),
                 ),

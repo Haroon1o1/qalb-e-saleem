@@ -6,6 +6,8 @@ class  GetAllData{
 
 
   static getData(BuildContext context){
+              Provider.of<DataProvider>(context, listen: false).getAllImageUrl();
+
               Provider.of<DataProvider>(context, listen: false).getAudios();
 
           Provider.of<DataProvider>(context, listen: false).getShajraNasbiyaImageUrl("shajra_nasbiya/");
@@ -15,7 +17,6 @@ class  GetAllData{
           Provider.of<DataProvider>(context, listen: false).getMajlisThumbUrl();
           Provider.of<DataProvider>(context, listen: false).getSounds();
           Provider.of<DataProvider>(context, listen: false).getakwalImageUrl();
-          Provider.of<DataProvider>(context, listen: false).getAllImageUrl();
           Provider.of<DataProvider>(context, listen: false).getAkwalAudio();
           Provider.of<DataProvider>(context, listen: false).getMajlisText();
           Provider.of<DataProvider>(context, listen: false).getMajlisAudios();

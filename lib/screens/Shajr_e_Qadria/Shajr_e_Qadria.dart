@@ -6,10 +6,11 @@ import 'package:provider/provider.dart';
 import 'package:qalb/data/data.dart';
 import 'package:qalb/providers/DataProvider.dart';
 import 'package:qalb/screens/Shajr_e_Qadria/TimeLine.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 // ignore: must_be_immutable
 class ShajrEQadriaScreen extends StatefulWidget {
-  String text;
+  final String text;
   ShajrEQadriaScreen({super.key, required this.text});
 
   @override
@@ -20,7 +21,7 @@ class _ShajrEQadriaScreenState extends State<ShajrEQadriaScreen> {
   @override
   void initState() {
     super.initState();
-    // // Load data in initState
+    // Load data in initState
     // if(widget.text == "nasbiya"){
     //   Provider.of<DataProvider>(context, listen: false)
     //     .getShajraImageUrl("shajra_nasbiya/");
@@ -49,7 +50,7 @@ class _ShajrEQadriaScreenState extends State<ShajrEQadriaScreen> {
                   width: double.infinity,
                   decoration: BoxDecoration(
                     image: DecorationImage(
-                      image: AssetImage("assets/images/majlis/upergrad.png"),
+                      image: AssetImage("assets/images/upergrad.png"),
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -78,8 +79,13 @@ class _ShajrEQadriaScreenState extends State<ShajrEQadriaScreen> {
                               textAlign: TextAlign.right,
                             ),
                             SizedBox(width: 10),
-                            Image.asset("assets/images/back-arrow-white.png",
-                                width: 25),
+                            GestureDetector(
+                              onTap: (){
+                                Navigator.pop(context);
+                              },
+                              child: Image.asset("assets/images/back-arrow-white.png",
+                                  width: 25),
+                            ),
                           ],
                         ),
                       ),
@@ -117,30 +123,29 @@ class _ShajrEQadriaScreenState extends State<ShajrEQadriaScreen> {
                         ),
                       ),
                       Consumer<DataProvider>(
-                          builder: (context, itemProvider, child) {
-                        return ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: widget.text == "nasbiya"
-                              ? TextData.shajraNasbia.length
-                              : TextData.shajraHasbiya.length,
-                          physics: NeverScrollableScrollPhysics(),
-                          itemBuilder: (context, index) {
-                            bool present = false;
-                            log(present.toString());
-                            return Container(
-                              margin: EdgeInsets.symmetric(vertical: 0.0),
-                              child: TimelineStep(
-                                name: widget.text,
-                                stepNumber: index + 1,
-                                imagePath: getImageUrl(index, itemProvider),
-                                description: widget.text == "nasbiya"
-                                    ? TextData.shajraNasbia[index]
-                                    : TextData.shajraHasbiya[index],
-                              ),
-                            );
-                          },
-                        );
-                      }),
+                        builder: (context, itemProvider, child) {
+                          return ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: widget.text == "nasbiya"
+                                ? TextData.shajraNasbia.length
+                                : TextData.shajraHasbiya.length,
+                            physics: NeverScrollableScrollPhysics(),
+                            itemBuilder: (context, index) {
+                              return Container(
+                                margin: EdgeInsets.symmetric(vertical: 0.0),
+                                child: TimelineStep(
+                                  name: widget.text,
+                                  stepNumber: index + 1,
+                                  imagePath: getImageUrl(index, itemProvider),
+                                  description: widget.text == "nasbiya"
+                                      ? TextData.shajraNasbia[index]
+                                      : TextData.shajraHasbiya[index],
+                                ),
+                              );
+                            },
+                          );
+                        },
+                      ),
                       SizedBox(height: 200),
                     ],
                   ),
@@ -192,6 +197,4 @@ class _ShajrEQadriaScreenState extends State<ShajrEQadriaScreen> {
         return "";
     }
   }
-
-// Usage
 }

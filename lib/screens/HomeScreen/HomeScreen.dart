@@ -177,7 +177,7 @@ class _HomescreenState extends State<Homescreen> {
                     //   );
                     // }
                     LongBox(
-                      audioPath: 'Audios/al firaaq.mp3',
+                      audioPath: '',
                       imagePath: 'assets/images/sawana-white.png',
                       mainText: "سوانح حیات",
                       subText1: "از رشحاِت قلم:",
@@ -187,7 +187,7 @@ class _HomescreenState extends State<Homescreen> {
                     ),
                     SizedBox(height: 10),
                     LongBox(
-                      audioPath: 'Audios/al firaaq.mp3',
+                      audioPath: '',
                       imagePath: 'assets/images/qalbesaleem.png',
                       mainText: 'قلبِ سلیم',
                       subText1: 'از رشحاِت قلم',
@@ -196,7 +196,7 @@ class _HomescreenState extends State<Homescreen> {
                     ),
                     SizedBox(height: 10),
                     LongBox(
-                        audioPath: 'Audios/al firaaq.mp3',
+                        audioPath: '',
                         imagePath: 'assets/images/aqwal-white.png',
                         mainText: 'اقوال و ارشاداِت عالیہ',
                         subText1:
@@ -276,18 +276,22 @@ class _HomescreenState extends State<Homescreen> {
 
 
 
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(
-                                20.0), // Radius of the corners
-                            child: Image.asset(
-                              "assets/images/shajra_hasbia.jpg", // Replace with your image asset
-                              width: MediaQuery.of(context).size.width *
-                                  0.46, // Set the desired width
-                              height: 110.0, // Set the desired height
+                          child: Container(
+                            height:110,
+                           width: MediaQuery.of(context).size.width *
+                                  0.46,
+                            decoration: BoxDecoration(
+                              image: DecorationImage(image: AssetImage("assets/images/shajra_hasbia.png"),
                               fit: BoxFit
-                                  .fill, // Ensures the image covers the entire area
+                                  .fill,
+                              
+                              ),
+                              borderRadius: BorderRadiusDirectional.circular(0)
                             ),
-                          ),
+                               // Replace with your image asset
+                               // Ensures the image covers the entire area
+                            ),
+                          
                         ),
                       ],
                     ),
@@ -468,7 +472,7 @@ class _HomescreenState extends State<Homescreen> {
                   mainText: 'الفراق',
                   subText1: 'از رشحاِت قلم',
                   subText2: 'حضرت سّید محمد ظفر مشہدی قادری رحمة اهلل عليه ',
-                  backgroundColor: Color.fromARGB(255, 26, 32, 99),
+                  backgroundColor: Color(0xFF281E63),
                   audioPath: 'Audios/al firaaq.mp3',
                 ),
               ),
@@ -560,7 +564,7 @@ class _HomescreenState extends State<Homescreen> {
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadiusDirectional.circular(20),
-                      color: Color(0xFF0891C0)),
+                      color: Color(0xFF0FA8E2)),
                   child: Text(
                     "حواشی و حوالہ جات",
                     style: GoogleFonts.almarai(
@@ -575,7 +579,7 @@ class _HomescreenState extends State<Homescreen> {
                   padding: EdgeInsets.symmetric(horizontal: 10, vertical: 30),
                   width: double.infinity,
                   decoration:
-                      BoxDecoration(color: Color.fromARGB(255, 65, 73, 168)),
+                      BoxDecoration(color: Color(0xFF2B3491)),
                   child: Column(children: [
                     Container(
                       height: 230,
@@ -585,7 +589,7 @@ class _HomescreenState extends State<Homescreen> {
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadiusDirectional.circular(20),
-                          color: Color(0xFF2B3491)),
+                          color: Color(0xFF162170)),
                       child: Image.asset("assets/images/hizb.png"),
                     ),
                     SizedBox(

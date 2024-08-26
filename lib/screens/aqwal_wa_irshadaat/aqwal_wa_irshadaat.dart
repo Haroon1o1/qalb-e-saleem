@@ -1,11 +1,9 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:qalb/providers/DataProvider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-// import 'package:audioplayers/audioplayers.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class AqwalWaIrshadaatScreen extends StatefulWidget {
   const AqwalWaIrshadaatScreen({super.key});
@@ -16,24 +14,21 @@ class AqwalWaIrshadaatScreen extends StatefulWidget {
 
 class _AqwalWaIrshadaatScreenState extends State<AqwalWaIrshadaatScreen> {
   final PageController _pageController = PageController(viewportFraction: 0.8);
-  // late AudioPlayer _audioPlayer;
 
   @override
   void initState() {
     super.initState();
-    // _audioPlayer = AudioPlayer();
   }
 
   @override
   void dispose() {
     _pageController.dispose();
-    // _audioPlayer.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final akwalAudio = Provider.of<DataProvider>(context).akwalAudio;
+    final akwalImageUrls = Provider.of<DataProvider>(context, listen: false).akwalImageUrls;
 
     return Scaffold(
       body: Stack(
@@ -123,24 +118,18 @@ class _AqwalWaIrshadaatScreenState extends State<AqwalWaIrshadaatScreen> {
                     height: MediaQuery.of(context).size.height * 0.5,
                     child: PageView.builder(
                       controller: _pageController,
-                      itemCount:
-                          Provider.of<DataProvider>(context, listen: false)
-                              .akwalImageUrls
-                              .length,
+                      itemCount: akwalImageUrls.length,
                       itemBuilder: (context, index) {
-                        return _buildPage(
-                          Provider.of<DataProvider>(context, listen: false)
-                              .akwalImageUrls[index],
-                        );
+                        final imageUrl = akwalImageUrls[index];
+                        print('PageView index: $index, Image URL: $imageUrl');
+                        return _buildPage(imageUrl);
                       },
                     ),
                   ),
                   const SizedBox(height: 30),
                   SmoothPageIndicator(
                     controller: _pageController,
-                    count: Provider.of<DataProvider>(context, listen: false)
-                        .akwalImageUrls
-                        .length,
+                    count: akwalImageUrls.length,
                     effect: WormEffect(
                       dotHeight: 4,
                       dotWidth: 4,
@@ -149,8 +138,8 @@ class _AqwalWaIrshadaatScreenState extends State<AqwalWaIrshadaatScreen> {
                   ),
                   const SizedBox(height: 30),
                   InkWell(
+                    // Uncomment and modify the following code to handle audio playback
                     // onTap: () {
-                    //   // final _audioPlayer = AudioPlayer();
                     //   if (Provider.of<DataProvider>(context, listen: false)
                     //       .akwalAudio
                     //       .isNotEmpty) {
@@ -179,8 +168,10 @@ class _AqwalWaIrshadaatScreenState extends State<AqwalWaIrshadaatScreen> {
   Widget _buildPage(String imagePath) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: Image.network(
-        imagePath,
+      child: CachedNetworkImage(
+        imageUrl: imagePath,
+        placeholder: (context, url) => Container(),
+        errorWidget: (context, url, error) => Icon(Icons.error),
         fit: BoxFit.contain,
       ),
     );

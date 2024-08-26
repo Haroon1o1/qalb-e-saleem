@@ -1,10 +1,13 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:qalb/data/data.dart';
 import 'package:qalb/providers/DataProvider.dart';
+import 'package:qalb/providers/SoundPlayerProvider.dart';
 import 'package:qalb/screens/majlis_sound/majlis_sound.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class Majlis extends StatefulWidget {
   const Majlis({super.key});
@@ -14,11 +17,8 @@ class Majlis extends StatefulWidget {
 }
 
 class _MajlisState extends State<Majlis> {
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-
-  }
+  // Cache to store audio durations
+  Map<int, String> _audioDurations = {};
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +70,7 @@ class _MajlisState extends State<Majlis> {
                                 ),
                               ],
                             ),
-                            SizedBox(width: 05),
+                            const SizedBox(width: 5),
                             InkWell(
                               onTap: () {
                                 Navigator.pop(context);
@@ -113,12 +113,15 @@ class _MajlisState extends State<Majlis> {
                 ),
               ),
               child: ListView.builder(
-                itemCount: TextData.majlisUrdu.length,
-                itemBuilder: (context, index) {
-                  return majlisContainer(
-                      Provider.of<DataProvider>(context, listen: false).majlisImages[index], index);
-                },
-              ),
+  itemCount: Provider.of<DataProvider>(context, listen: false).majlisImages.length,
+  itemBuilder: (context, index) {
+    return majlisContainer(
+      Provider.of<DataProvider>(context, listen: false).majlisImages[index], 
+      index
+    );
+  },
+),
+
             ),
           ),
         ],
@@ -127,42 +130,48 @@ class _MajlisState extends State<Majlis> {
   }
 
   Widget majlisContainer(String image, int index) {
-    return GestureDetector(
-      onTap: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => Majlis_Sound(
-                image: Provider.of<DataProvider>(context, listen: false)
-                    .majlisThumb[index],
-                index: index,
-                name: TextData.majlisUrdu[index],
-                sub: TextData.majlisEnglish[index],
-                audioPath: Provider.of<DataProvider>(context, listen: false)
-                    .majlisSound[index],
-              ),
-            ));
-      },
-      child: Container(
-        width: MediaQuery.of(context).size.width * 0.9,
-        decoration: BoxDecoration(
-          image: const DecorationImage(
-            image: AssetImage("assets/images/box-with-shadow.png"),
-            fit: BoxFit.cover,
-          ),
-        ),
-        height: 240,
-        padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 10),
-        margin:
-            const EdgeInsets.only(top: 0), // Added margin for better spacing
-        child: Column(
-          children: [
-            Container(
-              height: 115,
-              width: MediaQuery.of(context).size.width * 0.87,
-              child: Image.network(image, fit: BoxFit.fill),
+  return GestureDetector(
+    onTap: () {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => Majlis_Sound(
+              image: Provider.of<DataProvider>(context, listen: false)
+                  .majlisThumb[index],
+              index: index,
+              name: TextData.majlisUrdu[index],
+              sub: TextData.majlisEnglish[index],
+              audioPath: Provider.of<DataProvider>(context, listen: false)
+                  .majlisSound[index],
             ),
-            const SizedBox(height: 5), // Added spacing
+          ));
+    },
+    child: Container(
+      width: MediaQuery.of(context).size.width * 0.9,
+      decoration: BoxDecoration(
+        image: const DecorationImage(
+          image: AssetImage("assets/images/box-with-shadow.png"),
+          fit: BoxFit.cover,
+        ),
+      ),
+      height: 240,
+      padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 10),
+      margin: const EdgeInsets.only(top: 0),
+      child: Column(
+        children: [
+          Container(
+            height: 115,
+            width: MediaQuery.of(context).size.width * 0.87,
+            child: CachedNetworkImage(
+              imageUrl: image,
+              fit: BoxFit.fill,
+              placeholder: (context, url) =>
+                  Container(),
+              errorWidget: (context, url, error) =>
+                  const Icon(Icons.error),
+            ),
+          ),
+          const SizedBox(height: 5),
             Container(
               height: 70,
               width: MediaQuery.of(context).size.width * 0.87,
@@ -180,22 +189,44 @@ class _MajlisState extends State<Majlis> {
                             width: 15,
                           ),
                           const SizedBox(width: 4),
-                          Text(
-                            "10:23",
-                            style: GoogleFonts.almarai(fontSize: 12),
+                          Row(
+                            children: [
+                              Image.asset("assets/images/clock-white.png",
+                                  color: Colors.black, width: 15),
+                              const SizedBox(width: 5),
+                               FutureBuilder<String?>(
+    future: getAudioDuration(Provider.of<DataProvider>(context, listen: false).majlisSound[index]),
+    builder: (context, snapshot) {
+      if (snapshot.connectionState == ConnectionState.waiting) {
+        return Text(
+          '10:23',
+          style: GoogleFonts.almarai(fontSize: 12),
+        );
+      } else if (snapshot.hasError) {
+        return  Container();
+      } else if (snapshot.hasData) {
+        final durationText = snapshot.data ?? '10:23';
+        return Text(
+          durationText,
+          style: GoogleFonts.almarai(fontSize: 12),
+        );
+      } else {
+        return Container();
+      }
+    },
+  ),
+                            ],
                           ),
+                           SizedBox(width: MediaQuery.of(context).size.width*0.08),
                           SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.1,
-                          ),
-                          SizedBox(
-                            width: 140,
+                            width: MediaQuery.of(context).size.width * 0.35,
                             child: Text(
                               textDirection: TextDirection.rtl,
                               overflow: TextOverflow.ellipsis,
                               TextData.majlisUrdu[index],
                               style: GoogleFonts.almarai(
                                 fontWeight: FontWeight.bold,
-                                fontSize: 13,
+                                fontSize: 11,
                               ),
                             ),
                           ),
@@ -215,14 +246,14 @@ class _MajlisState extends State<Majlis> {
                     indent: 10,
                     endIndent: 10,
                   ),
+                   SizedBox(width: 5),
                   Container(
                     alignment: Alignment.center,
                     decoration: const BoxDecoration(
                       color: Colors.black,
                       shape: BoxShape.circle,
                     ),
-                    width: 20,
-                    height: 20,
+                    width: 19,
                     child: Text(
                       "${index + 1}",
                       style: const TextStyle(
@@ -248,4 +279,20 @@ class _MajlisState extends State<Majlis> {
       ),
     );
   }
+Future<String?> getAudioDuration(String url) async {
+  final player = AudioPlayer();
+  try {
+    await player.setSourceUrl(url);
+    Duration? d = await player.getDuration();
+    return Provider.of<SoundPlayerProvider>(context, listen: false).formatDuration(d!);
+  } catch (e) {
+    print('Error loading audio: $e');
+    return null;
+  } finally {
+    await player.dispose();
+  }
+}
+
+
+
 }

@@ -48,9 +48,9 @@ late Future<String> _htmlContent;
                   alignment: Alignment.center,
                   children: [
                     Container(
-                      width: double.infinity,
                       height: MediaQuery.of(context).size.height * 0.26,
-                      decoration: BoxDecoration(color: Colors.blue),
+                      decoration: BoxDecoration(image: DecorationImage(image: 
+                      AssetImage("assets/images/upergrad.png"),fit: BoxFit.fitWidth ), ),
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 30),
@@ -62,7 +62,7 @@ late Future<String> _htmlContent;
                               Row(
                                 children: [
                                   Image.network(
-                                    widget.image, width:80
+                                    widget.image, width:80,
                                   ) ,
                                   SizedBox(width: 10),
                                   Image.asset(
@@ -76,7 +76,7 @@ late Future<String> _htmlContent;
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   SizedBox(
-                                    width: 130,
+                                    width: MediaQuery.of(context).size.width*0.3,
                                     child: Text(textDirection: TextDirection.rtl,
                                       overflow: TextOverflow.clip,
                                       widget.name,
