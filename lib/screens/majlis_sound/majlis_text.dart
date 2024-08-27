@@ -1,15 +1,14 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'dart:convert';
 
 import 'package:qalb/providers/SoundPlayerProvider.dart';
 import 'package:qalb/screens/sound_screen.dart/sound_player.dart';
-
 
 class Majlis_Text extends StatefulWidget {
   final String image;
@@ -17,21 +16,20 @@ class Majlis_Text extends StatefulWidget {
   final String file;
   final String audioPath;
 
-  Majlis_Text({super.key, required this.image, required this.name,required this.file,required this.audioPath});
+  Majlis_Text({super.key, required this.image, required this.name, required this.file, required this.audioPath});
 
   @override
   State<Majlis_Text> createState() => _Majlis_TextState();
 }
 
 class _Majlis_TextState extends State<Majlis_Text> {
-late Future<String> _htmlContent;
+  late Future<String> _htmlContent;
+
   @override
   void initState() {
     super.initState();
-     _htmlContent = fetchHtmlContent(widget.file);
+    _htmlContent = fetchHtmlContent(widget.file);
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -49,8 +47,12 @@ late Future<String> _htmlContent;
                   children: [
                     Container(
                       height: MediaQuery.of(context).size.height * 0.26,
-                      decoration: BoxDecoration(image: DecorationImage(image: 
-                      AssetImage("assets/images/upergrad.png"),fit: BoxFit.fitWidth ), ),
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: AssetImage("assets/images/upergrad.png"),
+                          fit: BoxFit.fitWidth,
+                        ),
+                      ),
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 30),
@@ -61,13 +63,15 @@ late Future<String> _htmlContent;
                             children: [
                               Row(
                                 children: [
-                                  Image.network(
-                                    widget.image, width:80,
-                                  ) ,
+                                  CachedNetworkImage(
+                                    imageUrl: widget.image,
+                                    width: 80,
+                                    placeholder: (context, url) => Container(),
+                                    errorWidget: (context, url, error) => Icon(Icons.error),
+                                  ),
                                   SizedBox(width: 10),
                                   Image.asset(
                                     "assets/images/pause-white.png",
-                                    
                                     width: 35,
                                   ),
                                 ],
@@ -76,8 +80,9 @@ late Future<String> _htmlContent;
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   SizedBox(
-                                    width: MediaQuery.of(context).size.width*0.3,
-                                    child: Text(textDirection: TextDirection.rtl,
+                                    width: MediaQuery.of(context).size.width * 0.3,
+                                    child: Text(
+                                      textDirection: TextDirection.rtl,
                                       overflow: TextOverflow.clip,
                                       widget.name,
                                       style: GoogleFonts.almarai(
@@ -89,11 +94,10 @@ late Future<String> _htmlContent;
                                   ),
                                   SizedBox(width: 10),
                                   GestureDetector(
-                                    onTap: (){
+                                    onTap: () {
                                       Navigator.pop(context);
                                     },
                                     child: Image.asset(
-                                      
                                       "assets/images/back-arrow-white.png",
                                       width: 25,
                                     ),
@@ -102,75 +106,61 @@ late Future<String> _htmlContent;
                               ),
                             ],
                           ),
-
                           Consumer<SoundPlayerProvider>(
-                              builder: (context, soundPlayerProvider, _) {
-                                return Row(
-                                  children: [
-                                    Row(
+                            builder: (context, soundPlayerProvider, _) {
+                              return Row(
+                                children: [
+                                  Row(
+                                    children: [
+                                      Image.asset(
+                                          "assets/images/clock-white.png",
+                                          width: 15),
+                                      SizedBox(width: 5),
+                                      Text(
+                                        soundPlayerProvider.formatDuration(
+                                            soundPlayerProvider.position),
+                                        style: GoogleFonts.almarai(
+                                          fontSize: 12,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  SliderTheme(
+                                    data: SliderTheme.of(context).copyWith(
+                                      activeTrackColor: Colors.grey[100],
+                                      inactiveTrackColor: Colors.grey[300],
+                                      thumbColor: Colors.grey,
+                                      thumbShape: CustomRoundSliderThumbShape(),
+                                      overlayColor: Colors.grey.withOpacity(0.2),
+                                      trackHeight: 4.0,
+                                    ),
+                                    child: Slider(
+                                      value: soundPlayerProvider.position.inSeconds.toDouble(),
+                                      min: 0.0,
+                                      max: soundPlayerProvider.duration.inSeconds.toDouble(),
+                                      onChanged: (value) {
+                                        soundPlayerProvider.seekAudio(value);
+                                      },
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
-                                        Image.asset(
-                                            "assets/images/clock-white.png",
-                                            width: 15),
-                                        SizedBox(width: 5),
-                                        Text(
-                                          soundPlayerProvider.formatDuration(
-                                              soundPlayerProvider.position),
-                                          style: GoogleFonts.almarai(
-                                            fontSize: 12,
-                                            color: Colors.white,
-                                          ),
+                                        LottieBuilder.asset(
+                                          animate: Provider.of<SoundPlayerProvider>(context, listen: false).isPlaying,
+                                          "assets/images/voice.json",
+                                          width: 20,
                                         ),
                                       ],
                                     ),
-                                    SliderTheme(
-                                      data: SliderTheme.of(context).copyWith(
-                                        activeTrackColor: Colors.grey[100],
-                                        inactiveTrackColor: Colors.grey[300],
-                                        thumbColor: Colors.grey,
-                                        thumbShape:
-                                            CustomRoundSliderThumbShape(),
-                                        overlayColor:
-                                            Colors.grey.withOpacity(0.2),
-                                        trackHeight: 4.0,
-                                      ),
-                                      child: Slider(
-                                        value: soundPlayerProvider
-                                            .position.inSeconds
-                                            .toDouble(),
-                                        min: 0.0,
-                                        max: soundPlayerProvider
-                                            .duration.inSeconds
-                                            .toDouble(),
-                                        onChanged: (value) {
-                                          soundPlayerProvider.seekAudio(value);
-                                        },
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 15.0),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          LottieBuilder.asset(
-                                            animate:
-                                                Provider.of<SoundPlayerProvider>(
-                                                        context,
-                                                        listen: false)
-                                                    .isPlaying,
-                                            "assets/images/voice.json",
-                                            width: 20,
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                );
-                              },
-                            ),
-                         
+                                  ),
+                                ],
+                              );
+                            },
+                          ),
                         ],
                       ),
                     ),
@@ -208,23 +198,29 @@ late Future<String> _htmlContent;
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
-                      Image.asset("assets/images/motive.png", width: 100, ),
+                      Image.asset("assets/images/motive.png", width: 100),
                       SizedBox(height: 30),
-                      Text(widget.name, style: TextStyle(fontFamily:"al-quran",fontSize: 25,color: Color.fromARGB(255, 15, 199, 181)),),
-        SizedBox(height:widget.name == "شجرٔہ قادریہ نسبیہ" || widget.name == "شجرٔہ قادریہ حسبیہ" ? 0 : 30),
+                      Text(
+                        widget.name,
+                        style: TextStyle(
+                          fontFamily: "al-quran",
+                          fontSize: 25,
+                          color: Color.fromARGB(255, 15, 199, 181),
+                        ),
+                      ),
+                      SizedBox(height: widget.name == "شجرٔہ قادریہ نسبیہ" || widget.name == "شجرٔہ قادریہ حسبیہ" ? 0 : 30),
                       FutureBuilder<String>(
-        future: _htmlContent,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: Container());
-          } else if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}'));
-          } else {
-            return Html(data: snapshot.data);
-          }
-        },
-      ),
-    
+                        future: _htmlContent,
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState == ConnectionState.waiting) {
+                            return Center(child: Container());
+                          } else if (snapshot.hasError) {
+                            return Center(child: Text('Error: ${snapshot.error}'));
+                          } else {
+                            return Html(data: snapshot.data);
+                          }
+                        },
+                      ),
                       SizedBox(height: 30),
                       Image.asset("assets/images/motive.png", width: 100),
                       SizedBox(height: 100),
@@ -254,6 +250,7 @@ late Future<String> _htmlContent;
       throw Exception('Failed to load HTML content');
     }
   }
+
   String _convertToUtf8(List<int> bytes, String charset) {
     try {
       final encoding = Encoding.getByName(charset) ?? utf8;
@@ -262,10 +259,4 @@ late Future<String> _htmlContent;
       return utf8.decode(bytes); // Fallback to UTF-8
     }
   }
-  }
-
-
-  
-
-  
-
+}

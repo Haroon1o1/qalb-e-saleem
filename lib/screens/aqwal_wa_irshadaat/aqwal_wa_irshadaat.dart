@@ -127,17 +127,27 @@ class _AqwalWaIrshadaatScreenState extends State<AqwalWaIrshadaatScreen> {
                       },
                     ),
                   ),
-                  const SizedBox(height: 30),
-                  SmoothPageIndicator(
+                   SizedBox(height: 30),
+              Transform(
+                alignment: Alignment.center,
+                transform: Matrix4.rotationY(3.14), // Flip horizontally
+                child: Container(
+                  alignment: Alignment.center,
+                  width: MediaQuery.of(context).size.width * 0.8,
+                  child: SmoothPageIndicator(
                     controller: _pageController,
-                    count: akwalImageUrls.length,
+                    count: akwalImageUrls.length-35,
                     effect: WormEffect(
-                      dotHeight: 4,
-                      dotWidth: 4,
-                      activeDotColor: Colors.blue,
+                      spacing: 3.0, // Adjust spacing between dots
+                      dotHeight: 4.0, // Adjust dot height
+                      dotWidth: 4.0, // Adjust dot width
+                      dotColor: Colors.grey.shade300,
+                      activeDotColor: Colors.grey,
                     ),
                   ),
-                  const SizedBox(height: 30),
+                ),
+              ),
+                   SizedBox(height: 30),
                   InkWell(
                     // Uncomment and modify the following code to handle audio playback
                     // onTap: () {
@@ -153,7 +163,7 @@ class _AqwalWaIrshadaatScreenState extends State<AqwalWaIrshadaatScreen> {
                     //   }
                     // },
                     child: Image.asset(
-                      "assets/images/play.png",
+                      "assets/new_images/play-audio.png",
                       height: 60,
                     ),
                   ),
@@ -168,12 +178,12 @@ class _AqwalWaIrshadaatScreenState extends State<AqwalWaIrshadaatScreen> {
 
   Widget _buildPage(String imagePath) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.symmetric(horizontal: 0),
       child: CachedNetworkImage(
         imageUrl: imagePath,
         placeholder: (context, url) => Container(),
         errorWidget: (context, url, error) => Icon(Icons.error),
-        fit: BoxFit.contain,
+        fit: BoxFit.fill,
       ),
     );
   }

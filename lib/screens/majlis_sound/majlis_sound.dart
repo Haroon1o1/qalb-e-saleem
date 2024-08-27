@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:qalb/data/data.dart';
 import 'package:qalb/providers/DataProvider.dart';
 import 'package:qalb/providers/SoundPlayerProvider.dart';
@@ -36,12 +37,7 @@ class _Majlis_SoundState extends State<Majlis_Sound> {
     soundPlayerProvider = Provider.of<SoundPlayerProvider>(context, listen: true);
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
- void navigateToMajlis(int newIndex) {
+  void navigateToMajlis(int newIndex) {
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
@@ -58,11 +54,11 @@ class _Majlis_SoundState extends State<Majlis_Sound> {
 
   @override
   Widget build(BuildContext context) {
-    return PopScope(
-      onPopInvokedWithResult: (didPop, result) {
+    return WillPopScope(
+      onWillPop: () async {
         soundPlayerProvider.stopAudio();
+        return true;
       },
-      canPop: true,
       child: Scaffold(
         backgroundColor: Colors.white,
         body: Container(
@@ -121,7 +117,7 @@ class _Majlis_SoundState extends State<Majlis_Sound> {
                           height: MediaQuery.of(context).size.height * 0.5,
                           decoration: BoxDecoration(
                             image: DecorationImage(
-                              image: NetworkImage(widget.image),
+                              image: CachedNetworkImageProvider(widget.image),
                               fit: BoxFit.fitWidth,
                             ),
                             borderRadius: BorderRadiusDirectional.circular(5),
@@ -203,56 +199,55 @@ class _Majlis_SoundState extends State<Majlis_Sound> {
                               ),
                             ),
                             Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            // Previous button, hide if index is 0
-                            if (widget.index > 0)
-                              GestureDetector(
-                                onTap: () {
-                                  soundPlayerProvider.stopAudio();
-                                  navigateToMajlis(widget.index - 1);
-                                },
-                                child: Image.asset(
-                                  "assets/new_images/next-left.png",
-                                  width: 30,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                // Previous button, hide if index is 0
+                                if (widget.index > 0)
+                                  GestureDetector(
+                                    onTap: () {
+                                      soundPlayerProvider.stopAudio();
+                                      navigateToMajlis(widget.index - 1);
+                                    },
+                                    child: Image.asset(
+                                      "assets/new_images/next-left.png",
+                                      width: 30,
+                                    ),
+                                  )
+                                else
+                                  SizedBox(width: 35),
+                                SizedBox(width: 5),
+                                GestureDetector(
+                                  onTap: () => soundPlayerProvider.togglePlayStop(widget.audioPath),
+                                  child: Image.asset(
+                                    soundPlayerProvider.isPlaying
+                                        ? "assets/images/pause.png"
+                                        : "assets/images/play.png",
+                                    width: 60,
+                                  ),
                                 ),
-                              )
-                            else
-                              SizedBox(width: 35),
-                              SizedBox(width:5),
-                              GestureDetector(
-                              onTap: () => soundPlayerProvider.togglePlayStop(widget.audioPath),
-                              child: Image.asset(
-                                soundPlayerProvider.isPlaying
-                                    ? "assets/images/pause.png"
-                                    : "assets/images/play.png",
-                                width: 60,
-                              ),
-                            ), // Placeholder to maintain spacing
-                            // Next button, hide if index is 19
-                            SizedBox(width:5),
-                            if (widget.index < 19)
-                              GestureDetector(
-                                onTap: () {
-soundPlayerProvider.stopAudio();                                  navigateToMajlis(widget.index + 1);
-                                },
-                                child: Image.asset(
-                                  "assets/new_images/next-right.png",
-                                  width: 30,
-                                ),
-                              )
-                            else
-                              SizedBox(width: 35), // Placeholder to maintain spacing
-                          ],
-                        ),
-                            
+                                SizedBox(width: 5),
+                                // Next button, hide if index is 19
+                                if (widget.index < 19)
+                                  GestureDetector(
+                                    onTap: () {
+                                      soundPlayerProvider.stopAudio();
+                                      navigateToMajlis(widget.index + 1);
+                                    },
+                                    child: Image.asset(
+                                      "assets/new_images/next-right.png",
+                                      width: 30,
+                                    ),
+                                  )
+                                else
+                                  SizedBox(width: 35),
+                              ],
+                            ),
                             Image.asset(
                               "assets/images/share-grey.png",
                               width: 35,
                             ),
                           ],
                         ),
-                        
                       ],
                     ),
                   ],
