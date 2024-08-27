@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:qalb/Transition/CustomPageTransition.dart';
 import 'package:qalb/data/data.dart';
 import 'package:qalb/providers/DataProvider.dart';
 import 'package:qalb/providers/SoundPlayerProvider.dart';
@@ -134,8 +135,8 @@ class _MajlisState extends State<Majlis> {
     onTap: () {
       Navigator.push(
           context,
-          MaterialPageRoute(
-            builder: (context) => Majlis_Sound(
+          CustomPageNavigation(
+            child: Majlis_Sound(
               image: Provider.of<DataProvider>(context, listen: false)
                   .majlisThumb[index],
               index: index,

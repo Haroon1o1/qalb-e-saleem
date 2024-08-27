@@ -16,7 +16,7 @@ class _SplashScreen2State extends State<SplashScreen2> {
     super.initState();
 
     // Navigate to the next screen after a delay (e.g., 3 seconds)
-    Future.delayed(Duration(seconds: 5), () {
+    Future.delayed(Duration(seconds: 3), () {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: (_) => Homescreen()), // Replace with your next screen
       );

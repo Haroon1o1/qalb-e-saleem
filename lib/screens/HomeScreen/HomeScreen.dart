@@ -22,16 +22,7 @@ class Homescreen extends StatefulWidget {
 class _HomescreenState extends State<Homescreen> {
 
 
-    List<Widget> _buildScreens() {
-        return [
-            Home(),
-    Settings(),
-    More(),
-    Test(),
-    testing(),
-    
-        ];
-    }
+   
   @override
   void initState() {
     super.initState();
@@ -42,46 +33,8 @@ class _HomescreenState extends State<Homescreen> {
 
     super.dispose();
   }
-List<PersistentBottomNavBarItem> _navBarsItems() {
-    return [
-      PersistentBottomNavBarItem(
-        icon: Icon(CupertinoIcons.home),
-        title: ("Home"),
-        activeColorPrimary: CupertinoColors.activeBlue,
-        inactiveColorPrimary: CupertinoColors.white,
-      ),
-      PersistentBottomNavBarItem(
-        icon: Icon(CupertinoIcons.settings),
-        title: ("Settings"),
-        activeColorPrimary: CupertinoColors.activeBlue,
-        inactiveColorPrimary: CupertinoColors.white,
-      ),
-      PersistentBottomNavBarItem(
-        iconSize: 30,
-        
-        icon: Icon(CupertinoIcons.add),
-        title: ("More"),
-        inactiveColorSecondary: Colors.white,
-        activeColorSecondary: Colors.white,
-        inactiveColorPrimary: CupertinoColors.white,
-      ),
-      PersistentBottomNavBarItem(
-        icon: Icon(CupertinoIcons.book),
-        title: ("Test"),
-        activeColorPrimary: CupertinoColors.activeBlue,
-        inactiveColorPrimary: CupertinoColors.white,
-      ),
-      PersistentBottomNavBarItem(
-        icon: Icon(CupertinoIcons.settings_solid),
-        title: ("Testing"),
-        activeColorPrimary: CupertinoColors.activeBlue,
-        inactiveColorPrimary: CupertinoColors.white,
-      ),
-    ];
-  }
 
 
-PersistentTabController pageController = new PersistentTabController(initialIndex: 0);
 
   @override
   Widget build(BuildContext context) {
@@ -92,53 +45,64 @@ PersistentTabController pageController = new PersistentTabController(initialInde
       ),
     );
        return Scaffold(
-      bottomNavigationBar: PersistentTabView(
-        
-        context,
-        controller: pageController,
-        screens: _buildScreens(),
-        items: _navBarsItems(),
-        handleAndroidBackButtonPress: true, // Default is true.
-        resizeToAvoidBottomInset: true, // This needs to be true if you want to move up the screen on a non-scrollable screen when keyboard appears. Default is true.
-        stateManagement: true, // Default is true.
-        hideNavigationBarWhenKeyboardAppears: true,
-
-        popBehaviorOnSelectedNavBarItemPress: PopBehavior.all,
-        padding: const EdgeInsets.only(top: 8),
-        backgroundColor: Colors.grey.shade900,
-        isVisible: true,
-        
-        animationSettings: const NavBarAnimationSettings(
-            navBarItemAnimation: ItemAnimationSettings( // Navigation Bar's items animation properties.
-                duration: Duration(milliseconds: 400),
-                curve: Curves.ease,
+      bottomNavigationBar: Stack(
+        clipBehavior: Clip.none,
+        alignment: Alignment.bottomCenter,
+        children: [
+          Container(
+            height: 50,
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            width: MediaQuery.of(context).size.width,
+            decoration: const BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(10),
+                topRight: Radius.circular(10),
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black12,
+                  blurRadius: 10,
+                )
+              ],
             ),
-            screenTransitionAnimation: ScreenTransitionAnimationSettings( // Screen transition animation on change of selected tab.
-                animateTabTransition: true,
-                duration: Duration(milliseconds: 200),
-                screenTransitionAnimationType: ScreenTransitionAnimationType.fadeIn,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children:  [
+                Image.asset("assets/new_images/home.png", width:23),
+                Image.asset("assets/new_images/box.png", width:23),
+                SizedBox(width: 30),
+                Image.asset("assets/new_images/page.png", width:23),
+                Image.asset("assets/new_images/menu.png", width:23),
+       
+              ],
             ),
-        ),
-        confineToSafeArea: false,
-        navBarHeight: kBottomNavigationBarHeight,
-        navBarStyle: NavBarStyle.style15, // Choose the nav bar style with this property
-      )
-    );
-  }
-}
+          ),
+          Positioned(
+            bottom: 20, // Adjust this value to control the hover effect
+            child: Container(
+              padding: EdgeInsets.all(18),
+              width: 60,
+              height: 60,
+              decoration: const BoxDecoration(
+                color: Color(0xFF345EF1),
+                shape: BoxShape.circle,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black26,
+                    blurRadius: 8,
+                    offset: Offset(0, 4),
+                  )
+                ],
+              ),
+              child:Image.asset("assets/new_images/dash.png", ),
 
-
-class Home extends StatefulWidget {
-  const Home({super.key});
-
-  @override
-  State<Home> createState() => _HomeState();
-}
-
-class _HomeState extends State<Home> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(body:  Container(
+            ),
+          ),
+        ],
+      ),
+       body: Container(
         child: SingleChildScrollView(
           child: Column(
             children: [
@@ -156,7 +120,7 @@ class _HomeState extends State<Home> {
   height: MediaQuery.of(context).size.height * 0.47,
   margin: EdgeInsets.symmetric(horizontal: 0, vertical: 10),
   decoration: BoxDecoration(
-    color: Colors.black,
+    color: Colors.white,
     image: DecorationImage(
       image: AssetImage("assets/images/darbar.png"),
       fit: BoxFit.cover, // Ensures the image covers the entire container
@@ -199,7 +163,7 @@ class _HomeState extends State<Home> {
                 ),
               ),
               SizedBox(
-                height: 0,
+                height: 10,
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(
@@ -939,68 +903,13 @@ SizedBox(height: 20,),
                   SizedBox(width: 10),
                 ],
               ),
-              SizedBox(height: 100),
+              SizedBox(height: 50),
             ],
           ),
         ),
-    ),);
-  }
-}
-
-class Settings extends StatefulWidget {
-  const Settings({super.key});
-
-  @override
-  State<Settings> createState() => _SettingsState();
-}
-
-class _SettingsState extends State<Settings> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(body: Center(child: Text("Screen 2")),);
+    ),
+    );
   }
 }
 
 
-
-class More extends StatefulWidget {
-  const More({super.key});
-
-  @override
-  State<More> createState() => _MoreState();
-}
-
-class _MoreState extends State<More> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(body: Center(child: Text("Screen 3")));
-  }
-}
-
-class Test extends StatefulWidget {
-  const Test({super.key});
-
-  @override
-  State<Test> createState() => _TestState();
-}
-
-class _TestState extends State<Test> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(body: Center(child: Text("Screen 4")));
-  }
-}
-
-class testing extends StatefulWidget {
-  const testing({super.key});
-
-  @override
-  State<testing> createState() => _testingState();
-}
-
-class _testingState extends State<testing> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(body: Center(child: Text("Screen 5")));
-  }
-}

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:qalb/Transition/CustomPageTransition.dart';
 import 'package:qalb/data/data.dart';
 import 'package:qalb/providers/DataProvider.dart';
 import 'package:qalb/providers/SoundPlayerProvider.dart';
@@ -40,8 +41,8 @@ class _Majlis_SoundState extends State<Majlis_Sound> {
   void navigateToMajlis(int newIndex) {
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(
-        builder: (context) => Majlis_Sound(
+      CustomPageNavigation(
+        child:  Majlis_Sound(
           image: Provider.of<DataProvider>(context, listen: false).majlisThumb[newIndex],
           index: newIndex,
           name: TextData.majlisUrdu[newIndex],
@@ -184,8 +185,8 @@ class _Majlis_SoundState extends State<Majlis_Sound> {
                               onTap: () {
                                 Navigator.push(
                                     context,
-                                    MaterialPageRoute(
-                                      builder: (context) => Majlis_Text(
+                                    CustomPageNavigation(
+                                      child: Majlis_Text(
                                         audioPath: widget.audioPath,
                                         image: widget.image,
                                         name: widget.name,
