@@ -15,6 +15,7 @@ class DataProvider with ChangeNotifier {
   List<String> _majlisSound = [];
   List<String> _majlisText = [];
   List<String> _akwalAudio = [];
+  String _video = "";
 
   Map<String, String> _imageMap = {};
   Map<String, String> _audioMap = {};
@@ -24,6 +25,7 @@ class DataProvider with ChangeNotifier {
 
 
   Map<String, String> get imageMap => _imageMap;
+  String get video => _video;
   Map<String, String> get audioMap => _audioMap;
   List<String?> get shajraHasbiyaImageUrls => _shajraHasbiyaImageUrls;
   List<int> get shajraHasbiyaImageIndex => _shajraHasbiyaImageIndex;
@@ -55,6 +57,18 @@ class DataProvider with ChangeNotifier {
       shajraNasbiyaImageIndex.add(extractIndexFromFileName(ref.toString()));
 
       shajraNasbiyaImageUrls.add(url);
+    }
+
+    notifyListeners();
+  }
+  void getVideo() async {
+    final ListResult result =
+        await FirebaseStorage.instance.ref().child("Abdullah Shah.mp4").listAll();
+
+    for (final Reference ref in result.items) {
+      final String url = await ref.getDownloadURL();
+
+      _video = url;
     }
 
     notifyListeners();

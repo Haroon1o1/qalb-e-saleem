@@ -159,7 +159,7 @@ class _SoundPlayerState extends State<SoundPlayer> {
                         ],
                       ),
                     ),
-                    SizedBox(height: 10),
+                    SizedBox(height: 0),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [

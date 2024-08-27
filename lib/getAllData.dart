@@ -7,6 +7,7 @@ class  GetAllData{
 
   static getData(BuildContext context){
               Provider.of<DataProvider>(context, listen: false).getAllImageUrl();
+              Provider.of<DataProvider>(context, listen: false).getVideo();
 
               Provider.of<DataProvider>(context, listen: false).getAudios();
 

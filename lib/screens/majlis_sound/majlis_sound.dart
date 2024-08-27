@@ -202,20 +202,20 @@ class _Majlis_SoundState extends State<Majlis_Sound> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 // Previous button, hide if index is 0
-                                if (widget.index > 0)
-                                  GestureDetector(
-                                    onTap: () {
-                                      soundPlayerProvider.stopAudio();
-                                      navigateToMajlis(widget.index - 1);
-                                    },
-                                    child: Image.asset(
-                                      "assets/new_images/next-left.png",
-                                      width: 30,
-                                    ),
-                                  )
-                                else
-                                  SizedBox(width: 35),
-                                SizedBox(width: 5),
+                                // if (widget.index > 0)
+                                //   GestureDetector(
+                                //     onTap: () {
+                                //       soundPlayerProvider.stopAudio();
+                                //       navigateToMajlis(widget.index - 1);
+                                //     },
+                                //     child: Image.asset(
+                                //       "assets/new_images/next-left.png",
+                                //       width: 30,
+                                //     ),
+                                //   )
+                                // else
+                                //   SizedBox(width: 35),
+                                // SizedBox(width: 5),
                                 GestureDetector(
                                   onTap: () => soundPlayerProvider.togglePlayStop(widget.audioPath),
                                   child: Image.asset(
@@ -225,21 +225,21 @@ class _Majlis_SoundState extends State<Majlis_Sound> {
                                     width: 60,
                                   ),
                                 ),
-                                SizedBox(width: 5),
-                                // Next button, hide if index is 19
-                                if (widget.index < 19)
-                                  GestureDetector(
-                                    onTap: () {
-                                      soundPlayerProvider.stopAudio();
-                                      navigateToMajlis(widget.index + 1);
-                                    },
-                                    child: Image.asset(
-                                      "assets/new_images/next-right.png",
-                                      width: 30,
-                                    ),
-                                  )
-                                else
-                                  SizedBox(width: 35),
+                                // SizedBox(width: 5),
+                                // // Next button, hide if index is 19
+                                // if (widget.index < 19)
+                                //   GestureDetector(
+                                //     onTap: () {
+                                //       soundPlayerProvider.stopAudio();
+                                //       navigateToMajlis(widget.index + 1);
+                                //     },
+                                //     child: Image.asset(
+                                //       "assets/new_images/next-right.png",
+                                //       width: 30,
+                                //     ),
+                                //   )
+                                // else
+                                //   SizedBox(width: 35),
                               ],
                             ),
                             Image.asset(

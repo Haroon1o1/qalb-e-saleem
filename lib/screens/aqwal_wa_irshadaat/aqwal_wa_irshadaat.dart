@@ -1,9 +1,12 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:qalb/providers/DataProvider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:audioplayers/audioplayers.dart';
 
 class AqwalWaIrshadaatScreen extends StatefulWidget {
   const AqwalWaIrshadaatScreen({super.key});
@@ -14,22 +17,68 @@ class AqwalWaIrshadaatScreen extends StatefulWidget {
 
 class _AqwalWaIrshadaatScreenState extends State<AqwalWaIrshadaatScreen> {
   final PageController _pageController = PageController(viewportFraction: 0.8);
+  final AudioPlayer _audioPlayer = AudioPlayer();
+  int _currentIndex = 0;
 
-  @override
-  void initState() {
-    super.initState();
+  bool _isPlaying = false;
+void _toggleAudio() {
+  final akwalProvider = Provider.of<DataProvider>(context, listen: false);
+  final akwalAudioUrls = akwalProvider.akwalAudio;
+
+  // Check if the index is valid
+  if (_currentIndex < 0 || _currentIndex >= akwalAudioUrls.length) {
+    log("Invalid index: $_currentIndex");
+    return;
   }
 
-  @override
-  void dispose() {
-    _pageController.dispose();
+  if (_isPlaying) {
+    _audioPlayer.stop();
+  } else {
+    // Ensure the index is within bounds
+    if (akwalAudioUrls.isNotEmpty && _currentIndex < akwalAudioUrls.length) {
+      final url = akwalAudioUrls[_currentIndex];
+      log("Playing audio from URL: $url");
+      _audioPlayer.play(UrlSource(url));
+    } else {
+      log("No audio URL found for index $_currentIndex");
+    }
+  }
+
+  setState(() {
+    _isPlaying = !_isPlaying;
+  });
+}
+
+
+@override
+void initState() {
+  super.initState();
+  _pageController.addListener(() {
+    setState(() {
+      _currentIndex = _pageController.page!.round();
+    });
+  });
+
+  _audioPlayer.onPlayerComplete.listen((_) {
+    setState(() {
+      _isPlaying = false;
+    });
+  });
+
+  _audioPlayer.onPlayerStateChanged.listen((state) {
+  });
+}
+
+@override
+   void dispose() {
+    _audioPlayer.dispose();
     super.dispose();
   }
 
-  @override
-  Widget build(BuildContext context) {
-    final akwalImageUrls = Provider.of<DataProvider>(context, listen: false).akwalImageUrls;
 
+ build(BuildContext context) {
+    final akwalImageUrls = Provider.of<DataProvider>(context, listen: false).akwalImageUrls;
+        
     return Scaffold(
       body: Stack(
         alignment: Alignment.bottomCenter,
@@ -102,7 +151,7 @@ class _AqwalWaIrshadaatScreenState extends State<AqwalWaIrshadaatScreen> {
             left: 0,
             right: 0,
             child: Container(
-              padding: const EdgeInsets.symmetric(vertical: 20),
+              padding: const EdgeInsets.symmetric(vertical:10),
               height: MediaQuery.of(context).size.height * 0.8,
               decoration: const BoxDecoration(
                 color: Colors.white,
@@ -117,6 +166,11 @@ class _AqwalWaIrshadaatScreenState extends State<AqwalWaIrshadaatScreen> {
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 0.5,
                     child: PageView.builder(
+                      onPageChanged: (value){
+                        setState(() {
+                          _isPlaying = false;
+                        });
+                      },
                       reverse: true,
                       controller: _pageController,
                       itemCount: akwalImageUrls.length,
@@ -127,8 +181,8 @@ class _AqwalWaIrshadaatScreenState extends State<AqwalWaIrshadaatScreen> {
                       },
                     ),
                   ),
-                   SizedBox(height: 30),
-              Transform(
+                  SizedBox(height: 0),
+                  Transform(
                 alignment: Alignment.center,
                 transform: Matrix4.rotationY(3.14), // Flip horizontally
                 child: Container(
@@ -147,23 +201,13 @@ class _AqwalWaIrshadaatScreenState extends State<AqwalWaIrshadaatScreen> {
                   ),
                 ),
               ),
-                   SizedBox(height: 30),
+                  SizedBox(height: 20),
                   InkWell(
-                    // Uncomment and modify the following code to handle audio playback
-                    // onTap: () {
-                    //   if (Provider.of<DataProvider>(context, listen: false)
-                    //       .akwalAudio
-                    //       .isNotEmpty) {
-                    //     _audioPlayer.play(UrlSource(
-                    //         Provider.of<DataProvider>(context, listen: false)
-                    //             .akwalAudio[0]));
-                    //   } else {
-                    //     _audioPlayer
-                    //         .play(DeviceFileSource('Audios/al firaaq.mp3'));
-                    //   }
-                    // },
+                    onTap: _toggleAudio,
                     child: Image.asset(
-                      "assets/new_images/play-audio.png",
+                      _isPlaying
+                          ? "assets/new_images/mute-audio.png"
+                          : "assets/new_images/play-audio.png",
                       height: 60,
                     ),
                   ),
