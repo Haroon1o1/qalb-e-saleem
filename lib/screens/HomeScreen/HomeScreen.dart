@@ -48,7 +48,61 @@ class _HomescreenState extends State<Homescreen> {
       ),
     );
     return Scaffold(
-      
+      bottomNavigationBar: Stack(
+        alignment: Alignment.bottomCenter,
+        clipBehavior: Clip.none,
+        children: [
+          Container(
+            height: 50,
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            width: MediaQuery.of(context).size.width,
+            decoration: const BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(10),
+                topRight: Radius.circular(10),
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black12,
+                  blurRadius: 10,
+                )
+              ],
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children:  [
+                Icon(Icons.home, color: Colors.grey[400]),
+                Icon(Icons.search, color: Colors.grey[400]),
+                SizedBox(width: 40), // Placeholder for the central circle
+                Icon(Icons.notifications, color: Colors.grey[400]),
+                Icon(Icons.person, color: Colors.grey[400]),
+              ],
+            ),
+          ),
+          Positioned(
+            bottom: 0, // Adjust this value to control the hover effect
+            child: Container(
+              decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.white),
+              alignment: Alignment.center,
+              height: 80, width: 80,
+              child: Container(
+                width: 60,
+                height: 60,
+                decoration: const BoxDecoration(
+                  color: Colors.blue,
+                  shape: BoxShape.circle,
+                  
+                ),
+                child: const Icon(Icons.add, color: Colors.white, size: 30),
+              ),
+            ),
+          ),
+        ],
+      ),
+
+        
      
       body: Container(
         child: SingleChildScrollView(
