@@ -1,8 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:persistent_bottom_nav_bar/persistent_bottom_nav_bar.dart';
 import 'package:qalb/Transition/CustomPageTransition.dart';
 import 'package:qalb/screens/HomeScreen/LongBox.dart';
 import 'package:qalb/screens/HomeScreen/smallContainer.dart';
@@ -19,7 +17,194 @@ class Homescreen extends StatefulWidget {
   State<Homescreen> createState() => _HomescreenState();
 }
 
-class _HomescreenState extends State<Homescreen> {
+
+class _HomescreenState extends State<Homescreen> with SingleTickerProviderStateMixin {
+  int selectedIndex = 0;
+  late PageController pageController;
+
+  @override
+  void initState() {
+    super.initState();
+    pageController = PageController(initialPage: selectedIndex);
+  }
+
+  @override
+  void dispose() {
+    pageController.dispose();
+    super.dispose();
+  }
+
+  void onItemTapped(int index) {
+    setState(() {
+      selectedIndex = index;
+    });
+    pageController.animateToPage(
+      selectedIndex,
+      duration: const Duration(milliseconds: 400),
+      curve: Curves.easeOutQuad,
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: PageView(
+        controller: pageController,
+        onPageChanged: (index) {
+          setState(() {
+            selectedIndex = index;
+          });
+        },
+        children: const <Widget>[
+          Home(),
+          Page1(),
+          Page2(),
+          Page3(),
+          Page4(),
+        ],
+      ),
+      bottomNavigationBar: Stack(
+        clipBehavior: Clip.none,
+        alignment: Alignment.bottomCenter,
+        children: [
+          Container(
+            height: 50,
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            width: MediaQuery.of(context).size.width,
+            decoration: const BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(10),
+                topRight: Radius.circular(10),
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black12,
+                  blurRadius: 10,
+                )
+              ],
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                buildNavItem(0, "assets/new_images/home.png"),
+                buildNavItem(1, "assets/new_images/box.png"),
+                const SizedBox(width: 30), // Spacer for the central button
+                buildNavItem(3, "assets/new_images/page.png"),
+                buildNavItem(4, "assets/new_images/menu.png"),
+              ],
+            ),
+          ),
+          Positioned(
+            bottom: 20, // Adjust this value to control the hover effect
+            child: GestureDetector(
+              onTap: () => onItemTapped(2),
+              child: Container(
+                padding: const EdgeInsets.all(18),
+                width: 60,
+                height: 60,
+                decoration: const BoxDecoration(
+                  color: Color(0xFF345EF1),
+                  shape: BoxShape.circle,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black26,
+                      blurRadius: 8,
+                      offset: Offset(0, 4),
+                    )
+                  ],
+                ),
+                child: Image.asset(
+                  "assets/new_images/dash.png",
+                  color: selectedIndex == 2
+                      ? Colors.white
+                      : Colors.white70, // Highlight selected
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // Helper method to build each navigation item with animation
+  Widget buildNavItem(int index, String assetPath) {
+    return GestureDetector(
+      onTap: () => onItemTapped(index),
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeInOut,
+        padding: const EdgeInsets.all(10),
+        width: 40,
+        height: 40,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: selectedIndex == index
+              ? Color(0xFF345EF1)
+              : Colors.transparent,
+        ),
+        child: Image.asset(
+          assetPath,
+          width: 23,
+          color: selectedIndex == index
+              ? Colors.white
+              : Colors.grey, // Highlight selected
+        ),
+      ),
+    );
+  }
+}
+
+// Dummy Pages for demonstration
+// Dummy Pages for demonstration
+
+
+class Page1 extends StatelessWidget {
+  const Page1({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(child: Text('Page 2'));
+  }
+}
+
+class Page2 extends StatelessWidget {
+  const Page2({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(child: Text('Page 3'));
+  }
+}
+
+class Page3 extends StatelessWidget {
+  const Page3({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(child: Text('Page 4'));
+  }
+}
+
+class Page4 extends StatelessWidget {
+  const Page4({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(child: Text('Page 5'));
+  }
+}
+
+class Home extends StatefulWidget {
+  const Home({super.key});
+
+  @override
+  State<Home> createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
 
 
    
@@ -45,63 +230,7 @@ class _HomescreenState extends State<Homescreen> {
       ),
     );
        return Scaffold(
-      bottomNavigationBar: Stack(
-        clipBehavior: Clip.none,
-        alignment: Alignment.bottomCenter,
-        children: [
-          Container(
-            height: 50,
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            width: MediaQuery.of(context).size.width,
-            decoration: const BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(10),
-                topRight: Radius.circular(10),
-              ),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black12,
-                  blurRadius: 10,
-                )
-              ],
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children:  [
-                Image.asset("assets/new_images/home.png", width:23),
-                Image.asset("assets/new_images/box.png", width:23),
-                SizedBox(width: 30),
-                Image.asset("assets/new_images/page.png", width:23),
-                Image.asset("assets/new_images/menu.png", width:23),
-       
-              ],
-            ),
-          ),
-          Positioned(
-            bottom: 20, // Adjust this value to control the hover effect
-            child: Container(
-              padding: EdgeInsets.all(18),
-              width: 60,
-              height: 60,
-              decoration: const BoxDecoration(
-                color: Color(0xFF345EF1),
-                shape: BoxShape.circle,
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black26,
-                    blurRadius: 8,
-                    offset: Offset(0, 4),
-                  )
-                ],
-              ),
-              child:Image.asset("assets/new_images/dash.png", ),
-
-            ),
-          ),
-        ],
-      ),
+      
        body: Container(
         child: SingleChildScrollView(
           child: Column(
@@ -429,7 +558,7 @@ SizedBox(height: 20,),
                            width: MediaQuery.of(context).size.width *
                                   0.46,
                             decoration: BoxDecoration(
-                              image: DecorationImage(image: AssetImage("assets/images/shajra_hasbia.png"),
+                              image: DecorationImage(image: AssetImage("assets/new_images/shajra-hasbia.png"),
                               fit: BoxFit
                                   .fill,
                               

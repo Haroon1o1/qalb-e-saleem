@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:qalb/firebase_options.dart';
 import 'package:qalb/providers/DataProvider.dart';
 import 'package:qalb/providers/SoundPlayerProvider.dart';
+import 'package:qalb/screens/HomeScreen/HomeScreen.dart';
 import 'package:qalb/screens/starting_splash_screen.dart';
 
 //     3B8ABF27-63E1-4443-8862-BD2DF60F5F1F debug token
