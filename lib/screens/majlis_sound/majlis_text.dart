@@ -1,3 +1,5 @@
+
+
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -37,140 +39,152 @@ class _Majlis_TextState extends State<Majlis_Text> {
       body: Stack(
         alignment: Alignment.bottomCenter,
         children: [
-          Container(
-            height: MediaQuery.of(context).size.height,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    Container(
-                      height: MediaQuery.of(context).size.height * 0.26,
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: AssetImage("assets/images/upergrad.png"),
-                          fit: BoxFit.fitWidth,
+          Consumer<SoundPlayerProvider>(
+            builder: (context, soundPlayerProvider, _) {
+            return Container(
+              height: MediaQuery.of(context).size.height,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      Container(
+                        height: MediaQuery.of(context).size.height * 0.30,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: AssetImage("assets/images/upergrad.png"),
+                            fit: BoxFit.fitWidth,
+                          ),
                         ),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 30),
-                      child: Column(
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Row(
-                                children: [
-                                  CachedNetworkImage(
-                                    imageUrl: widget.image,
-                                    width: 80,
-                                    placeholder: (context, url) => Container(),
-                                    errorWidget: (context, url, error) => Icon(Icons.error),
-                                  ),
-                                  SizedBox(width: 10),
-                                  Image.asset(
-                                    "assets/images/pause-white.png",
-                                    width: 35,
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  SizedBox(
-                                    width: MediaQuery.of(context).size.width * 0.3,
-                                    child: Text(
-                                      textDirection: TextDirection.rtl,
-                                      overflow: TextOverflow.clip,
-                                      widget.name,
-                                      style: GoogleFonts.almarai(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.white,
-                                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Row(
+                                  children: [
+                                    CachedNetworkImage(
+                                      imageUrl: widget.image,
+                                      width: 80,
+                                      placeholder: (context, url) => Container(),
+                                      errorWidget: (context, url, error) => Icon(Icons.error),
                                     ),
-                                  ),
-                                  SizedBox(width: 10),
-                                  GestureDetector(
-                                    onTap: () {
-                                      Navigator.pop(context);
-                                    },
+                                    SizedBox(width: 15),
+                                    GestureDetector(
+                                    onTap: () => soundPlayerProvider.togglePlayStop(widget.audioPath),
                                     child: Image.asset(
-                                      "assets/images/back-arrow-white.png",
-                                      width: 25,
+                                      soundPlayerProvider.isPlaying
+                                          ? "assets/images/pause-white.png"
+                                          : "assets/images/play.png" ,
+                                          color: soundPlayerProvider.isPlaying ? null : Colors.white ,
+                                      width: 35,
                                     ),
                                   ),
-                                ],
-                              ),
-                            ],
-                          ),
-                          Consumer<SoundPlayerProvider>(
-                            builder: (context, soundPlayerProvider, _) {
-                              return Row(
-                                children: [
-                                  Row(
-                                    children: [
-                                      Image.asset(
-                                          "assets/images/clock-white.png",
-                                          width: 15),
-                                      SizedBox(width: 5),
-                                      Text(
-                                        soundPlayerProvider.formatDuration(
-                                            soundPlayerProvider.position),
+                                  ],
+                                ),
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    SizedBox(
+                                      width: MediaQuery.of(context).size.width * 0.4,
+                                      child: Text(
+                                        textDirection: TextDirection.rtl,
+                                        overflow: TextOverflow.clip,
+                                        widget.name,
                                         style: GoogleFonts.almarai(
                                           fontSize: 12,
+                                          fontWeight: FontWeight.bold,
                                           color: Colors.white,
                                         ),
                                       ),
-                                    ],
-                                  ),
-                                  SliderTheme(
-                                    data: SliderTheme.of(context).copyWith(
-                                      activeTrackColor: Colors.grey[100],
-                                      inactiveTrackColor: Colors.grey[300],
-                                      thumbColor: Colors.grey,
-                                      thumbShape: CustomRoundSliderThumbShape(),
-                                      overlayColor: Colors.grey.withOpacity(0.2),
-                                      trackHeight: 4.0,
                                     ),
-                                    child: Slider(
-                                      value: soundPlayerProvider.position.inSeconds.toDouble(),
-                                      min: 0.0,
-                                      max: soundPlayerProvider.duration.inSeconds.toDouble(),
-                                      onChanged: (value) {
-                                        soundPlayerProvider.seekAudio(value);
+                                    SizedBox(width: 10),
+                                    GestureDetector(
+                                      onTap: () {
+                                        Navigator.pop(context);
                                       },
+                                      child: Image.asset(
+                                        "assets/images/back-arrow-white.png",
+                                        width: 25,
+                                      ),
                                     ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        LottieBuilder.asset(
-                                          animate: Provider.of<SoundPlayerProvider>(context, listen: false).isPlaying,
-                                          "assets/images/voice.json",
-                                          width: 20,
+                                  ],
+                                ),
+                              ],
+                            ),
+                            Padding(
+                                  padding: const EdgeInsets.only(left:10.0),
+                                  child: 
+                                    Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Row(children:[
+                                        SizedBox(
+                                        width:70,
+                                        child: Row(
+                                          children: [
+                                            Image.asset(
+                                                "assets/images/clock-white.png",
+                                                width: 15),
+                                            SizedBox(width: 5),
+                                            Text(
+                                              soundPlayerProvider.formatDuration(
+                                                  soundPlayerProvider.position),
+                                              style: GoogleFonts.almarai(
+                                                fontSize: 12,
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                          ],
                                         ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              );
-                            },
-                          ),
-                        ],
+                                      ),
+                                      SliderTheme(
+                                        data: SliderTheme.of(context).copyWith(
+                                          activeTrackColor: Colors.grey[100],
+                                          inactiveTrackColor: Colors.grey[200],
+                                          thumbColor: Colors.grey,
+                                          thumbShape: CustomRoundSliderThumbShape(),
+                                          overlayColor: Colors.grey.withOpacity(0.2),
+                                          trackHeight: 1.0,
+                                        ),
+                                        child: Slider(
+                                          value: soundPlayerProvider.position.inSeconds.toDouble(),
+                                          min: 0.0,
+                                          max: soundPlayerProvider.duration.inSeconds.toDouble(),
+                                          onChanged: (value) {
+                                            soundPlayerProvider.seekAudio(value);
+                                          },
+                                        ),
+                                      ),
+                                      ]),
+                                                                     
+                                      LottieBuilder.asset(
+                                        animate: Provider.of<SoundPlayerProvider>(context, listen: false).isPlaying,
+                                        "assets/images/voice.json",
+                                        width: 20,
+                                      ),
+                                      
+                                    ]
+                                )
+                                
+                              
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
+                    ],
+                  ),
+                ],
+              ),
+            );
+            }
           ),
           Positioned(
-            top: MediaQuery.of(context).size.height * 0.21,
+            top: MediaQuery.of(context).size.height * 0.25,
             left: 0,
             right: 0,
             child: Container(

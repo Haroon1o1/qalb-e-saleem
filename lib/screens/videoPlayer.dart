@@ -50,10 +50,8 @@ class _FullScreenVideoPlayerState extends State<FullScreenVideoPlayer> {
       DeviceOrientation.landscapeLeft,
     ]);
 
-    return Scaffold(
-      body: _chewieController != null && _chewieController!.videoPlayerController.value.isInitialized
-          ? Chewie(controller: _chewieController!)
-          : Center(child: CircularProgressIndicator()),
-    );
+    return _chewieController != null && _chewieController!.videoPlayerController.value.isInitialized
+        ? Chewie(controller: _chewieController!)
+        : Center(child: CircularProgressIndicator());
   }
 }

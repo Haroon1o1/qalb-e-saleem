@@ -37,23 +37,17 @@ class SmallContainer extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(
-            width: 80, height: 80,
+            width: 70, height: 75,
             padding: EdgeInsets.only(bottom: 4),
             alignment: Alignment.bottomCenter,
             decoration: BoxDecoration(
-              image: DecorationImage(image: AssetImage("assets/new_images/small_container.png"),colorFilter: ColorFilter.mode(
-        backgroundColor, // Adjust opacity as needed
-        BlendMode.srcATop, // Choose the blend mode that works best
-      ),)
+            color: 
+        backgroundColor,
+          image: DecorationImage(image: AssetImage(imagePath)),
+          borderRadius: BorderRadiusDirectional.circular(20),
             ),
            // Radius of the corners
-              child: Image.asset(
-                imagePath, // Replace with your image asset
-                width: 50.0, // Set the desired width
-                height: 50.0, // Set the desired height
-                fit: BoxFit.fill, // Ensures the image covers the entire area
-              
-            ),
+
           ),
           SizedBox(height: 5),
           Text(

@@ -55,10 +55,10 @@ class _Majlis_SoundState extends State<Majlis_Sound> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
-        soundPlayerProvider.stopAudio();
-        return true;
+    return PopScope(
+      onPopInvokedWithResult: (didPop, result) {
+                soundPlayerProvider.stopAudio();
+
       },
       child: Scaffold(
         backgroundColor: Colors.white,

@@ -10,6 +10,7 @@ class SoundPlayer extends StatefulWidget {
   final String image;
   final String name;
   final String sub;
+  
 
   SoundPlayer({
     super.key,
@@ -169,6 +170,7 @@ class _SoundPlayerState extends State<SoundPlayer> {
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) => TextScreen(
+                                      audioPath: getAudio(),
                                       image: widget.image,
                                       name: widget.name,
                                     ),

@@ -12,7 +12,7 @@ class LongBox extends StatelessWidget {
   final String audioPath;
   final Color backgroundColor;
 
-  LongBox({
+  const LongBox({
     required this.imagePath,
     required this.mainText,
     required this.subText1,
@@ -25,82 +25,81 @@ class LongBox extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        if (getImageAddress() == "akwal") {
-          Navigator.push(
-            context,
-            CustomPageNavigation(child: AqwalWaIrshadaatScreen()),
-          );
-        } else {
-          Navigator.push(
-            context,
-            CustomPageNavigation(
-              child: SoundPlayer(
-                image: getImageAddress(),
-                name: mainText,
-                sub: subText2,
-              ),
-            ),
-          );
-        }
+        Navigator.push(
+          context,
+          CustomPageNavigation(
+            child: getImageAddress() == "akwal"
+                ? AqwalWaIrshadaatScreen()
+                : SoundPlayer(
+                    image: getImageAddress(),
+                    name: mainText,
+                    sub: subText2,
+                  ),
+          ),
+        );
       },
       child: Container(
-        
-        padding: const EdgeInsets.only(right: 10.0),
-        margin: const EdgeInsets.symmetric(horizontal: 5.0),
-        height: 120,
-        width: double.infinity,
+        padding: const EdgeInsets.only(right: 10, left:10,),
+        margin: const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
+        height: 130,
         decoration: BoxDecoration(
-          image: DecorationImage(image: AssetImage("assets/new_images/long_container.png"),fit: BoxFit.fill, colorFilter: ColorFilter.mode(
-        backgroundColor, // Adjust opacity as needed
-        BlendMode.srcATop, // Choose the blend mode that works best
-      ),),
-            borderRadius: BorderRadiusDirectional.circular(15)),
+          color: backgroundColor,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.5),
+              spreadRadius: 1,
+              blurRadius: 3,
+              offset: const Offset(1, 2),
+            ),
+          ],
+          borderRadius: BorderRadius.circular(15),
+        ),
         child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                SizedBox(height:20),
-                Text(
-                  mainText,
-                  style: GoogleFonts.almarai(
+            Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Text(
+                    textDirection: TextDirection.rtl,
+                    mainText,
+                    style: GoogleFonts.almarai(
                       fontWeight: FontWeight.bold,
                       fontSize: 19,
-                      color: Colors.white),
-                ),
-                SizedBox(height: 15),
-                SizedBox(
-                  width: 200,
-                  child: Text(
-                    overflow: TextOverflow.clip,
+                      color: Colors.white,
+                    ),
+                  ),
+                  const SizedBox(height: 15),
+                  Text(
                     subText1,
                     textDirection: TextDirection.rtl,
-                    style:
-                        GoogleFonts.almarai(fontSize: 9, color: Colors.white),
-                  ),
-                ),
-                SizedBox(
-                  width: 200,
-                  child: Text(
+                    style: GoogleFonts.almarai(
+                      fontSize: 9,
+                      color: Colors.white,
+                    ),
                     overflow: TextOverflow.clip,
+                  ),
+                  Text(
                     subText2,
                     textDirection: TextDirection.rtl,
-                    style:
-                        GoogleFonts.almarai(fontSize: 10, color: Colors.white),
+                    style: GoogleFonts.almarai(
+                      fontSize: 10,
+                      color: Colors.white,
+                    ),
+                    overflow: TextOverflow.clip,
                   ),
-                ),
-                SizedBox(height: 10),
-              ],
+                ],
+              ),
             ),
-            SizedBox(width: 8),
+            const SizedBox(width: 8),
             ClipRRect(
-              borderRadius: BorderRadius.circular(20.0),
+              borderRadius: BorderRadius.circular(15),
               child: Image.asset(
                 imagePath,
-                width: 85.0,
-                height: 85.0,
+                width: 100,
+                height: 100,
                 fit: BoxFit.fill,
               ),
             ),
@@ -111,14 +110,15 @@ class LongBox extends StatelessWidget {
   }
 
   String getImageAddress() {
-    if (mainText == "سوانح حیات") {
-      return "assets/images/sawane-dark.png";
-    } else if (mainText == 'قلبِ سلیم') {
-      return "assets/images/qalb_e_saleem-dark.png";
-    } else if (mainText == 'الفراق') {
-      return "assets/images/alfiraq-dark.png";
-    } else {
-      return "akwal";
+    switch (mainText) {
+      case "سوانح حیات":
+        return "assets/images/sawane-dark.png";
+      case 'قلبِ سلیم':
+        return "assets/images/qalb_e_saleem-dark.png";
+      case 'الفراق':
+        return "assets/images/alfiraq-dark.png";
+      default:
+        return "akwal";
     }
   }
 }
