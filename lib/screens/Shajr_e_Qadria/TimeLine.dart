@@ -20,7 +20,7 @@ class TimelineStep extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
+      padding: const EdgeInsets.symmetric(horizontal: 25),
       child: Column(
         children: [
           CircleAvatar(
@@ -40,7 +40,7 @@ class TimelineStep extends StatelessWidget {
                 color: stepNumber == 1 ? Colors.white : Colors.grey.shade500),
           Container(
             width: double.infinity,
-            height: imagePath == "" ? 70 : 180,
+            height: imagePath == "" ? 60 : (stepNumber == 2 && name == "nasbiya") ? 200 :180,
             padding: EdgeInsets.only(
                 top: imagePath == "" ? 0 : 8,
                 right: 8,
@@ -50,16 +50,16 @@ class TimelineStep extends StatelessWidget {
                 boxShadow: [
                   BoxShadow(
                     color: Colors.grey.withOpacity(0.5),
-                    spreadRadius: 5,
-                    blurRadius: 7,
-                    offset: Offset(0, 3),
+                    spreadRadius: 1,
+                    blurRadius: 3,
+                    offset: Offset(1, 2),
                   ),
                 ],
                 border: imagePath == ""
                     ? Border.all(color: Colors.transparent)
                     : Border.all(color: Colors.transparent),
                 color: imagePath == ""
-                    ? getRandomColor().withOpacity(0.5)
+                    ? getColorForStep(stepNumber)
                     : Colors.white,
                 borderRadius: BorderRadius.circular(10)),
             child: Column(
@@ -71,46 +71,135 @@ class TimelineStep extends StatelessWidget {
                   borderRadius: BorderRadiusDirectional.circular(10),
                   child: imagePath == ""
                       ? Container()
-                      : imagePath == "" 
-    ? Container() 
-    : Image.network(
-        imagePath!,
-        fit: BoxFit.cover,
-      ),
-
+                      : imagePath == ""
+                          ? Container()
+                          : Image.network(
+                              imagePath!,
+                              fit: BoxFit.cover,
+                            ),
                 ),
-
-                Text(
-                  description,
-                  style: GoogleFonts.almarai(
-                    color: imagePath == "" ? Colors.white : Colors.black,
-                    fontSize: 11,
-                    fontWeight: FontWeight.w600,
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal:20.0),
+                  child: Column(
+                    children: [
+                      Text(
+                        description,
+                        style: GoogleFonts.almarai(
+                          color: imagePath == "" ? Colors.white : Colors.black,
+                          fontSize: 13,
+                          fontWeight: FontWeight.w600,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                      name == "hasbiya" ? 
+                      Text(
+                        stepNumber == 1 ? "صلی الله عليه وآله وسلم" : stepNumber == 2 ? "کّرم الله تعالى وجہہ الکریم" : 
+                        stepNumber == 3 ? "" : (stepNumber>3 && stepNumber<=8) ? "رضي الله تعالى عنه" :
+                        "رحمة الله تعالى عليه",
+                        style: GoogleFonts.almarai(
+                          color: imagePath == "" ? Colors.white : Colors.black,
+                          fontSize: 9,
+                          fontWeight: FontWeight.w600,
+                        ),
+                        textAlign: TextAlign.center,
+                      )
+                      : Text(
+                        stepNumber == 1 ? "صلی الله عليه وآله وسلم" : stepNumber == 2 ? "کّرم الله تعالى وجہہ الکریم" : 
+                        stepNumber == 3 ? "" : (stepNumber>3 && stepNumber<=7) ? "رضي الله تعالى عنه" :
+                        "رحمة الله تعالى عليه",
+                        style: GoogleFonts.almarai(
+                          color: imagePath == "" ? Colors.white : Colors.black,
+                          fontSize: 9,
+                          fontWeight: FontWeight.w600,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
                   ),
-                  textAlign: TextAlign.center,
                 ),
                 // SizedBox(height: 30),
               ],
             ),
           ),
-            Container(
-              height: 20,
-              width: 2,
-              color: name == "nasbiya" ? stepNumber == 37 ? Colors.transparent : Colors.grey.shade500 : stepNumber == 43 ? Colors.transparent : Colors.grey.shade500,
-            ),
-        ]
+          Container(
+            height: 20,
+            width: 2,
+            color: name == "nasbiya"
+                ? stepNumber == 37
+                    ? Colors.transparent
+                    : Colors.grey.shade500
+                : stepNumber == 43
+                    ? Colors.transparent
+                    : Colors.grey.shade500,
+          ),
+        ],
       ),
     );
   }
+Color getColorForStep(int stepNumber) {
+  List<Color> colorList = [
+  
+  ];
 
-  Color getRandomColor() {
-    Random random = Random();
-    // Generating random RGB values
-    int red = random.nextInt(200); // 0 to 255
-    int green = random.nextInt(150); // 0 to 255
-    int blue = random.nextInt(24); // 0 to 255
+  List<int> ignoredSteps = [];
+  if(name == "hasbiya"){
+    colorList.addAll([
+        Color(0xFF2ECDBA),
+    Color(0xFF6BADE3),
+    Color(0xFFB8A5E3),
+    Color(0xFF48C6E3),
+    Color(0xFFFF9C7E),
+    Color(0xFFA8CF84),
+    Color(0xFF8B939B),
+    Color(0xFF699F98),
+    Color(0xFF6FA7DF),
+    Color(0xFF728DE3),
+    Color(0xFF9C8AE3),
+    Color(0xFFF0B378),
+    Color(0xFFEC9085),
+    ]);
+    ignoredSteps.addAll([1, 2, 3, 17, 37, 42, 43]);
+  }else{
+colorList.addAll([
+    Color(0xFF2ECDBA),
+    Color(0xFF6BADE3),
+    Color(0xFFB8A5E3),
+    Color(0xFF48C6E3),
+    Color(0xFFFF9C7E),
+    Color(0xFFA8CF84),
+    Color(0xFF8B939B),
+    Color(0xFF699F98),
+    Color(0xFF6FA7DF),
+    Color(0xFF728DE3),
+    Color(0xFF9C8AE3),
+    Color(0xFFF0B378),
+    Color(0xFFEC9085),
+   
+]);
+if(stepNumber > 12){
+  colorList.add( Color(0xFFED7B92));
+}
+    
+        ignoredSteps.addAll([1, 2, 3, 37]);
 
-    return Color.fromRGBO(
-        red, green, blue, 1.0); // Opacity set to 1.0 (fully opaque)
   }
+
+  if (name == "hasbiya" && ignoredSteps.contains(stepNumber)) {
+    return Colors.transparent;
+  }
+
+  int nonIgnoredStepIndex = stepNumber - ignoredSteps.where((step) => step < stepNumber).length;
+
+  int startingIndex = name == "nasbiya" ? 4 : 0;
+
+  // Calculate the color index considering the starting index
+  int colorIndex = (nonIgnoredStepIndex + startingIndex) % colorList.length;
+
+  if (colorIndex == 0) {
+    colorIndex = colorList.length; 
+  }
+
+  return colorList[colorIndex - 1]; // Adjust for 0-based index
+}
+
 }
