@@ -104,7 +104,7 @@ class _MajlisState extends State<Majlis> {
               ),
               child: ListView.builder(
                 itemCount: Provider.of<DataProvider>(context, listen: false)
-                    .majlisImages
+                    .majlisBookImages
                     .length,
                 itemBuilder: (context, index) {
                   return majlisContainer(

@@ -16,6 +16,7 @@ class GetAllData {
     Provider.of<DataProvider>(context, listen: false).getMajlisImagesUrl();
     Provider.of<DataProvider>(context, listen: false).getPngs();
     Provider.of<DataProvider>(context, listen: false).getMajlisThumbUrl();
+    Provider.of<DataProvider>(context, listen: false).majlisBookImagesUrl();
     Provider.of<DataProvider>(context, listen: false).getSounds();
     Provider.of<DataProvider>(context, listen: false).getakwalImageUrl();
     Provider.of<DataProvider>(context, listen: false).getAkwalAudio();

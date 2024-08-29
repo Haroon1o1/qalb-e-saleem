@@ -1,13 +1,10 @@
-
-
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 
 class DataProvider with ChangeNotifier {
-
   // -----------  LIST WITH FIREBASE DATA -------------- //
   List<String> _shajraHasbiyaImageUrls = [];
-  List<String> _akwalImageUrls = [];     // - -- akwal list
+  List<String> _akwalImageUrls = []; // - -- akwal list
   List<int> _shajraHasbiyaImageIndex = [];
   List<String> _shajraNasbiyaImageUrls = [];
   List<int> _shajraNasbiyaImageIndex = [];
@@ -19,10 +16,6 @@ class DataProvider with ChangeNotifier {
 
   Map<String, String> _imageMap = {};
   Map<String, String> _audioMap = {};
-
-
-
-
 
   Map<String, String> get imageMap => _imageMap;
   String get video => _video;
@@ -36,17 +29,17 @@ class DataProvider with ChangeNotifier {
   List<int> get shajraNasbiyaImageIndex => _shajraNasbiyaImageIndex;
   List<String> get akwalImageUrls => _akwalImageUrls;
   List<String> get majlisText => _majlisText;
+
   List<String> _majlisImages = [];
   List<String> _majlisThumb = [];
+  List<String> _majlisBookImages = [];
 
   List<String> get majlisImages => _majlisImages;
   List<String> get majlisThumb => _majlisThumb;
+  List<String> get majlisBookImages => _majlisBookImages;
   Map<String, String> _pngUrls = {};
 
   Map<String, String> get pngUrls => _pngUrls;
-
-
-
 
   void getShajraNasbiyaImageUrl(String path) async {
     final ListResult result =
@@ -61,9 +54,12 @@ class DataProvider with ChangeNotifier {
 
     notifyListeners();
   }
+
   void getVideo() async {
-    final ListResult result =
-        await FirebaseStorage.instance.ref().child("Abdullah Shah.mp4").listAll();
+    final ListResult result = await FirebaseStorage.instance
+        .ref()
+        .child("Abdullah Shah.mp4")
+        .listAll();
 
     for (final Reference ref in result.items) {
       final String url = await ref.getDownloadURL();
@@ -73,6 +69,7 @@ class DataProvider with ChangeNotifier {
 
     notifyListeners();
   }
+
   void getAkwalAudio() async {
     final ListResult result =
         await FirebaseStorage.instance.ref().child("aqwal_voice/").listAll();
@@ -85,6 +82,7 @@ class DataProvider with ChangeNotifier {
 
     notifyListeners();
   }
+
   void getMajlisAudios() async {
     final ListResult result =
         await FirebaseStorage.instance.ref().child("majlis_audio/").listAll();
@@ -98,21 +96,21 @@ class DataProvider with ChangeNotifier {
     notifyListeners();
   }
 
-void getAllImageUrl() async {
-  final ListResult result = await FirebaseStorage.instance.ref().child("pngs/").listAll();
+  void getAllImageUrl() async {
+    final ListResult result =
+        await FirebaseStorage.instance.ref().child("pngs/").listAll();
 
-  for (final Reference ref in result.items) {
-    final String url = await ref.getDownloadURL();
+    for (final Reference ref in result.items) {
+      final String url = await ref.getDownloadURL();
 
-    String fileName = ref.name.replaceAll('.png', '');
+      String fileName = ref.name.replaceAll('.png', '');
 
-    imageMap[fileName] = url;
+      imageMap[fileName] = url;
+    }
+
+    // Print or use the map as needed
+    notifyListeners();
   }
-
-  // Print or use the map as needed
-  notifyListeners();
-}
-
 
   void getSounds() async {
     final ListResult result =
@@ -127,29 +125,18 @@ void getAllImageUrl() async {
     notifyListeners();
   }
 
-
-
-
-
   void getakwalImageUrl() async {
-
     final ListResult result =
         await FirebaseStorage.instance.ref().child("aqwal/").listAll();
 
     for (final Reference ref in result.items) {
-
-         
-
       final String url = await ref.getDownloadURL();
 
       akwalImageUrls.add(url);
-
-
     }
-              notifyListeners();
-
-
+    notifyListeners();
   }
+
   void getMajlisText() async {
     final ListResult result =
         await FirebaseStorage.instance.ref().child("majlis_text/").listAll();
@@ -162,10 +149,6 @@ void getAllImageUrl() async {
 
     notifyListeners();
   }
-
-
-
-
 
   void getShajraHasbiyaImageUrl(String path) async {
     final ListResult result =
@@ -181,10 +164,6 @@ void getAllImageUrl() async {
     notifyListeners();
   }
 
-
-
-
-
   void getMajlisThumbUrl() async {
     final ListResult result =
         await FirebaseStorage.instance.ref().child("majlisThumb/").listAll();
@@ -198,10 +177,20 @@ void getAllImageUrl() async {
     notifyListeners();
   }
 
+  void majlisBookImagesUrl() async {
+    final ListResult result = await FirebaseStorage.instance
+        .ref()
+        .child("majlisBookImages/")
+        .listAll();
 
+    for (final Reference ref in result.items) {
+      final String url = await ref.getDownloadURL();
 
+      _majlisBookImages.add(url);
+    }
 
-
+    notifyListeners();
+  }
 
   void getMajlisImagesUrl() async {
     majlisImages.clear();
@@ -215,10 +204,6 @@ void getAllImageUrl() async {
 
     notifyListeners();
   }
-
-
-
-
 
   Future<void> getPngs() async {
     pngUrls.clear();
@@ -236,7 +221,6 @@ void getAllImageUrl() async {
     notifyListeners();
   }
 
-
   Future<void> getAudios() async {
     pngUrls.clear();
     final ListResult result =
@@ -253,20 +237,10 @@ void getAllImageUrl() async {
     notifyListeners();
   }
 
-
-
-
-
-
   int extractIndexFromFileName(String filePath) {
     final fileName = filePath.split('/').last;
     final nameWithoutExtension = fileName.split('.').first;
     final index = int.tryParse(nameWithoutExtension);
     return index!;
   }
-
-
-
-
-
 }

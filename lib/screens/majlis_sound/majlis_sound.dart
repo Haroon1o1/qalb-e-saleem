@@ -1,7 +1,7 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:qalb/Transition/CustomPageTransition.dart';
 import 'package:qalb/data/data.dart';
 import 'package:qalb/providers/DataProvider.dart';
@@ -35,19 +35,22 @@ class _Majlis_SoundState extends State<Majlis_Sound> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    soundPlayerProvider = Provider.of<SoundPlayerProvider>(context, listen: true);
+    soundPlayerProvider =
+        Provider.of<SoundPlayerProvider>(context, listen: true);
   }
 
   void navigateToMajlis(int newIndex) {
     Navigator.pushReplacement(
       context,
       CustomPageNavigation(
-        child:  Majlis_Sound(
-          image: Provider.of<DataProvider>(context, listen: false).majlisThumb[newIndex],
+        child: Majlis_Sound(
+          image: Provider.of<DataProvider>(context, listen: false)
+              .majlisThumb[newIndex],
           index: newIndex,
           name: TextData.majlisUrdu[newIndex],
           sub: TextData.majlisUrdu[newIndex],
-          audioPath: Provider.of<DataProvider>(context, listen: false).majlisSound[newIndex],
+          audioPath: Provider.of<DataProvider>(context, listen: false)
+              .majlisSound[newIndex],
         ),
       ),
     );
@@ -57,18 +60,19 @@ class _Majlis_SoundState extends State<Majlis_Sound> {
   Widget build(BuildContext context) {
     return PopScope(
       onPopInvokedWithResult: (didPop, result) {
-                soundPlayerProvider.stopAudio();
-
+        soundPlayerProvider.stopAudio();
       },
       child: Scaffold(
         backgroundColor: Colors.white,
         body: Container(
-          padding: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height * 0.1),
+          padding: EdgeInsets.symmetric(
+              vertical: MediaQuery.of(context).size.height * 0.1),
           height: MediaQuery.of(context).size.height * 1,
           child: Consumer<SoundPlayerProvider>(
             builder: (context, soundPlayerProvider, _) {
               return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 0.0),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20.0, vertical: 0.0),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -107,9 +111,12 @@ class _Majlis_SoundState extends State<Majlis_Sound> {
                             InkWell(
                               onTap: () {
                                 Navigator.pop(context);
-                                soundPlayerProvider.stopAudio(); // Use stopAudio() method
+                                soundPlayerProvider
+                                    .stopAudio(); // Use stopAudio() method
                               },
-                              child: Image.asset("assets/images/back-arrow-grey.png", width: 25),
+                              child: Image.asset(
+                                  "assets/images/back-arrow-grey.png",
+                                  width: 25),
                             ),
                           ],
                         ),
@@ -154,9 +161,11 @@ class _Majlis_SoundState extends State<Majlis_Sound> {
                             trackHeight: 4.0,
                           ),
                           child: Slider(
-                            value: soundPlayerProvider.position.inSeconds.toDouble(),
+                            value: soundPlayerProvider.position.inSeconds
+                                .toDouble(),
                             min: 0.0,
-                            max: soundPlayerProvider.duration.inSeconds.toDouble(),
+                            max: soundPlayerProvider.duration.inSeconds
+                                .toDouble(),
                             onChanged: (value) {
                               soundPlayerProvider.seekAudio(value);
                             },
@@ -168,11 +177,13 @@ class _Majlis_SoundState extends State<Majlis_Sound> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                soundPlayerProvider.formatDuration(soundPlayerProvider.position),
+                                soundPlayerProvider.formatDuration(
+                                    soundPlayerProvider.position),
                                 style: TextStyle(color: Colors.black),
                               ),
                               Text(
-                                soundPlayerProvider.formatDuration(soundPlayerProvider.duration),
+                                soundPlayerProvider.formatDuration(
+                                    soundPlayerProvider.duration),
                                 style: TextStyle(color: Colors.black),
                               ),
                             ],
@@ -188,9 +199,14 @@ class _Majlis_SoundState extends State<Majlis_Sound> {
                                     CustomPageNavigation(
                                       child: Majlis_Text(
                                         audioPath: widget.audioPath,
-                                        image: widget.image,
+                                        image: Provider.of<DataProvider>(
+                                                context,
+                                                listen: false)
+                                            .majlisBookImages[widget.index],
                                         name: widget.name,
-                                        file: Provider.of<DataProvider>(context, listen: false).majlisText[widget.index],
+                                        file: Provider.of<DataProvider>(context,
+                                                listen: false)
+                                            .majlisText[widget.index],
                                       ),
                                     ));
                               },
@@ -218,7 +234,8 @@ class _Majlis_SoundState extends State<Majlis_Sound> {
                                 //   SizedBox(width: 35),
                                 // SizedBox(width: 5),
                                 GestureDetector(
-                                  onTap: () => soundPlayerProvider.togglePlayStop(widget.audioPath),
+                                  onTap: () => soundPlayerProvider
+                                      .togglePlayStop(widget.audioPath),
                                   child: Image.asset(
                                     soundPlayerProvider.isPlaying
                                         ? "assets/images/pause.png"
