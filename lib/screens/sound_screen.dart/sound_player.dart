@@ -75,13 +75,14 @@ class _SoundPlayerState extends State<SoundPlayer> {
                                     fontWeight: FontWeight.bold,
                                     color: Colors.grey[500])),
                             InkWell(
-                                onTap: () {
-                                  Navigator.pop(context);
-                                  soundPlayerProvider.stopAudio();
-                                },
-                                child: Image.asset(
-                                    "assets/images/back-arrow-grey.png",
-                                    width: 25)),
+                              onTap: () {
+                                Navigator.pop(context);
+                                soundPlayerProvider.stopAudio();
+                              },
+                              child: Image.asset(
+                                  "assets/images/back-arrow-grey.png",
+                                  width: 25),
+                            ),
                           ],
                         ),
                       ),

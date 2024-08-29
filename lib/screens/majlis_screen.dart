@@ -86,14 +86,10 @@ class _MajlisState extends State<Majlis> {
             ],
           ),
           Positioned(
-            top: MediaQuery.of(context).size.height * 0.21,
+            top: MediaQuery.of(context).size.height * 0.19,
             left: 0,
             right: 0,
             child: Container(
-              padding: EdgeInsets.symmetric(
-                vertical: MediaQuery.of(context).size.height * 0.02,
-                horizontal: 0,
-              ),
               height: MediaQuery.of(context).size.height * 0.8,
               decoration: const BoxDecoration(
                 color: Colors.white,
@@ -154,12 +150,12 @@ class _MajlisState extends State<Majlis> {
           color: Colors.white,
           borderRadius: BorderRadiusDirectional.circular(15),
         ),
-        height: 250,
+        height: 230,
         child: Column(
           children: [
             CachedNetworkImage(
               imageUrl: image,
-              height: 170,
+              height: 150,
               width: MediaQuery.of(context).size.width * 0.87,
               fit: BoxFit.fill,
               placeholder: (context, url) => Container(),
@@ -174,8 +170,11 @@ class _MajlisState extends State<Majlis> {
                   children: [
                     Row(
                       children: [
-                        Image.asset("assets/images/clock-white.png",
-                            color: Colors.black, height: 12),
+                        Image.asset(
+                          "assets/images/clock-white.png",
+                          color: Colors.black,
+                          height: 12,
+                        ),
                         const SizedBox(width: 4),
                         FutureBuilder<String?>(
                           future: getAudioDuration(

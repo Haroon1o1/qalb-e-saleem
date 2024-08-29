@@ -51,11 +51,17 @@ class _SplashscreenState extends State<Splashscreen>
 
     _controller.forward();
 
-    Future.delayed(const Duration(seconds: 3), () {
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (_) => BottomBarscreen()),
-      );
-    });
+    _loadDataAndNavigate();
+  }
+
+  Future<void> _loadDataAndNavigate() async {
+    // Call the modified getData method and await completion
+    await GetAllData.getData(context);
+
+    // Navigate to the next screen after data loading is complete
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(builder: (_) => BottomBarscreen()),
+    );
   }
 
   @override

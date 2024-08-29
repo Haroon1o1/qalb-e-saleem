@@ -69,6 +69,7 @@ class _BottomBarscreenState extends State<BottomBarscreen>
         children: [
           Container(
             height: 80,
+            margin: EdgeInsets.symmetric(vertical: 2),
             padding: EdgeInsets.only(left: 10, right: 10, top: 10),
             width: MediaQuery.of(context).size.width,
             decoration: BoxDecoration(
@@ -93,69 +94,10 @@ class _BottomBarscreenState extends State<BottomBarscreen>
                 buildNavItem(0, "assets/new_images/home.png", "هوم"),
                 buildNavItem(
                     1, "assets/new_images/box.png", "اقوال و ارشاداتِ"),
-                const SizedBox(width: 30),
+                buildNavItem(2, "assets/new_images/dash.png", "فهرست مجالس"),
                 buildNavItem(3, "assets/new_images/page.png", "شجرۂ قادریہ"),
                 buildNavItem(4, "assets/new_images/menu.png", "مضامین"),
               ],
-            ),
-          ),
-          Positioned(
-            bottom: 5, // Adjust this value to control the hover effect
-            child: GestureDetector(
-              onTap: () => onItemTapped(2),
-              child: Padding(
-                padding: const EdgeInsets.only(left: 8.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Container(
-                      padding: EdgeInsets.all(8),
-                      width: 75,
-                      height: 75,
-                      decoration: const BoxDecoration(
-                        color: Colors.white,
-                        shape: BoxShape.circle,
-                      ),
-                      child: Container(
-                        padding: const EdgeInsets.all(18),
-                        width: 60,
-                        height: 60,
-                        decoration: const BoxDecoration(
-                          color: Color(0xFF345EF1),
-                          shape: BoxShape.circle,
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black26,
-                              blurRadius: 8,
-                              offset: Offset(0, 4),
-                            )
-                          ],
-                        ),
-                        child: Image.asset(
-                          "assets/new_images/dash.png",
-                          color: selectedIndex == 2
-                              ? Colors.white
-                              : Colors.white, // Highlight selected
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: 0),
-                    SizedBox(
-                      width: 60,
-                      child: Text(
-                        textAlign: TextAlign.center,
-                        "فهرست مجالس",
-                        style: GoogleFonts.almarai(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 10,
-                          color: Color(0xFFBEBEC0),
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-              ),
             ),
           ),
         ],
@@ -172,21 +114,20 @@ class _BottomBarscreenState extends State<BottomBarscreen>
           AnimatedContainer(
             duration: const Duration(milliseconds: 300),
             curve: Curves.easeInOut,
-            padding: const EdgeInsets.all(10),
-            width: 40,
-            height: 40,
+            padding: const EdgeInsets.all(15),
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               color: selectedIndex == index
                   ? Color(0xFF345EF1)
                   : Colors.transparent,
             ),
-            child: Image.asset(
-              assetPath,
+            child: SizedBox(
+              height: 25,
               width: 25,
-              color: selectedIndex == index
-                  ? Colors.white
-                  : Colors.grey, // Highlight selected
+              child: Image.asset(
+                assetPath,
+                color: selectedIndex == index ? Colors.white : Colors.grey,
+              ),
             ),
           ),
           Text(
@@ -202,9 +143,6 @@ class _BottomBarscreenState extends State<BottomBarscreen>
     );
   }
 }
-
-// Dummy Pages for demonstration
-// Dummy Pages for demonstration
 
 class Page1 extends StatelessWidget {
   const Page1({super.key});
@@ -420,8 +358,9 @@ class _HomeState extends State<Home> {
                       alignment: Alignment.bottomRight,
                       decoration: BoxDecoration(
                           image: DecorationImage(
-                              image: AssetImage("assets/new_images/video.png"),
-                              fit: BoxFit.cover),
+                            image: AssetImage("assets/new_images/video.png"),
+                            fit: BoxFit.cover,
+                          ),
                           borderRadius: BorderRadius.only(
                             topLeft: Radius.circular(15),
                             topRight: Radius.circular(15),

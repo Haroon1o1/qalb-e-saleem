@@ -41,9 +41,11 @@ class DataProvider with ChangeNotifier {
 
   Map<String, String> get pngUrls => _pngUrls;
 
+  final firebaseStorage = FirebaseStorage.instance.ref();
+
   void getShajraNasbiyaImageUrl(String path) async {
     final ListResult result =
-        await FirebaseStorage.instance.ref().child("shajra_nasbiya/").listAll();
+        await firebaseStorage.child("shajra_nasbiya/").listAll();
 
     for (final Reference ref in result.items) {
       final String url = await ref.getDownloadURL();
@@ -56,23 +58,19 @@ class DataProvider with ChangeNotifier {
   }
 
   void getVideo() async {
-    final ListResult result = await FirebaseStorage.instance
-        .ref()
-        .child("Abdullah Shah.mp4")
-        .listAll();
-
-    for (final Reference ref in result.items) {
-      final String url = await ref.getDownloadURL();
-
-      _video = url;
+    try {
+      // Set the URL directly for testing
+      _video =
+          "https://firebasestorage.googleapis.com/v0/b/qalb-e-saleem-c7987.appspot.com/o/home_page_video.mp4?alt=media&token=0a167ebd-5a19-414a-b86e-2c630969e318";
+      notifyListeners();
+    } catch (e) {
+      print('Error fetching video URL: $e');
     }
-
-    notifyListeners();
   }
 
   void getAkwalAudio() async {
     final ListResult result =
-        await FirebaseStorage.instance.ref().child("aqwal_voice/").listAll();
+        await firebaseStorage.child("aqwal_voice/").listAll();
 
     for (final Reference ref in result.items) {
       final String url = await ref.getDownloadURL();
@@ -85,7 +83,7 @@ class DataProvider with ChangeNotifier {
 
   void getMajlisAudios() async {
     final ListResult result =
-        await FirebaseStorage.instance.ref().child("majlis_audio/").listAll();
+        await firebaseStorage.child("majlis_audio/").listAll();
 
     for (final Reference ref in result.items) {
       final String url = await ref.getDownloadURL();
@@ -97,8 +95,7 @@ class DataProvider with ChangeNotifier {
   }
 
   void getAllImageUrl() async {
-    final ListResult result =
-        await FirebaseStorage.instance.ref().child("pngs/").listAll();
+    final ListResult result = await firebaseStorage.child("pngs/").listAll();
 
     for (final Reference ref in result.items) {
       final String url = await ref.getDownloadURL();
@@ -114,7 +111,7 @@ class DataProvider with ChangeNotifier {
 
   void getSounds() async {
     final ListResult result =
-        await FirebaseStorage.instance.ref().child("aqwal_voice/").listAll();
+        await firebaseStorage.child("aqwal_voice/").listAll();
 
     for (final Reference ref in result.items) {
       final String url = await ref.getDownloadURL();
@@ -126,8 +123,7 @@ class DataProvider with ChangeNotifier {
   }
 
   void getakwalImageUrl() async {
-    final ListResult result =
-        await FirebaseStorage.instance.ref().child("aqwal/").listAll();
+    final ListResult result = await firebaseStorage.child("aqwal/").listAll();
 
     for (final Reference ref in result.items) {
       final String url = await ref.getDownloadURL();
@@ -139,7 +135,7 @@ class DataProvider with ChangeNotifier {
 
   void getMajlisText() async {
     final ListResult result =
-        await FirebaseStorage.instance.ref().child("majlis_text/").listAll();
+        await firebaseStorage.child("majlis_text/").listAll();
 
     for (final Reference ref in result.items) {
       final String url = await ref.getDownloadURL();
@@ -152,7 +148,7 @@ class DataProvider with ChangeNotifier {
 
   void getShajraHasbiyaImageUrl(String path) async {
     final ListResult result =
-        await FirebaseStorage.instance.ref().child("shajra_hasbiya/").listAll();
+        await firebaseStorage.child("shajra_hasbiya/").listAll();
 
     for (final Reference ref in result.items) {
       final String url = await ref.getDownloadURL();
@@ -166,7 +162,7 @@ class DataProvider with ChangeNotifier {
 
   void getMajlisThumbUrl() async {
     final ListResult result =
-        await FirebaseStorage.instance.ref().child("majlisThumb/").listAll();
+        await firebaseStorage.child("majlisThumb/").listAll();
 
     for (final Reference ref in result.items) {
       final String url = await ref.getDownloadURL();
@@ -195,7 +191,7 @@ class DataProvider with ChangeNotifier {
   void getMajlisImagesUrl() async {
     majlisImages.clear();
     final ListResult result =
-        await FirebaseStorage.instance.ref().child("majlisImages/").listAll();
+        await firebaseStorage.child("majlisImages/").listAll();
 
     for (final Reference ref in result.items) {
       final String url = await ref.getDownloadURL();
