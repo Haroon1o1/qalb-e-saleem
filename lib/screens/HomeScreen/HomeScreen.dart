@@ -10,139 +10,188 @@ import 'package:qalb/screens/majlis_screen.dart';
 import 'package:qalb/screens/sound_screen.dart/sound_player.dart';
 import 'package:qalb/screens/videoPlayer.dart';
 
+
+
 class BottomBarscreen extends StatefulWidget {
   const BottomBarscreen({super.key});
 
   @override
-  State<BottomBarscreen> createState() => _BottomBarscreenState();
+  _BottomBarscreenState createState() => _BottomBarscreenState();
 }
 
 class _BottomBarscreenState extends State<BottomBarscreen>
-    with SingleTickerProviderStateMixin {
-  int selectedIndex = 0;
-  late PageController pageController;
+    with TickerProviderStateMixin {
+  int _selectedIndex = 2; // Start with the middle icon selected
+  late AnimationController _controller;
+  late AnimationController _prevController;
 
   @override
   void initState() {
     super.initState();
-    pageController = PageController(initialPage: selectedIndex);
-  }
-
-  @override
-  void dispose() {
-    pageController.dispose();
-    super.dispose();
-  }
-
-  void onItemTapped(int index) {
-    setState(() {
-      selectedIndex = index;
-    });
-    pageController.animateToPage(
-      selectedIndex,
-      duration: const Duration(milliseconds: 400),
-      curve: Curves.easeOutQuad,
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 500),
+      value: 1.0, // The selected icon starts in the popped state
     );
+
+    _prevController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 500),
+    );
+  }
+
+  void _onItemTapped(int index) {
+    if (index == _selectedIndex) {
+      return; // Do nothing if the selected icon is tapped again
+    }
+
+    setState(() {
+      _prevController = _controller;
+      _selectedIndex = index;
+
+      // Animate the previous icon to its normal state
+      _prevController.reverse();
+
+      // Animate the new selected icon to its popped-up state
+      _controller = AnimationController(
+        vsync: this,
+        duration: const Duration(milliseconds: 300),
+      );
+      _controller.forward();
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: PageView(
-        controller: pageController,
-        onPageChanged: (index) {
-          setState(() {
-            selectedIndex = index;
-          });
-        },
-        children: const <Widget>[
-          Home(),
-          Page1(),
-          Page2(),
-          Page3(),
-          Page4(),
-        ],
+      body: Center(
+        child: _buildContent(
+            _selectedIndex), // Display the corresponding screen content
       ),
-      bottomNavigationBar: Stack(
-        clipBehavior: Clip.none,
-        alignment: Alignment.bottomCenter,
-        children: [
-          Container(
-            height: 80,
-            margin: EdgeInsets.symmetric(vertical: 2),
-            padding: EdgeInsets.only(left: 10, right: 10, top: 10),
-            width: MediaQuery.of(context).size.width,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(20),
-                topRight: Radius.circular(20),
-              ),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.3),
-                  spreadRadius: 1,
-                  blurRadius: 5,
-                  offset: const Offset(-1, -2),
-                ),
-              ],
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                buildNavItem(0, "assets/new_images/home.png", "هوم"),
-                buildNavItem(
-                    1, "assets/new_images/box.png", "اقوال و ارشاداتِ"),
-                buildNavItem(2, "assets/new_images/dash.png", "فهرست مجالس"),
-                buildNavItem(3, "assets/new_images/page.png", "شجرۂ قادریہ"),
-                buildNavItem(4, "assets/new_images/menu.png", "مضامین"),
-              ],
-            ),
+      bottomNavigationBar: Container(
+        padding: EdgeInsets.only(bottom:10),
+        decoration:  BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(30.0),
+            topRight: Radius.circular(30.0),
           ),
-        ],
+         boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.5),
+              spreadRadius: 1,
+              blurRadius: 3,
+              offset: const Offset(1, 2),
+            ),
+          ],
+        ),
+        child: BottomNavigationBar(
+          backgroundColor: Colors.transparent,
+          items: <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: _buildIcon(Icons.home, 0),
+              label: 'هوم',
+            ),
+            BottomNavigationBarItem(
+              icon: _buildIcon(Icons.library_books, 1),
+              label: 'اقوال و ارشاداتِ',
+            ),
+            BottomNavigationBarItem(
+              icon: _buildIcon(Icons.apps, 2),
+              label: 'فهرست مجالس',
+            ),
+            BottomNavigationBarItem(
+              icon: _buildIcon(Icons.person, 3),
+              label: 'شجرۂ قادریہ',
+            ),
+            BottomNavigationBarItem(
+              icon: _buildIcon(Icons.more_horiz, 4),
+              label: "مضامین",
+            ),
+          ],
+          currentIndex: _selectedIndex,
+          selectedItemColor: Colors.blue,
+          unselectedItemColor: Colors.grey,
+          onTap: _onItemTapped,
+          type: BottomNavigationBarType.fixed,
+          elevation: 0,
+        ),
       ),
     );
   }
 
-  // Helper method to build each navigation item with animation
-  Widget buildNavItem(int index, String assetPath, String text) {
-    return GestureDetector(
-      onTap: () => onItemTapped(index),
-      child: Column(
-        children: [
-          AnimatedContainer(
-            duration: const Duration(milliseconds: 300),
-            curve: Curves.easeInOut,
-            padding: const EdgeInsets.all(15),
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: selectedIndex == index
-                  ? Color(0xFF345EF1)
-                  : Colors.transparent,
-            ),
-            child: SizedBox(
-              height: 25,
-              width: 25,
-              child: Image.asset(
-                assetPath,
-                color: selectedIndex == index ? Colors.white : Colors.grey,
+  Widget _buildIcon(IconData iconData, int index) {
+    bool isSelected = _selectedIndex == index;
+
+    return Stack(
+      children: [
+        AnimatedBuilder(
+          animation: isSelected ? _controller : _prevController,
+          builder: (context, child) {
+            return Transform.translate(
+              offset: isSelected
+                  ? const Offset(0, -15)
+                  : Offset.zero, // Elevate the selected icon
+              child: Transform.scale(
+                scale: isSelected
+                    ? _controller.value + 0.2
+                    : 1.0, // Adjust scale for selected icon
+                child: Container(
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: isSelected ? Colors.white : Colors.transparent,
+                  ),
+                  padding: EdgeInsets.all(8),
+                  
+                  child: Container(
+                    padding: const EdgeInsets.all(8.0),
+                    decoration: isSelected
+                        ? const BoxDecoration(
+                            color: Colors.blue,
+                            shape: BoxShape.circle,
+                            // boxShadow: [
+                            //   BoxShadow(
+                            //     color: Colors.black26,
+                            //     blurRadius: 8,
+                            //     offset: Offset(0, 4),
+                            //   ),
+                            // ],
+                          )
+                        : null,
+                    child: Icon(iconData,size: 20,
+                        color: isSelected ? Colors.white : Colors.grey),
+                  ),
+                ),
               ),
-            ),
-          ),
-          Text(
-            text,
-            style: GoogleFonts.almarai(
-              fontSize: 10,
-              fontWeight: FontWeight.bold,
-              color: Color(0xFFBEBEC0),
-            ),
-          )
-        ],
-      ),
+            );
+          },
+        ),
+      ],
     );
   }
+
+  Widget _buildContent(int index) {
+    // Return the content widget for the selected tab.
+    // You can add your different screen widgets here based on the index.
+    switch (index) {
+      case 0:
+        return const Center(child: Home());
+      case 1:
+        return const Center(child: Text('Quotes Screen'));
+      case 2:
+        return const Center(child: Text('Menu Screen'));
+      case 3:
+        return const Center(child: Text('Profile Screen'));
+      case 4:
+        return const Center(child: Text('More Screen'));
+      default:
+        return const Center(child: Text('Home Screen'));
+    }
+  }
 }
+
+     
+
 
 class Page1 extends StatelessWidget {
   const Page1({super.key});
@@ -208,6 +257,7 @@ class _HomeState extends State<Home> {
       ),
     );
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Container(
         child: SingleChildScrollView(
           child: Column(

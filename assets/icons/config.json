@@ -1,0 +1,54 @@
+{
+  "name": "MyIcons",
+  "css_prefix_text": "",
+  "css_use_suffix": false,
+  "hinting": true,
+  "units_per_em": 1000,
+  "ascent": 850,
+  "glyphs": [
+    {
+      "uid": "005fd8786a2a8ad03dc428fb5dda2ed0",
+      "css": "filter_none",
+      "code": 59392,
+      "src": "material"
+    },
+    {
+      "uid": "b9a6db551f628450d723cf22797111d2",
+      "css": "dashboard",
+      "code": 59393,
+      "src": "material"
+    },
+    {
+      "uid": "da0fd38d651815e3a12f6c030ff1fe5b",
+      "css": "newspaper",
+      "code": 59394,
+      "src": "entypo"
+    },
+    {
+      "uid": "cd7c413a8d3b5744e558253329124516",
+      "css": "menu",
+      "code": 59395,
+      "src": "material"
+    },
+    {
+      "uid": "ca150bc10f3a816413c7687c59dbe118",
+      "css": "home",
+      "code": 59396,
+      "src": "material"
+    },
+    {
+      "uid": "639bb15561834e41008c364a0ff38f9e",
+      "css": "pwcg0v01",
+      "code": 59392,
+      "src": "custom_icons",
+      "selected": false,
+      "svg": {
+        "path": "",
+        "width": 1000
+      },
+      "search": [
+        "pwcg0v01"
+      ]
+    }
+  ]
+}
