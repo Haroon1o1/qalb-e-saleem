@@ -20,7 +20,7 @@ class _SplashscreenState extends State<Splashscreen>
   @override
   void initState() {
     super.initState();
-    
+
     _controller = AnimationController(
       duration: const Duration(seconds: 2),
       vsync: this,
@@ -51,11 +51,9 @@ class _SplashscreenState extends State<Splashscreen>
 
     _controller.forward();
 
-    Future.delayed(const Duration(seconds: 6), () {
+    Future.delayed(const Duration(seconds: 3), () {
       Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
-            builder: (_) =>
-                Homescreen()),
+        MaterialPageRoute(builder: (_) => BottomBarscreen()),
       );
     });
   }
@@ -77,15 +75,19 @@ class _SplashscreenState extends State<Splashscreen>
               mainAxisAlignment: MainAxisAlignment.end,
               mainAxisSize: MainAxisSize.min,
               children: [
-                SizedBox(height: MediaQuery.of(context).size.height*0.2),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.2),
                 FadeTransition(
                   opacity: fadeAnimation,
                   child: SlideTransition(
                     position: slideAnimationImage,
                     child: Container(
-                      height:180,width:180,decoration: BoxDecoration(
-                        
-                        image: DecorationImage(image: AssetImage("assets/images/logo.jpg"),),borderRadius: BorderRadiusDirectional.circular(20)),
+                      height: 180,
+                      width: 180,
+                      decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: AssetImage("assets/images/logo.jpg"),
+                          ),
+                          borderRadius: BorderRadiusDirectional.circular(20)),
                     ),
                   ),
                 ),
@@ -96,20 +98,19 @@ class _SplashscreenState extends State<Splashscreen>
                     position: slideAnimationText,
                     child: Column(
                       children: [
-                         Text(
+                        Text(
                           'فهرست مجالس',
                           style: GoogleFonts.almarai(
                             fontSize: 12,
                             color: Colors.blueAccent,
                             fontWeight: FontWeight.bold,
                           ),
-                         ),
-                         Text(
+                        ),
+                        Text(
                           'امام االولیاء حضرت پیر سّید محّمد عبد اهلل شاہ مشہدی قادری',
                           style: GoogleFonts.almarai(
                             fontSize: 12,
                             color: Colors.blueAccent,
-                            
                           ),
                         ),
                       ],

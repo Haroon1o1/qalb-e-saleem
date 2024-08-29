@@ -41,13 +41,11 @@ class SmallContainer extends StatelessWidget {
             padding: EdgeInsets.only(bottom: 4),
             alignment: Alignment.bottomCenter,
             decoration: BoxDecoration(
-            color: 
-        backgroundColor,
-          image: DecorationImage(image: AssetImage(imagePath)),
-          borderRadius: BorderRadiusDirectional.circular(20),
+              color: backgroundColor,
+              image: DecorationImage(image: AssetImage(imagePath)),
+              borderRadius: BorderRadiusDirectional.circular(20),
             ),
-           // Radius of the corners
-
+            // Radius of the corners
           ),
           SizedBox(height: 5),
           Text(

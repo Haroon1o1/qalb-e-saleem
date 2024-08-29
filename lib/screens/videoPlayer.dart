@@ -1,7 +1,7 @@
+import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:video_player/video_player.dart';
-import 'package:chewie/chewie.dart';
 
 class FullScreenVideoPlayer extends StatefulWidget {
   FullScreenVideoPlayer({super.key});
@@ -50,7 +50,8 @@ class _FullScreenVideoPlayerState extends State<FullScreenVideoPlayer> {
       DeviceOrientation.landscapeLeft,
     ]);
 
-    return _chewieController != null && _chewieController!.videoPlayerController.value.isInitialized
+    return _chewieController != null &&
+            _chewieController!.videoPlayerController.value.isInitialized
         ? Chewie(controller: _chewieController!)
         : Center(child: CircularProgressIndicator());
   }

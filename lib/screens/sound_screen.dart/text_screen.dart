@@ -1,11 +1,10 @@
-import 'dart:developer';
+import 'package:cached_network_image/cached_network_image.dart'; // Import cached_network_image
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
-import 'package:cached_network_image/cached_network_image.dart'; // Import cached_network_image
 import 'package:qalb/providers/DataProvider.dart';
 import 'package:qalb/providers/SoundPlayerProvider.dart';
 import 'package:qalb/screens/sound_screen.dart/sound_player.dart';
@@ -31,7 +30,6 @@ class _TextScreenState extends State<TextScreen> {
 
   @override
   void initState() {
-
     super.initState();
     textFile();
   }
@@ -50,7 +48,7 @@ class _TextScreenState extends State<TextScreen> {
         alignment: Alignment.bottomCenter,
         children: [
           Consumer<SoundPlayerProvider>(
-            builder: (context, soundPlayerProvider, _) {
+              builder: (context, soundPlayerProvider, _) {
             return Container(
               height: MediaQuery.of(context).size.height,
               child: Column(
@@ -65,7 +63,8 @@ class _TextScreenState extends State<TextScreen> {
                         decoration: getColor() == null
                             ? BoxDecoration(
                                 image: DecorationImage(
-                                    image: AssetImage("assets/images/upergrad.png"),
+                                    image: AssetImage(
+                                        "assets/images/upergrad.png"),
                                     fit: BoxFit.fill))
                             : BoxDecoration(color: getColor()),
                       ),
@@ -80,27 +79,37 @@ class _TextScreenState extends State<TextScreen> {
                                   children: [
                                     getImageAddress() == ""
                                         ? CachedNetworkImage(
-                                            imageUrl: "https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png",
+                                            imageUrl:
+                                                "https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png",
                                             width: 70,
                                             fit: BoxFit.fill,
-                                            placeholder: (context, url) => Container(),
-                                            errorWidget: (context, url, error) => Icon(Icons.error),
+                                            placeholder: (context, url) =>
+                                                Container(),
+                                            errorWidget:
+                                                (context, url, error) =>
+                                                    Icon(Icons.error),
                                           )
                                         : CachedNetworkImage(
                                             imageUrl: getImageAddress(),
                                             width: 70,
                                             fit: BoxFit.fill,
-                                            placeholder: (context, url) => Container(),
-                                            errorWidget: (context, url, error) => Icon(Icons.error),
+                                            placeholder: (context, url) =>
+                                                Container(),
+                                            errorWidget:
+                                                (context, url, error) =>
+                                                    Icon(Icons.error),
                                           ),
                                     SizedBox(width: 10),
                                     GestureDetector(
-                                      onTap: () => soundPlayerProvider.togglePlayStop(widget.audioPath),
+                                      onTap: () => soundPlayerProvider
+                                          .togglePlayStop(widget.audioPath),
                                       child: Image.asset(
                                         soundPlayerProvider.isPlaying
                                             ? "assets/images/pause-white.png"
-                                            : "assets/images/play.png" ,
-                                            color: soundPlayerProvider.isPlaying ? null : Colors.white ,
+                                            : "assets/images/play.png",
+                                        color: soundPlayerProvider.isPlaying
+                                            ? null
+                                            : Colors.white,
                                         width: 35,
                                       ),
                                     ),
@@ -119,7 +128,7 @@ class _TextScreenState extends State<TextScreen> {
                                     ),
                                     SizedBox(width: 10),
                                     GestureDetector(
-                                      onTap: (){
+                                      onTap: () {
                                         Navigator.pop(context);
                                       },
                                       child: Image.asset(
@@ -133,64 +142,76 @@ class _TextScreenState extends State<TextScreen> {
                             ),
                             // Slider added here
                             Consumer<SoundPlayerProvider>(
-                                builder: (context, soundPlayerProvider, _) {
-                                  return Padding(
-                                    padding: const EdgeInsets.only(left:10.0),
-                                    child: 
-                                      Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Row(children:[
-                                          SizedBox(
-                                          width:70,
-                                          child: Row(
-                                            children: [
-                                              Image.asset(
-                                                  "assets/images/clock-white.png",
-                                                  width: 15),
-                                              SizedBox(width: 5),
-                                              Text(
-                                                soundPlayerProvider.formatDuration(
-                                                    soundPlayerProvider.position),
-                                                style: GoogleFonts.almarai(
-                                                  fontSize: 12,
-                                                  color: Colors.white,
-                                                ),
+                              builder: (context, soundPlayerProvider, _) {
+                                return Padding(
+                                    padding: const EdgeInsets.only(left: 10.0),
+                                    child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Row(children: [
+                                            SizedBox(
+                                              width: 70,
+                                              child: Row(
+                                                children: [
+                                                  Image.asset(
+                                                      "assets/images/clock-white.png",
+                                                      width: 15),
+                                                  SizedBox(width: 5),
+                                                  Text(
+                                                    soundPlayerProvider
+                                                        .formatDuration(
+                                                            soundPlayerProvider
+                                                                .position),
+                                                    style: GoogleFonts.almarai(
+                                                      fontSize: 12,
+                                                      color: Colors.white,
+                                                    ),
+                                                  ),
+                                                ],
                                               ),
-                                            ],
+                                            ),
+                                            SliderTheme(
+                                              data: SliderTheme.of(context)
+                                                  .copyWith(
+                                                activeTrackColor:
+                                                    Colors.grey[100],
+                                                inactiveTrackColor:
+                                                    Colors.grey[200],
+                                                thumbColor: Colors.grey,
+                                                thumbShape:
+                                                    CustomRoundSliderThumbShape(),
+                                                overlayColor: Colors.grey
+                                                    .withOpacity(0.2),
+                                                trackHeight: 1.0,
+                                              ),
+                                              child: Slider(
+                                                value: soundPlayerProvider
+                                                    .position.inSeconds
+                                                    .toDouble(),
+                                                min: 0.0,
+                                                max: soundPlayerProvider
+                                                    .duration.inSeconds
+                                                    .toDouble(),
+                                                onChanged: (value) {
+                                                  soundPlayerProvider
+                                                      .seekAudio(value);
+                                                },
+                                              ),
+                                            ),
+                                          ]),
+                                          LottieBuilder.asset(
+                                            animate: Provider.of<
+                                                        SoundPlayerProvider>(
+                                                    context,
+                                                    listen: false)
+                                                .isPlaying,
+                                            "assets/images/voice.json",
+                                            width: 20,
                                           ),
-                                        ),
-                                        SliderTheme(
-                                          data: SliderTheme.of(context).copyWith(
-                                            activeTrackColor: Colors.grey[100],
-                                            inactiveTrackColor: Colors.grey[200],
-                                            thumbColor: Colors.grey,
-                                            thumbShape: CustomRoundSliderThumbShape(),
-                                            overlayColor: Colors.grey.withOpacity(0.2),
-                                            trackHeight: 1.0,
-                                          ),
-                                          child: Slider(
-                                            value: soundPlayerProvider.position.inSeconds.toDouble(),
-                                            min: 0.0,
-                                            max: soundPlayerProvider.duration.inSeconds.toDouble(),
-                                            onChanged: (value) {
-                                              soundPlayerProvider.seekAudio(value);
-                                            },
-                                          ),
-                                        ),
-                                        ]),
-                                                                       
-                                        LottieBuilder.asset(
-                                          animate: Provider.of<SoundPlayerProvider>(context, listen: false).isPlaying,
-                                          "assets/images/voice.json",
-                                          width: 20,
-                                        ),
-                                        
-                                      ]
-                                  )
-                                  );
-                                },
-                              ),
+                                        ]));
+                              },
+                            ),
                             SizedBox(height: 0),
                           ],
                         ),
@@ -200,8 +221,7 @@ class _TextScreenState extends State<TextScreen> {
                 ],
               ),
             );
-            }
-          ),
+          }),
           Positioned(
             top: MediaQuery.of(context).size.height * 0.25,
             left: 0,
@@ -241,7 +261,11 @@ class _TextScreenState extends State<TextScreen> {
                           color: Color.fromARGB(255, 15, 199, 181),
                         ),
                       ),
-                      SizedBox(height: widget.name == "شجرٔہ قادریہ نسبیہ" || widget.name == "شجرٔہ قادریہ حسبیہ" ? 0 : 30),
+                      SizedBox(
+                          height: widget.name == "شجرٔہ قادریہ نسبیہ" ||
+                                  widget.name == "شجرٔہ قادریہ حسبیہ"
+                              ? 0
+                              : 30),
                       Html(data: fileText),
                       SizedBox(height: 20),
                       Image.asset("assets/images/motive.png", width: 100),
@@ -276,17 +300,28 @@ class _TextScreenState extends State<TextScreen> {
 
   String getImageAddress() {
     final imageMap = {
-      "منقبت": Provider.of<DataProvider>(context, listen: false).imageMap["manqabat-white"],
-      "اظہار تشکر": Provider.of<DataProvider>(context, listen: false).imageMap["izhar-white"],
-      "الفراق": Provider.of<DataProvider>(context, listen: false).imageMap["alfiraq-white"],
-      "مقّدمۃ الکتاب": Provider.of<DataProvider>(context, listen: false).imageMap["muqadma-white"],
-      "پیش لفظ": Provider.of<DataProvider>(context, listen: false).imageMap["paish_lafz-white"],
-      "سوانح حیات": Provider.of<DataProvider>(context, listen: false).imageMap["sawane-white"],
-      "قلبِ سلیم": Provider.of<DataProvider>(context, listen: false).imageMap["qalb_e_saleem-white"],
-      "شجرٔہ قادریہ حسبیہ": Provider.of<DataProvider>(context, listen: false).imageMap["shajra_hasbia"],
-      "شجرٔہ قادریہ نسبیہ": Provider.of<DataProvider>(context, listen: false).imageMap["shajra_nasbia"],
-      "قطعہ تاریخ وصال": Provider.of<DataProvider>(context, listen: false).imageMap["qata_white"],
-      "2منقبت": Provider.of<DataProvider>(context, listen: false).imageMap["manqabat2-white"],
+      "منقبت": Provider.of<DataProvider>(context, listen: false)
+          .imageMap["manqabat-white"],
+      "اظہار تشکر": Provider.of<DataProvider>(context, listen: false)
+          .imageMap["izhar-white"],
+      "الفراق": Provider.of<DataProvider>(context, listen: false)
+          .imageMap["alfiraq-white"],
+      "مقّدمۃ الکتاب": Provider.of<DataProvider>(context, listen: false)
+          .imageMap["muqadma-white"],
+      "پیش لفظ": Provider.of<DataProvider>(context, listen: false)
+          .imageMap["paish_lafz-white"],
+      "سوانح حیات": Provider.of<DataProvider>(context, listen: false)
+          .imageMap["sawane-white"],
+      "قلبِ سلیم": Provider.of<DataProvider>(context, listen: false)
+          .imageMap["qalb_e_saleem-white"],
+      "شجرٔہ قادریہ حسبیہ": Provider.of<DataProvider>(context, listen: false)
+          .imageMap["shajra_hasbia"],
+      "شجرٔہ قادریہ نسبیہ": Provider.of<DataProvider>(context, listen: false)
+          .imageMap["shajra_nasbia"],
+      "قطعہ تاریخ وصال": Provider.of<DataProvider>(context, listen: false)
+          .imageMap["qata_white"],
+      "2منقبت": Provider.of<DataProvider>(context, listen: false)
+          .imageMap["manqabat2-white"],
     };
     return imageMap[widget.name] ?? "";
   }

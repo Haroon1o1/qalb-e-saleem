@@ -39,7 +39,10 @@ class LongBox extends StatelessWidget {
         );
       },
       child: Container(
-        padding: const EdgeInsets.only(right: 10, left:10,),
+        padding: const EdgeInsets.only(
+          right: 10,
+          left: 15,
+        ),
         margin: const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
         height: 130,
         decoration: BoxDecoration(
@@ -67,25 +70,26 @@ class LongBox extends StatelessWidget {
                     mainText,
                     style: GoogleFonts.almarai(
                       fontWeight: FontWeight.bold,
-                      fontSize: 19,
+                      fontSize: 18,
                       color: Colors.white,
                     ),
                   ),
-                  const SizedBox(height: 15),
+                  const SizedBox(height: 10),
                   Text(
                     subText1,
                     textDirection: TextDirection.rtl,
                     style: GoogleFonts.almarai(
-                      fontSize: 9,
+                      fontSize: 10,
                       color: Colors.white,
                     ),
                     overflow: TextOverflow.clip,
                   ),
+                  const SizedBox(height: 02),
                   Text(
                     subText2,
                     textDirection: TextDirection.rtl,
                     style: GoogleFonts.almarai(
-                      fontSize: 10,
+                      fontSize: 13.5,
                       color: Colors.white,
                     ),
                     overflow: TextOverflow.clip,

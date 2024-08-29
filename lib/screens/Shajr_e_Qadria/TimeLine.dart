@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -40,7 +38,11 @@ class TimelineStep extends StatelessWidget {
                 color: stepNumber == 1 ? Colors.white : Colors.grey.shade500),
           Container(
             width: double.infinity,
-            height: imagePath == "" ? 60 : (stepNumber == 2 && name == "nasbiya") ? 200 :180,
+            height: imagePath == ""
+                ? 60
+                : (stepNumber == 2 && name == "nasbiya")
+                    ? 200
+                    : 180,
             padding: EdgeInsets.only(
                 top: imagePath == "" ? 0 : 8,
                 right: 8,
@@ -79,7 +81,7 @@ class TimelineStep extends StatelessWidget {
                             ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal:20.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
                   child: Column(
                     children: [
                       Text(
@@ -91,29 +93,45 @@ class TimelineStep extends StatelessWidget {
                         ),
                         textAlign: TextAlign.center,
                       ),
-                      name == "hasbiya" ? 
-                      Text(
-                        stepNumber == 1 ? "صلی الله عليه وآله وسلم" : stepNumber == 2 ? "کّرم الله تعالى وجہہ الکریم" : 
-                        stepNumber == 3 ? "" : (stepNumber>3 && stepNumber<=8) ? "رضي الله تعالى عنه" :
-                        "رحمة الله تعالى عليه",
-                        style: GoogleFonts.almarai(
-                          color: imagePath == "" ? Colors.white : Colors.black,
-                          fontSize: 9,
-                          fontWeight: FontWeight.w600,
-                        ),
-                        textAlign: TextAlign.center,
-                      )
-                      : Text(
-                        stepNumber == 1 ? "صلی الله عليه وآله وسلم" : stepNumber == 2 ? "کّرم الله تعالى وجہہ الکریم" : 
-                        stepNumber == 3 ? "" : (stepNumber>3 && stepNumber<=7) ? "رضي الله تعالى عنه" :
-                        "رحمة الله تعالى عليه",
-                        style: GoogleFonts.almarai(
-                          color: imagePath == "" ? Colors.white : Colors.black,
-                          fontSize: 9,
-                          fontWeight: FontWeight.w600,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
+                      name == "hasbiya"
+                          ? Text(
+                              stepNumber == 1
+                                  ? "صلی الله عليه وآله وسلم"
+                                  : stepNumber == 2
+                                      ? "کّرم الله تعالى وجہہ الکریم"
+                                      : stepNumber == 3
+                                          ? ""
+                                          : (stepNumber > 3 && stepNumber <= 8)
+                                              ? "رضي الله تعالى عنه"
+                                              : "رحمة الله تعالى عليه",
+                              style: GoogleFonts.almarai(
+                                color: imagePath == ""
+                                    ? Colors.white
+                                    : Colors.black,
+                                fontSize: 9,
+                                fontWeight: FontWeight.w600,
+                              ),
+                              textAlign: TextAlign.center,
+                            )
+                          : Text(
+                              stepNumber == 1
+                                  ? "صلی الله عليه وآله وسلم"
+                                  : stepNumber == 2
+                                      ? "کّرم الله تعالى وجہہ الکریم"
+                                      : stepNumber == 3
+                                          ? ""
+                                          : (stepNumber > 3 && stepNumber <= 7)
+                                              ? "رضي الله تعالى عنه"
+                                              : "رحمة الله تعالى عليه",
+                              style: GoogleFonts.almarai(
+                                color: imagePath == ""
+                                    ? Colors.white
+                                    : Colors.black,
+                                fontSize: 9,
+                                fontWeight: FontWeight.w600,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
                     ],
                   ),
                 ),
@@ -136,70 +154,67 @@ class TimelineStep extends StatelessWidget {
       ),
     );
   }
-Color getColorForStep(int stepNumber) {
-  List<Color> colorList = [
-  
-  ];
 
-  List<int> ignoredSteps = [];
-  if(name == "hasbiya"){
-    colorList.addAll([
+  Color getColorForStep(int stepNumber) {
+    List<Color> colorList = [];
+
+    List<int> ignoredSteps = [];
+    if (name == "hasbiya") {
+      colorList.addAll([
         Color(0xFF2ECDBA),
-    Color(0xFF6BADE3),
-    Color(0xFFB8A5E3),
-    Color(0xFF48C6E3),
-    Color(0xFFFF9C7E),
-    Color(0xFFA8CF84),
-    Color(0xFF8B939B),
-    Color(0xFF699F98),
-    Color(0xFF6FA7DF),
-    Color(0xFF728DE3),
-    Color(0xFF9C8AE3),
-    Color(0xFFF0B378),
-    Color(0xFFEC9085),
-    ]);
-    ignoredSteps.addAll([1, 2, 3, 17, 37, 42, 43]);
-  }else{
-colorList.addAll([
-    Color(0xFF2ECDBA),
-    Color(0xFF6BADE3),
-    Color(0xFFB8A5E3),
-    Color(0xFF48C6E3),
-    Color(0xFFFF9C7E),
-    Color(0xFFA8CF84),
-    Color(0xFF8B939B),
-    Color(0xFF699F98),
-    Color(0xFF6FA7DF),
-    Color(0xFF728DE3),
-    Color(0xFF9C8AE3),
-    Color(0xFFF0B378),
-    Color(0xFFEC9085),
-   
-]);
-if(stepNumber > 12){
-  colorList.add( Color(0xFFED7B92));
-}
-    
-        ignoredSteps.addAll([1, 2, 3, 37]);
+        Color(0xFF6BADE3),
+        Color(0xFFB8A5E3),
+        Color(0xFF48C6E3),
+        Color(0xFFFF9C7E),
+        Color(0xFFA8CF84),
+        Color(0xFF8B939B),
+        Color(0xFF699F98),
+        Color(0xFF6FA7DF),
+        Color(0xFF728DE3),
+        Color(0xFF9C8AE3),
+        Color(0xFFF0B378),
+        Color(0xFFEC9085),
+      ]);
+      ignoredSteps.addAll([1, 2, 3, 17, 37, 42, 43]);
+    } else {
+      colorList.addAll([
+        Color(0xFF2ECDBA),
+        Color(0xFF6BADE3),
+        Color(0xFFB8A5E3),
+        Color(0xFF48C6E3),
+        Color(0xFFFF9C7E),
+        Color(0xFFA8CF84),
+        Color(0xFF8B939B),
+        Color(0xFF699F98),
+        Color(0xFF6FA7DF),
+        Color(0xFF728DE3),
+        Color(0xFF9C8AE3),
+        Color(0xFFF0B378),
+        Color(0xFFEC9085),
+      ]);
+      if (stepNumber > 12) {
+        colorList.add(Color(0xFFED7B92));
+      }
 
+      ignoredSteps.addAll([1, 2, 3, 37]);
+    }
+
+    if (name == "hasbiya" && ignoredSteps.contains(stepNumber)) {
+      return Colors.transparent;
+    }
+
+    int nonIgnoredStepIndex =
+        stepNumber - ignoredSteps.where((step) => step < stepNumber).length;
+
+    int startingIndex = name == "nasbiya" ? 4 : 0;
+
+    // Calculate the color index considering the starting index
+    int colorIndex = (nonIgnoredStepIndex + startingIndex) % colorList.length;
+
+    if (colorIndex == 0) {
+      colorIndex = colorList.length;
+    }
+
+    return colorList[colorIndex - 1]; // Adjust for 0-based index
   }
-
-  if (name == "hasbiya" && ignoredSteps.contains(stepNumber)) {
-    return Colors.transparent;
-  }
-
-  int nonIgnoredStepIndex = stepNumber - ignoredSteps.where((step) => step < stepNumber).length;
-
-  int startingIndex = name == "nasbiya" ? 4 : 0;
-
-  // Calculate the color index considering the starting index
-  int colorIndex = (nonIgnoredStepIndex + startingIndex) % colorList.length;
-
-  if (colorIndex == 0) {
-    colorIndex = colorList.length; 
-  }
-
-  return colorList[colorIndex - 1]; // Adjust for 0-based index
-}
-
 }

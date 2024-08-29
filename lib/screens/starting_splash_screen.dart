@@ -18,7 +18,8 @@ class _SplashScreen2State extends State<SplashScreen2> {
     // Navigate to the next screen after a delay (e.g., 3 seconds)
     Future.delayed(Duration(seconds: 3), () {
       Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (_) => Homescreen()), // Replace with your next screen
+        MaterialPageRoute(
+            builder: (_) => BottomBarscreen()), // Replace with your next screen
       );
     });
   }
@@ -38,5 +39,3 @@ class _SplashScreen2State extends State<SplashScreen2> {
     );
   }
 }
-
-
