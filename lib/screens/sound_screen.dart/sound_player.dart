@@ -26,12 +26,6 @@ class _SoundPlayerState extends State<SoundPlayer> {
 
   late SoundPlayerProvider soundPlayerProvider;
 
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    soundPlayerProvider =
-        Provider.of<SoundPlayerProvider>(context, listen: true);
-  }
 
   @override
   void initState() {
@@ -41,6 +35,8 @@ class _SoundPlayerState extends State<SoundPlayer> {
 
   @override
   Widget build(BuildContext context) {
+        soundPlayerProvider =
+        Provider.of<SoundPlayerProvider>(context, listen: true);
     return PopScope(
       onPopInvokedWithResult: (didPop, result) {
         soundPlayerProvider.stopAudio();

@@ -5,23 +5,23 @@ import 'package:qalb/Transition/CustomPageTransition.dart';
 import 'package:qalb/screens/HomeScreen/LongBox.dart';
 import 'package:qalb/screens/HomeScreen/smallContainer.dart';
 import 'package:qalb/screens/Shajr_e_Qadria/Shajr_e_Qadria.dart';
+import 'package:qalb/screens/aqwal_wa_irshadaat/aqwal_wa_irshadaat.dart';
 import 'package:qalb/screens/hawashi_wa_hawalajat.dart';
 import 'package:qalb/screens/majlis_screen.dart';
 import 'package:qalb/screens/sound_screen.dart/sound_player.dart';
 import 'package:qalb/screens/videoPlayer.dart';
 
-
-
-class BottomBarscreen extends StatefulWidget {
-  const BottomBarscreen({super.key});
+class BottomNavBarScreen extends StatefulWidget {
+  const BottomNavBarScreen({super.key});
 
   @override
-  _BottomBarscreenState createState() => _BottomBarscreenState();
+  _BottomNavBarScreenState createState() => _BottomNavBarScreenState();
 }
 
-class _BottomBarscreenState extends State<BottomBarscreen>
+class _BottomNavBarScreenState extends State<BottomNavBarScreen>
     with TickerProviderStateMixin {
-  int _selectedIndex = 2; // Start with the middle icon selected
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  int _selectedIndex = 0; // Start with the middle icon selected
   late AnimationController _controller;
   late AnimationController _prevController;
 
@@ -30,17 +30,23 @@ class _BottomBarscreenState extends State<BottomBarscreen>
     super.initState();
     _controller = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 500),
+      duration: const Duration(milliseconds: 300),
       value: 1.0, // The selected icon starts in the popped state
     );
 
     _prevController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 500),
+      duration: const Duration(milliseconds: 300),
     );
   }
 
   void _onItemTapped(int index) {
+    if (index == 4) {
+      // Open drawer when the last item is clicked
+      _scaffoldKey.currentState?.openEndDrawer();
+      return;
+    }
+
     if (index == _selectedIndex) {
       return; // Do nothing if the selected icon is tapped again
     }
@@ -64,118 +70,105 @@ class _BottomBarscreenState extends State<BottomBarscreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey, // Assign the scaffold key
       body: Center(
-        child: _buildContent(
-            _selectedIndex), // Display the corresponding screen content
+        child: _buildContent(_selectedIndex), // Display the corresponding screen content
       ),
       bottomNavigationBar: Container(
-        padding: EdgeInsets.only(bottom:10),
         decoration:  BoxDecoration(
-          color: Colors.white,
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(30.0),
             topRight: Radius.circular(30.0),
           ),
-         boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.5),
-              spreadRadius: 1,
-              blurRadius: 3,
-              offset: const Offset(1, 2),
-            ),
-          ],
         ),
-        child: BottomNavigationBar(
-          backgroundColor: Colors.transparent,
-          items: <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: _buildIcon(Icons.home, 0),
-              label: 'هوم',
-            ),
-            BottomNavigationBarItem(
-              icon: _buildIcon(Icons.library_books, 1),
-              label: 'اقوال و ارشاداتِ',
-            ),
-            BottomNavigationBarItem(
-              icon: _buildIcon(Icons.apps, 2),
-              label: 'فهرست مجالس',
-            ),
-            BottomNavigationBarItem(
-              icon: _buildIcon(Icons.person, 3),
-              label: 'شجرۂ قادریہ',
-            ),
-            BottomNavigationBarItem(
-              icon: _buildIcon(Icons.more_horiz, 4),
-              label: "مضامین",
+        child: Stack(
+          clipBehavior: Clip.none,
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadiusDirectional.circular(10),
+                boxShadow: [
+                BoxShadow(color: Colors.black.withOpacity(0.2), offset: Offset(-1,-2),
+                blurRadius: 5,
+                spreadRadius: 0.0000001
+                )
+              ]),
+              child: BottomNavigationBar(
+                items: <BottomNavigationBarItem>[
+                  BottomNavigationBarItem(
+                    icon: _buildIcon('assets/new_images/home.png', 0),
+                    label: "هوم",
+                  ),
+                  BottomNavigationBarItem(
+                    icon: _buildIcon('assets/new_images/box.png', 1),
+                    label: "اقوال و ارشاداتِ",
+                  ),
+                  BottomNavigationBarItem(
+                    activeIcon: _buildIcon('assets/new_images/dash.png', 2),
+                    icon: _buildIcon('assets/new_images/dash.png', 2),
+                    label: "فهرست مجالس",
+                  ),
+                  BottomNavigationBarItem(
+                    icon: _buildIcon('assets/new_images/page.png', 3),
+                    label: "شجرۂ قادریہ",
+                  ),
+                  BottomNavigationBarItem(
+                    icon: _buildIcon('assets/new_images/menu.png', 4),
+                    label: "مضامین",
+                  ),
+                ],
+                currentIndex: _selectedIndex,
+                selectedItemColor: Colors.blue,
+                unselectedItemColor: Colors.grey,
+                onTap: _onItemTapped,
+                type: BottomNavigationBarType.fixed,
+                backgroundColor: Colors.white,
+                elevation: 0,
+              ),
             ),
           ],
-          currentIndex: _selectedIndex,
-          selectedItemColor: Colors.blue,
-          unselectedItemColor: Colors.grey,
-          onTap: _onItemTapped,
-          type: BottomNavigationBarType.fixed,
-          elevation: 0,
         ),
       ),
+      endDrawer: _buildDrawer(), // Add the drawer
     );
   }
 
-  Widget _buildIcon(IconData iconData, int index) {
+  Widget _buildIcon(String iconURL, int index) {
     bool isSelected = _selectedIndex == index;
 
-    return Stack(
-      children: [
-        AnimatedBuilder(
-          animation: isSelected ? _controller : _prevController,
-          builder: (context, child) {
-            return Transform.translate(
-              offset: isSelected
-                  ? const Offset(0, -15)
-                  : Offset.zero, // Elevate the selected icon
-              child: Transform.scale(
-                scale: isSelected
-                    ? _controller.value + 0.2
-                    : 1.0, // Adjust scale for selected icon
-                child: Container(
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: isSelected ? Colors.white : Colors.transparent,
-                  ),
-                  padding: EdgeInsets.all(8),
-                  
-                  child: Container(
-                    padding: const EdgeInsets.all(8.0),
-                    decoration: isSelected
-                        ? const BoxDecoration(
-                            color: Colors.blue,
-                            shape: BoxShape.circle,
-                            // boxShadow: [
-                            //   BoxShadow(
-                            //     color: Colors.black26,
-                            //     blurRadius: 8,
-                            //     offset: Offset(0, 4),
-                            //   ),
-                            // ],
-                          )
-                        : null,
-                    child: Icon(iconData,size: 20,
-                        color: isSelected ? Colors.white : Colors.grey),
-                  ),
-                ),
+    return AnimatedBuilder(
+      animation: isSelected ? _controller : _prevController,
+      builder: (context, child) {
+        return Transform.translate(
+          offset: isSelected ? const Offset(0, -15) : Offset.zero,
+          child: Transform.scale(
+            scale: isSelected ? _controller.value + 0.6 : 1.0,
+            child: Container(
+              padding: const EdgeInsets.all(8.0),
+              decoration: isSelected
+                  ? const BoxDecoration(
+                      color: Colors.blue,
+                      shape: BoxShape.circle,
+                    )
+                  : null,
+              child: Image.asset(
+                iconURL,
+                color: isSelected ? Colors.white : Colors.grey,
+                width: 15,
+                height: 15,
               ),
-            );
-          },
-        ),
-      ],
+            ),
+          ),
+        );
+      },
     );
   }
 
   Widget _buildContent(int index) {
     // Return the content widget for the selected tab.
-    // You can add your different screen widgets here based on the index.
     switch (index) {
       case 0:
-        return const Center(child: Home());
+        return const Home();
       case 1:
         return const Center(child: Text('Quotes Screen'));
       case 2:
@@ -188,46 +181,175 @@ class _BottomBarscreenState extends State<BottomBarscreen>
         return const Center(child: Text('Home Screen'));
     }
   }
-}
 
-     
+  Widget _buildDrawer() {
+    return Padding(
 
+      padding: const EdgeInsets.only(top:40.0, bottom:10),
+      child: Drawer(
+        width: 240,
+        backgroundColor: Color(0xFF2F49D1),
+        child: Padding(
+          padding: const EdgeInsets.only(top:40.0, right:20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children:  <Widget>[
+              Text(
+                'قلبِ سلیم',
+                style: GoogleFonts.almarai(
+                                  fontSize: 25,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                ),
+              ),
+              SizedBox(height: 40,),
+              drawerItems("فهرست مجالس", (){
+                Navigator.push(
+                          context,
+                          CustomPageNavigation(
+                            child: Majlis(),
+                          ),
+                        );
+              }),
 
-class Page1 extends StatelessWidget {
-  const Page1({super.key});
+              drawerItems("پیش لفظ",(){
+                Navigator.push(context, CustomPageNavigation(child: SoundPlayer(image: 'assets/images/paish_lafz-dark.png', name: "پیش لفظ", sub: 'عبد الحمید قادری عفی عنہ')));
 
-  @override
-  Widget build(BuildContext context) {
-    return Center(child: Text('Page 2'));
+              }),
+   
+              drawerItems("مقدمہ الکتاب",(){
+                Navigator.push(context, CustomPageNavigation(child: SoundPlayer(image: 'assets/images/muqadma-dark.png', name: "مقدمہ الکتاب", sub: 'حضرت ابو الحقائق پیر سّید امانت علی شاہ چشتی نظامی')));
+
+              }),
+
+              drawerItems("اظہار تشکر",(){
+                Navigator.push(context, CustomPageNavigation(child: SoundPlayer(image: 'assets/images/tashakur.png', name: "اظہار تشکر", sub: 'سید محمد فراز شاہ عفی عنہ')));
+
+              }),
+
+              drawerItems("منقبت",(){
+                Navigator.push(context, CustomPageNavigation(child: SoundPlayer(image: 'assets/images/manqabat-dark.png', name: "منقبت", sub: "حضرت سّید محمد ظفر مشہدی قادری رحمة الله تعالى عليه")));
+
+              }),
+       
+              drawerItems("سوانح حیات",(){
+                Navigator.push(context, CustomPageNavigation(child: SoundPlayer(image: 'assets/images/sawane-dark.png', name: "سوانح حیات", sub: "حضرت سّید محمد ظفر قادری قادری رحمة الله تعالى عليه")));
+
+              }),
+
+              drawerItems("قلب سلیم",(){
+                Navigator.push(context, CustomPageNavigation(child: SoundPlayer(image: 'assets/images/qalb_e_saleem-dark.png', name: "قلب سلیم", sub: 'سّید محمد فراز شاہ مشہدی قادری عفی عنہ')));
+
+              }),
+              drawerItems("اقوال و ارشاداتِ عالیہ",(){
+                Navigator.push(context, CustomPageNavigation(child: AqwalWaIrshadaatScreen()));
+
+              }),
+              drawerItems("شجرۂ قادریہ حسبیہ",(){
+                Navigator.push(context, CustomPageNavigation(child: ShajrEQadriaScreen(text: "hasbiya")));
+
+              }),
+              drawerItems("شجرۂ قادریہ نسبیہ",(){
+                Navigator.push(context, CustomPageNavigation(child: ShajrEQadriaScreen(text: "nasbiya")));
+
+              }),
+              drawerItems("شجرۂ حسبیہ منظوم مع تضمین",(){
+                Navigator.push(context, CustomPageNavigation(child: SoundPlayer(
+                                image: "assets/images/shajra_hasbia.png",
+                                name: "شجرٔہ قادریہ حسبیہ",
+                                sub: "منظوم مع تضمین",
+                              )));
+
+              }),
+              drawerItems("شجرۂ نسبیہ منظوم مع تضمین",(){
+                Navigator.push(context, CustomPageNavigation(child: SoundPlayer(
+                                    image: "assets/images/shajra_nasbia.png",
+                                    name: "شجرٔہ قادریہ نسبیہ",
+                                    sub: "منظوم مع تضمین",
+                                  ),));
+
+              }),
+
+              drawerItems("الفراق",(){
+                Navigator.push(context, CustomPageNavigation(child: SoundPlayer(image: 'assets/images/alfiraq-dark.png', name: 'الفراق', sub: "'حضرت سّید محمد ظفر مشہدی قادری رحمة الله تعالى عليه'")));
+
+              }), 
+              drawerItems("قطعہ تاریخ وصال",(){
+                Navigator.push(context, CustomPageNavigation(child: SoundPlayer(image: "assets/images/qata-dark.png", name: "قطعہ تاریخ وصال", sub: 'حضرت ابو الحقائق پیر سّید امانت علی شاہ چشتی نظامی')));
+
+              }),
+       
+              drawerItems("منقبت",(){
+                Navigator.push(context, CustomPageNavigation(child: SoundPlayer(image: "assets/images/manqabat2-dark.png", name: "منقبت", sub: 'عبد الحمید قادری عفی عنہ')));
+
+              }),
+              drawerItems("حواشی و حوالہ جات",(){
+                Navigator.push(context, CustomPageNavigation(child: hawashiwahawalajatScreen()));
+
+              }),
+SizedBox(height: 0,),
+              Padding(
+                
+                padding: const EdgeInsets.only(left:20.0, right: 10),
+                child: Divider(
+                  color: Colors.white54,
+                  thickness: 2,
+                ),
+              ),
+
+              SizedBox(height: 5),
+
+              Padding(
+                padding: const EdgeInsets.only(right: 10.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                
+                    Container( width: 35,padding: EdgeInsets.all(8), height: 35, decoration: BoxDecoration(borderRadius: BorderRadiusDirectional.circular(10),color: Color(0xFF00FFFF)),child:  Image.asset("assets/new_images/fb.png",color: Color(0xFF2F49D1),),),
+                    SizedBox(width: 5),
+                    Container( width: 35,padding: EdgeInsets.all(8), height: 35, decoration: BoxDecoration(borderRadius: BorderRadiusDirectional.circular(10),color: Color(0xFF00FFFF),),child:  Image.asset("assets/new_images/insta.png",color: Color(0xFF2F49D1),),),
+                    SizedBox(width: 5),
+                    Container( width: 35,padding: EdgeInsets.all(8), height: 35, decoration: BoxDecoration(borderRadius: BorderRadiusDirectional.circular(10),color: Color(0xFF00FFFF)),child: Image.asset("assets/new_images/world.png",color: Color(0xFF2F49D1),),),
+                    SizedBox(width: 5),
+                    Container( width: 35,padding: EdgeInsets.all(8), height: 35, decoration: BoxDecoration(borderRadius: BorderRadiusDirectional.circular(10),color: Color(0xFF00FFFF), ),child:  Image.asset("assets/new_images/share.png",color: Color(0xFF2F49D1),),),
+                  ],
+                ),
+              )
+             
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }
 
-class Page2 extends StatelessWidget {
-  const Page2({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(child: Text('Page 3'));
-  }
+Widget drawerItems(String text, GestureTapCallback onTap){
+  return Padding(
+    padding: const EdgeInsets.only(bottom:15.0),
+    child: GestureDetector(
+      onTap: onTap,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children:[
+           Text(text,
+                                  style: GoogleFonts.almarai(
+                                    fontSize: 12,
+                                    color: Color(0xFF00FFFF),
+                                    fontWeight: FontWeight.bold,
+      
+                                  ),),
+                                  SizedBox(width:10),
+                                  Padding(
+                                    padding: const EdgeInsets.only(top:2.0),
+                                    child: Icon(Icons.arrow_back_ios, color: Color(0xFF00FFFF),size: 13,),
+                                  )
+        ]
+      ),
+    ),
+  );
 }
 
-class Page3 extends StatelessWidget {
-  const Page3({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(child: Text('Page 4'));
-  }
-}
-
-class Page4 extends StatelessWidget {
-  const Page4({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(child: Text('Page 5'));
-  }
-}
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -477,9 +599,10 @@ class _HomeState extends State<Home> {
                     Text(
                       "شجرٔہ قادریہ",
                       style: GoogleFonts.almarai(
-                          fontSize: 25,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white),
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
                     ),
                     SizedBox(height: 15),
                     Padding(
@@ -529,7 +652,6 @@ class _HomeState extends State<Home> {
                           },
 
                           ///ISKO SET KRIIIIIIN
-
                           child: Container(
                             height: 110,
                             width: MediaQuery.of(context).size.width * 0.46,
@@ -859,7 +981,7 @@ class _HomeState extends State<Home> {
                       child: Image.asset(
                         "assets/images/hizb.png",
                         fit: BoxFit.contain,
-                        width: 130,
+                        height: 300,
                       ),
                     ),
                     SizedBox(
@@ -955,7 +1077,7 @@ class _HomeState extends State<Home> {
                       height: 40,
                     ),
                   ])),
-              SizedBox(height: 40),
+              SizedBox(height: 20),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -986,7 +1108,7 @@ class _HomeState extends State<Home> {
                   SizedBox(width: 10),
                 ],
               ),
-              SizedBox(height: 50),
+              SizedBox(height: 20),
             ],
           ),
         ),

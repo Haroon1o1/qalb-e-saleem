@@ -19,7 +19,7 @@ class _SplashScreen2State extends State<SplashScreen2> {
     Future.delayed(Duration(seconds: 3), () {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
-            builder: (_) => BottomBarscreen()), // Replace with your next screen
+            builder: (_) => BottomNavBarScreen()), // Replace with your next screen
       );
     });
   }
