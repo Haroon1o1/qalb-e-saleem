@@ -1,13 +1,14 @@
 import 'package:cached_network_image/cached_network_image.dart'; // Import cached_network_image
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_html/flutter_html.dart';
+
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:qalb/providers/DataProvider.dart';
 import 'package:qalb/providers/SoundPlayerProvider.dart';
 import 'package:qalb/screens/sound_screen.dart/sound_player.dart';
+import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
 class TextScreen extends StatefulWidget {
   final String image;
@@ -236,44 +237,22 @@ class _TextScreenState extends State<TextScreen> {
                   topRight: Radius.circular(40),
                 ),
               ),
-              child: Container(
-                height: MediaQuery.of(context).size.height * 0.7,
-                margin: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-                padding: EdgeInsets.symmetric(vertical: 20, horizontal: 15),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(20),
-                  border: Border.all(
-                    color: Colors.grey.shade300,
-                    width: 1.0,
-                  ),
-                ),
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      Image.asset("assets/images/motive.png", width: 100),
-                      SizedBox(height: 30),
-                      Text(
-                        widget.name,
-                        style: TextStyle(
-                          fontFamily: "al-quran",
-                          fontSize: 25,
-                          color: Color.fromARGB(255, 15, 199, 181),
-                        ),
-                      ),
-                      SizedBox(
-                          height: widget.name == "شجرٔہ قادریہ نسبیہ" ||
-                                  widget.name == "شجرٔہ قادریہ حسبیہ"
-                              ? 0
-                              : 30),
-                      Html(data: fileText),
-                      SizedBox(height: 20),
-                      Image.asset("assets/images/motive.png", width: 100),
-                      SizedBox(height: 100),
-                    ],
-                  ),
-                ),
-              ),
+              child:
+                  SingleChildScrollView(
+                    child: Container(
+                      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(20)),
+                      margin: EdgeInsets.symmetric(horizontal:20),
+                      padding: EdgeInsets.symmetric(horizontal:20,vertical: 20),
+                      
+                      alignment: Alignment.center,
+                      height: MediaQuery.of(context).size.height*0.70, width:MediaQuery.of(context).size.width*0.8,
+                      child: Container(child: SfPdfViewer.asset(
+                        canShowScrollHead: false,
+                        pageSpacing: 0, 
+                        getTextFile())),
+                  ),),
+              
+
             ),
           ),
         ],
@@ -283,17 +262,17 @@ class _TextScreenState extends State<TextScreen> {
 
   String getTextFile() {
     final textFileMap = {
-      "اظہار تشکر": "assets/textFiles/tashakur.html",
-      "مقّدمۃ الکتاب": "assets/textFiles/maqadma.html",
-      "الفراق": "assets/textFiles/alfiraq.html",
-      "پیش لفظ": "assets/textFiles/peshLafz.html",
-      "سوانح حیات": "assets/textFiles/sawana.html",
-      "قلبِ سلیم": "assets/textFiles/qalb.html",
-      "شجرٔہ قادریہ حسبیہ": "assets/textFiles/hasbia.html",
-      "شجرٔہ قادریہ نسبیہ": "assets/textFiles/nasbiya.html",
-      "قطعہ تاریخ وصال": "assets/textFiles/qata.html",
-      "منقبت": "assets/textFiles/manqabat1.html",
-      "2منقبت": "assets/textFiles/manqabat2.html",
+      "اظہار تشکر": "assets/textFiles/tashakur.pdf",
+      "مقّدمۃ الکتاب": "assets/textFiles/maqadma.pdf",
+      "الفراق": "assets/textFiles/alfiraq.pdf",
+      "پیش لفظ": "assets/textFiles/peshLafz.pdf",
+      "سوانح حیات": "assets/textFiles/sawana.pdf",
+      "قلبِ سلیم": "assets/textFiles/qalb.pdf",
+      "شجرٔہ قادریہ حسبیہ": "assets/textFiles/hasbia.pdf",
+      "شجرٔہ قادریہ نسبیہ": "assets/textFiles/nasbiya.pdf",
+      "قطعہ تاریخ وصال": "assets/textFiles/qata.pdf",
+      "منقبت": "assets/textFiles/manqabat1.pdf",
+      "2منقبت": "assets/textFiles/manqabat2.pdf",
     };
     return textFileMap[widget.name] ?? "";
   }
