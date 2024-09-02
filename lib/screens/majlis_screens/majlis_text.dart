@@ -7,30 +7,32 @@ import 'package:lottie/lottie.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:qalb/providers/DataProvider.dart';
 import 'dart:convert';
 
 import 'package:qalb/providers/SoundPlayerProvider.dart';
 import 'package:qalb/screens/sound_screen.dart/sound_player.dart';
+import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
 class Majlis_Text extends StatefulWidget {
   final String image;
   final String name;
+  final int index;
+
   final String file;
   final String audioPath;
 
-  Majlis_Text({super.key, required this.image, required this.name, required this.file, required this.audioPath});
+  Majlis_Text({super.key,required this.index, required this.image, required this.name, required this.file, required this.audioPath});
 
   @override
   State<Majlis_Text> createState() => _Majlis_TextState();
 }
 
 class _Majlis_TextState extends State<Majlis_Text> {
-  late Future<String> _htmlContent;
 
   @override
   void initState() {
     super.initState();
-    _htmlContent = fetchHtmlContent(widget.file);
   }
 
   @override
@@ -183,12 +185,12 @@ class _Majlis_TextState extends State<Majlis_Text> {
             );
             }
           ),
-          Positioned(
+   Positioned(
             top: MediaQuery.of(context).size.height * 0.25,
             left: 0,
             right: 0,
             child: Container(
-              padding: EdgeInsets.symmetric(vertical: 25),
+              padding: EdgeInsets.symmetric(vertical: 5),
               height: MediaQuery.of(context).size.height * 0.8,
               decoration: BoxDecoration(
                 color: Colors.grey[300],
@@ -197,51 +199,48 @@ class _Majlis_TextState extends State<Majlis_Text> {
                   topRight: Radius.circular(40),
                 ),
               ),
-              child: Container(
-                height: MediaQuery.of(context).size.height * 0.7,
-                margin: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-                padding: EdgeInsets.symmetric(vertical: 20, horizontal: 7),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(20),
-                  border: Border.all(
-                    color: Colors.grey.shade300,
-                    width: 1.0,
-                  ),
-                ),
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      Image.asset("assets/images/motive.png", width: 100),
-                      SizedBox(height: 30),
-                      Text(
-                        widget.name,
-                        style: TextStyle(
-                          fontFamily: "al-quran",
-                          fontSize: 25,
-                          color: Color.fromARGB(255, 15, 199, 181),
-                        ),
-                      ),
-                      SizedBox(height: widget.name == "شجرٔہ قادریہ نسبیہ" || widget.name == "شجرٔہ قادریہ حسبیہ" ? 0 : 30),
-                      FutureBuilder<String>(
-                        future: _htmlContent,
-                        builder: (context, snapshot) {
-                          if (snapshot.connectionState == ConnectionState.waiting) {
-                            return Center(child: Container());
-                          } else if (snapshot.hasError) {
-                            return Center(child: Text('Error: ${snapshot.error}'));
-                          } else {
-                            return Html(data: snapshot.data);
-                          }
-                        },
-                      ),
-                      SizedBox(height: 30),
-                      Image.asset("assets/images/motive.png", width: 100),
-                      SizedBox(height: 100),
-                    ],
-                  ),
-                ),
-              ),
+              child:
+                  SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        Image.asset("assets/new_images/arrow-up.png", width: 20,),
+                        SizedBox(height:5),
+                        Container(
+                          decoration: BoxDecoration(
+                            boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.5),
+              spreadRadius: 1,
+              blurRadius: 3,
+              offset: const Offset(1, 2),
+            ),
+          ],
+                            
+                            color: Colors.white, borderRadius: BorderRadius.circular(20)),
+                          margin: EdgeInsets.symmetric(horizontal:10),
+                          padding: EdgeInsets.symmetric(horizontal:20,vertical: 20),
+                          
+                          alignment: Alignment.center,
+                          height: MediaQuery.of(context).size.height*0.66, width:MediaQuery.of(context).size.width*0.9,
+                          child: Container(child: 
+           SfPdfViewer.network(
+             Provider.of<DataProvider>(context, listen: false).majlisText[widget.index],
+              canShowScrollHead: false,
+              canShowPaginationDialog: false,
+              pageSpacing: 0,
+              enableTextSelection: false,
+              canShowPageLoadingIndicator: false, // Disable page loading indicator
+              canShowScrollStatus: true, 
+            )
+         
+    ),),
+                                          
+                                          SizedBox(height:5),
+                                          Image.asset("assets/new_images/arrow-down.png", width: 20,),
+                      ],
+                    ),),
+              
+
             ),
           ),
         ],

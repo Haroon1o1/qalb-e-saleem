@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:qalb/getAllData.dart';
+import 'package:qalb/utils/getAllData.dart';
 import 'package:qalb/screens/HomeScreen/HomeScreen.dart';
 
 class SplashScreen2 extends StatefulWidget {

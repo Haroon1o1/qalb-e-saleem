@@ -4,12 +4,12 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:qalb/Transition/CustomPageTransition.dart';
 import 'package:qalb/screens/HomeScreen/LongBox.dart';
 import 'package:qalb/screens/HomeScreen/smallContainer.dart';
-import 'package:qalb/screens/Shajr_e_Qadria/Shajr_e_Qadria.dart';
+import 'package:qalb/screens/Shaja_screens/Shajr_e_Qadria.dart';
 import 'package:qalb/screens/aqwal_wa_irshadaat/aqwal_wa_irshadaat.dart';
-import 'package:qalb/screens/hawashi_wa_hawalajat.dart';
-import 'package:qalb/screens/majlis_screen.dart';
+import 'package:qalb/screens/hawashi_wa_hawalajat/hawashi_wa_hawalajat.dart';
+import 'package:qalb/screens/majlis_screens/majlis_screen.dart';
 import 'package:qalb/screens/sound_screen.dart/sound_player.dart';
-import 'package:qalb/screens/videoPlayer.dart';
+import 'package:qalb/utils/videoPlayer.dart';
 
 class BottomNavBarScreen extends StatefulWidget {
   const BottomNavBarScreen({super.key});
@@ -190,132 +190,139 @@ class _BottomNavBarScreenState extends State<BottomNavBarScreen>
         width: 240,
         backgroundColor: Color(0xFF2F49D1),
         child: Padding(
-          padding: const EdgeInsets.only(top:40.0, right:20),
+          padding: const EdgeInsets.only(top:40.0, right:20, bottom: 20),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children:  <Widget>[
-              Text(
-                'قلبِ سلیم',
-                style: GoogleFonts.almarai(
-                                  fontSize: 25,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                ),
-              ),
-              SizedBox(height: 40,),
-              drawerItems("فهرست مجالس", (){
-                Navigator.push(
-                          context,
-                          CustomPageNavigation(
-                            child: Majlis(),
-                          ),
-                        );
-              }),
-
-              drawerItems("پیش لفظ",(){
-                Navigator.push(context, CustomPageNavigation(child: SoundPlayer(image: 'assets/images/paish_lafz-dark.png', name: "پیش لفظ", sub: 'عبد الحمید قادری عفی عنہ')));
-
-              }),
-   
-              drawerItems("مقدمہ الکتاب",(){
-                Navigator.push(context, CustomPageNavigation(child: SoundPlayer(image: 'assets/images/muqadma-dark.png', name: "مقدمہ الکتاب", sub: 'حضرت ابو الحقائق پیر سّید امانت علی شاہ چشتی نظامی')));
-
-              }),
-
-              drawerItems("اظہار تشکر",(){
-                Navigator.push(context, CustomPageNavigation(child: SoundPlayer(image: 'assets/images/tashakur.png', name: "اظہار تشکر", sub: 'سید محمد فراز شاہ عفی عنہ')));
-
-              }),
-
-              drawerItems("منقبت",(){
-                Navigator.push(context, CustomPageNavigation(child: SoundPlayer(image: 'assets/images/manqabat-dark.png', name: "منقبت", sub: "حضرت سّید محمد ظفر مشہدی قادری رحمة الله تعالى عليه")));
-
-              }),
-       
-              drawerItems("سوانح حیات",(){
-                Navigator.push(context, CustomPageNavigation(child: SoundPlayer(image: 'assets/images/sawane-dark.png', name: "سوانح حیات", sub: "حضرت سّید محمد ظفر قادری قادری رحمة الله تعالى عليه")));
-
-              }),
-
-              drawerItems("قلب سلیم",(){
-                Navigator.push(context, CustomPageNavigation(child: SoundPlayer(image: 'assets/images/qalb_e_saleem-dark.png', name: "قلب سلیم", sub: 'سّید محمد فراز شاہ مشہدی قادری عفی عنہ')));
-
-              }),
-              drawerItems("اقوال و ارشاداتِ عالیہ",(){
-                Navigator.push(context, CustomPageNavigation(child: AqwalWaIrshadaatScreen()));
-
-              }),
-              drawerItems("شجرۂ قادریہ حسبیہ",(){
-                Navigator.push(context, CustomPageNavigation(child: ShajrEQadriaScreen(text: "hasbiya")));
-
-              }),
-              drawerItems("شجرۂ قادریہ نسبیہ",(){
-                Navigator.push(context, CustomPageNavigation(child: ShajrEQadriaScreen(text: "nasbiya")));
-
-              }),
-              drawerItems("شجرۂ حسبیہ منظوم مع تضمین",(){
-                Navigator.push(context, CustomPageNavigation(child: SoundPlayer(
-                                image: "assets/images/shajra_hasbia.png",
-                                name: "شجرٔہ قادریہ حسبیہ",
-                                sub: "منظوم مع تضمین",
-                              )));
-
-              }),
-              drawerItems("شجرۂ نسبیہ منظوم مع تضمین",(){
-                Navigator.push(context, CustomPageNavigation(child: SoundPlayer(
-                                    image: "assets/images/shajra_nasbia.png",
-                                    name: "شجرٔہ قادریہ نسبیہ",
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children:  <Widget>[
+                  Text(
+                    'قلبِ سلیم',
+                    style: GoogleFonts.almarai(
+                                      fontSize: 25,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                  ),
+                  SizedBox(height: 40,),
+                  drawerItems("فهرست مجالس", (){
+                    Navigator.push(
+                              context,
+                              CustomPageNavigation(
+                                child: Majlis(),
+                              ),
+                            );
+                  }),
+              
+                  drawerItems("پیش لفظ",(){
+                    Navigator.push(context, CustomPageNavigation(child: SoundPlayer(image: 'assets/images/paish_lafz-dark.png', name: "پیش لفظ", sub: 'عبد الحمید قادری عفی عنہ')));
+              
+                  }),
+                 
+                  drawerItems("مقدمہ الکتاب",(){
+                    Navigator.push(context, CustomPageNavigation(child: SoundPlayer(image: 'assets/images/muqadma-dark.png', name: "مقدمہ الکتاب", sub: 'حضرت ابو الحقائق پیر سّید امانت علی شاہ چشتی نظامی')));
+              
+                  }),
+              
+                  drawerItems("اظہار تشکر",(){
+                    Navigator.push(context, CustomPageNavigation(child: SoundPlayer(image: 'assets/images/tashakur.png', name: "اظہار تشکر", sub: 'سید محمد فراز شاہ عفی عنہ')));
+              
+                  }),
+              
+                  drawerItems("منقبت",(){
+                    Navigator.push(context, CustomPageNavigation(child: SoundPlayer(image: 'assets/images/manqabat-dark.png', name: "منقبت", sub: "حضرت سّید محمد ظفر مشہدی قادری رحمة الله تعالى عليه")));
+              
+                  }),
+                     
+                  drawerItems("سوانح حیات",(){
+                    Navigator.push(context, CustomPageNavigation(child: SoundPlayer(image: 'assets/images/sawane-dark.png', name: "سوانح حیات", sub: "حضرت سّید محمد ظفر قادری قادری رحمة الله تعالى عليه")));
+              
+                  }),
+              
+                  drawerItems("قلب سلیم",(){
+                    Navigator.push(context, CustomPageNavigation(child: SoundPlayer(image: 'assets/images/qalb_e_saleem-dark.png', name: "قلب سلیم", sub: 'سّید محمد فراز شاہ مشہدی قادری عفی عنہ')));
+              
+                  }),
+                  drawerItems("اقوال و ارشاداتِ عالیہ",(){
+                    Navigator.push(context, CustomPageNavigation(child: AqwalWaIrshadaatScreen()));
+              
+                  }),
+                  drawerItems("شجرۂ قادریہ حسبیہ",(){
+                    Navigator.push(context, CustomPageNavigation(child: ShajrEQadriaScreen(text: "hasbiya")));
+              
+                  }),
+                  drawerItems("شجرۂ قادریہ نسبیہ",(){
+                    Navigator.push(context, CustomPageNavigation(child: ShajrEQadriaScreen(text: "nasbiya")));
+              
+                  }),
+                  drawerItems("شجرۂ حسبیہ منظوم مع تضمین",(){
+                    Navigator.push(context, CustomPageNavigation(child: SoundPlayer(
+                                    image: "assets/images/shajra_hasbia.png",
+                                    name: "شجرٔہ قادریہ حسبیہ",
                                     sub: "منظوم مع تضمین",
-                                  ),));
-
-              }),
-
-              drawerItems("الفراق",(){
-                Navigator.push(context, CustomPageNavigation(child: SoundPlayer(image: 'assets/images/alfiraq-dark.png', name: 'الفراق', sub: "'حضرت سّید محمد ظفر مشہدی قادری رحمة الله تعالى عليه'")));
-
-              }), 
-              drawerItems("قطعہ تاریخ وصال",(){
-                Navigator.push(context, CustomPageNavigation(child: SoundPlayer(image: "assets/images/qata-dark.png", name: "قطعہ تاریخ وصال", sub: 'حضرت ابو الحقائق پیر سّید امانت علی شاہ چشتی نظامی')));
-
-              }),
-       
-              drawerItems("منقبت",(){
-                Navigator.push(context, CustomPageNavigation(child: SoundPlayer(image: "assets/images/manqabat2-dark.png", name: "منقبت", sub: 'عبد الحمید قادری عفی عنہ')));
-
-              }),
-              drawerItems("حواشی و حوالہ جات",(){
-                Navigator.push(context, CustomPageNavigation(child: hawashiwahawalajatScreen()));
-
-              }),
-SizedBox(height: 0,),
-              Padding(
-                
-                padding: const EdgeInsets.only(left:20.0, right: 10),
-                child: Divider(
-                  color: Colors.white54,
-                  thickness: 2,
-                ),
+                                  )));
+              
+                  }),
+                  drawerItems("شجرۂ نسبیہ منظوم مع تضمین",(){
+                    Navigator.push(context, CustomPageNavigation(child: SoundPlayer(
+                                        image: "assets/images/shajra_nasbia.png",
+                                        name: "شجرٔہ قادریہ نسبیہ",
+                                        sub: "منظوم مع تضمین",
+                                      ),));
+              
+                  }),
+              
+                  drawerItems("الفراق",(){
+                    Navigator.push(context, CustomPageNavigation(child: SoundPlayer(image: 'assets/images/alfiraq-dark.png', name: 'الفراق', sub: "'حضرت سّید محمد ظفر مشہدی قادری رحمة الله تعالى عليه'")));
+              
+                  }), 
+                  drawerItems("قطعہ تاریخ وصال",(){
+                    Navigator.push(context, CustomPageNavigation(child: SoundPlayer(image: "assets/images/qata-dark.png", name: "قطعہ تاریخ وصال", sub: 'حضرت ابو الحقائق پیر سّید امانت علی شاہ چشتی نظامی')));
+              
+                  }),
+                     
+                  drawerItems("منقبت",(){
+                    Navigator.push(context, CustomPageNavigation(child: SoundPlayer(image: "assets/images/manqabat2-dark.png", name: "منقبت", sub: 'عبد الحمید قادری عفی عنہ')));
+              
+                  }),
+                  drawerItems("حواشی و حوالہ جات",(){
+                    Navigator.push(context, CustomPageNavigation(child: hawashiwahawalajatScreen()));
+              
+                  }),
+              SizedBox(height: 0,),
+                  
+              
+              
+                  
+                 
+                ],
               ),
-
-              SizedBox(height: 5),
-
               Padding(
-                padding: const EdgeInsets.only(right: 10.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                
-                    Container( width: 35,padding: EdgeInsets.all(8), height: 35, decoration: BoxDecoration(borderRadius: BorderRadiusDirectional.circular(10),color: Color(0xFF00FFFF)),child:  Image.asset("assets/new_images/fb.png",color: Color(0xFF2F49D1),),),
-                    SizedBox(width: 5),
-                    Container( width: 35,padding: EdgeInsets.all(8), height: 35, decoration: BoxDecoration(borderRadius: BorderRadiusDirectional.circular(10),color: Color(0xFF00FFFF),),child:  Image.asset("assets/new_images/insta.png",color: Color(0xFF2F49D1),),),
-                    SizedBox(width: 5),
-                    Container( width: 35,padding: EdgeInsets.all(8), height: 35, decoration: BoxDecoration(borderRadius: BorderRadiusDirectional.circular(10),color: Color(0xFF00FFFF)),child: Image.asset("assets/new_images/world.png",color: Color(0xFF2F49D1),),),
-                    SizedBox(width: 5),
-                    Container( width: 35,padding: EdgeInsets.all(8), height: 35, decoration: BoxDecoration(borderRadius: BorderRadiusDirectional.circular(10),color: Color(0xFF00FFFF), ),child:  Image.asset("assets/new_images/share.png",color: Color(0xFF2F49D1),),),
-                  ],
-                ),
-              )
-             
+                    
+                    padding: const EdgeInsets.only(left:20.0, right: 10),
+                    child: Divider(
+                      color: Colors.white54,
+                      thickness: 2,
+                    ),
+                  ),
+                  SizedBox(height:5),
+              Padding(
+                    padding: const EdgeInsets.only(right: 10.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                    
+                        Container( width: 35,padding: EdgeInsets.all(8), height: 35, decoration: BoxDecoration(borderRadius: BorderRadiusDirectional.circular(10),color: Color(0xFF00FFFF)),child:  Image.asset("assets/new_images/fb.png",color: Color(0xFF2F49D1),),),
+                        SizedBox(width: 5),
+                        Container( width: 35,padding: EdgeInsets.all(8), height: 35, decoration: BoxDecoration(borderRadius: BorderRadiusDirectional.circular(10),color: Color(0xFF00FFFF),),child:  Image.asset("assets/new_images/insta.png",color: Color(0xFF2F49D1),),),
+                        SizedBox(width: 5),
+                        Container( width: 35,padding: EdgeInsets.all(8), height: 35, decoration: BoxDecoration(borderRadius: BorderRadiusDirectional.circular(10),color: Color(0xFF00FFFF)),child: Image.asset("assets/new_images/world.png",color: Color(0xFF2F49D1),),),
+                        SizedBox(width: 5),
+                        Container( width: 35,padding: EdgeInsets.all(8), height: 35, decoration: BoxDecoration(borderRadius: BorderRadiusDirectional.circular(10),color: Color(0xFF00FFFF), ),child:  Image.asset("assets/new_images/share.png",color: Color(0xFF2F49D1),),),
+                      ],
+                    ),),
+              
             ],
           ),
         ),

@@ -96,9 +96,7 @@ flutter:
       fonts:
         - asset: assets/images/fonts/Al-Qalam-Quran.ttf
           weight: 500
-    - family: MyIcons
-      fonts:
-        - asset: assets/icons/fonts/MyIcons.ttf
+
     # - family: Trajan Pro
   #     fonts:
   #       - asset: fonts/TrajanPro.ttf

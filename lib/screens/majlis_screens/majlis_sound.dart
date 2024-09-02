@@ -6,7 +6,7 @@ import 'package:qalb/Transition/CustomPageTransition.dart';
 import 'package:qalb/data/data.dart';
 import 'package:qalb/providers/DataProvider.dart';
 import 'package:qalb/providers/SoundPlayerProvider.dart';
-import 'package:qalb/screens/majlis_sound/majlis_text.dart';
+import 'package:qalb/screens/majlis_screens/majlis_text.dart';
 import 'package:qalb/screens/sound_screen.dart/sound_player.dart';
 
 class Majlis_Sound extends StatefulWidget {
@@ -199,6 +199,7 @@ class _Majlis_SoundState extends State<Majlis_Sound> {
                                     CustomPageNavigation(
                                       child: Majlis_Text(
                                         audioPath: widget.audioPath,
+                                        index: widget.index,
                                         image: Provider.of<DataProvider>(
                                                 context,
                                                 listen: false)

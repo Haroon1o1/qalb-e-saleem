@@ -28,11 +28,14 @@ class TextScreen extends StatefulWidget {
 
 class _TextScreenState extends State<TextScreen> {
   String fileText = '';
+  Uint8List? pdfBytes;
+
 
   @override
   void initState() {
     super.initState();
     textFile();
+    loadPdf();
   }
 
   Future<void> textFile() async {
@@ -40,6 +43,11 @@ class _TextScreenState extends State<TextScreen> {
     setState(() {
       fileText = fileContent;
     });
+  }
+
+   Future<void> loadPdf() async {
+    pdfBytes = await loadPdfFromAssets(getTextFile());
+    setState(() {});
   }
 
   @override
@@ -228,7 +236,7 @@ class _TextScreenState extends State<TextScreen> {
             left: 0,
             right: 0,
             child: Container(
-              padding: EdgeInsets.symmetric(vertical: 25),
+              padding: EdgeInsets.symmetric(vertical: 5),
               height: MediaQuery.of(context).size.height * 0.8,
               decoration: BoxDecoration(
                 color: Colors.grey[300],
@@ -239,18 +247,44 @@ class _TextScreenState extends State<TextScreen> {
               ),
               child:
                   SingleChildScrollView(
-                    child: Container(
-                      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(20)),
-                      margin: EdgeInsets.symmetric(horizontal:20),
-                      padding: EdgeInsets.symmetric(horizontal:20,vertical: 20),
-                      
-                      alignment: Alignment.center,
-                      height: MediaQuery.of(context).size.height*0.70, width:MediaQuery.of(context).size.width*0.8,
-                      child: Container(child: SfPdfViewer.asset(
-                        canShowScrollHead: false,
-                        pageSpacing: 0, 
-                        getTextFile())),
-                  ),),
+                    child: Column(
+                      children: [
+                        Image.asset("assets/new_images/arrow-up.png", width: 20,),
+                        SizedBox(height:5),
+                        Container(
+                          decoration: BoxDecoration(
+                            boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.5),
+              spreadRadius: 1,
+              blurRadius: 3,
+              offset: const Offset(1, 2),
+            ),
+          ],
+                            
+                            color: Colors.white, borderRadius: BorderRadius.circular(20)),
+                          margin: EdgeInsets.symmetric(horizontal:10),
+                          padding: EdgeInsets.symmetric(horizontal:20,vertical: 20),
+                          
+                          alignment: Alignment.center,
+                          height: MediaQuery.of(context).size.height*0.66, width:MediaQuery.of(context).size.width*0.9,
+                          child: Container(child: pdfBytes != null
+          ? SfPdfViewer.memory(
+              pdfBytes!,
+              canShowScrollHead: false,
+              canShowPaginationDialog: false,
+              pageSpacing: 0,
+              enableTextSelection: false,
+              canShowPageLoadingIndicator: false, // Disable page loading indicator
+              canShowScrollStatus: true, 
+            )
+          : Center(child: Container()),
+    ),),
+                                          
+                                          SizedBox(height:5),
+                                          Image.asset("assets/new_images/arrow-down.png", width: 20,),
+                      ],
+                    ),),
               
 
             ),
@@ -259,6 +293,10 @@ class _TextScreenState extends State<TextScreen> {
       ),
     );
   }
+  Future<Uint8List> loadPdfFromAssets(String assetPath) async {
+  final ByteData data = await rootBundle.load(assetPath);
+  return data.buffer.asUint8List();
+}
 
   String getTextFile() {
     final textFileMap = {

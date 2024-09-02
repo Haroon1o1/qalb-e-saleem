@@ -7,7 +7,7 @@ import 'package:qalb/Transition/CustomPageTransition.dart';
 import 'package:qalb/data/data.dart';
 import 'package:qalb/providers/DataProvider.dart';
 import 'package:qalb/providers/SoundPlayerProvider.dart';
-import 'package:qalb/screens/majlis_sound/majlis_sound.dart';
+import 'package:qalb/screens/majlis_screens/majlis_sound.dart';
 
 class Majlis extends StatefulWidget {
   const Majlis({super.key});
