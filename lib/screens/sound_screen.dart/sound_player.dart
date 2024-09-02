@@ -209,7 +209,7 @@ class _SoundPlayerState extends State<SoundPlayer> {
   }
 
   String getAudio() {
-    final imageMap = {
+    final audioMap = {
       "منقبت": images["manqabat1"],
       "اظہار تشکر": images["tashakur"],
       "الفراق": images["alfiraq"],
@@ -222,7 +222,7 @@ class _SoundPlayerState extends State<SoundPlayer> {
       "قطعہ تاریخ وصال": images["qata"],
       "2منقبت": images["manqabat2"],
     };
-    return imageMap[widget.name] ?? "";
+    return audioMap[widget.name] ?? "";
   }
 }
 

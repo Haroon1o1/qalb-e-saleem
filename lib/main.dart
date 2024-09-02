@@ -10,6 +10,7 @@ import 'package:qalb/screens/Splash_screen/starting_splash_screen.dart';
 //     3B8ABF27-63E1-4443-8862-BD2DF60F5F1F debug token
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+   
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 

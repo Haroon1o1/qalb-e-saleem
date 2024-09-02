@@ -2,9 +2,8 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 
 class DataProvider with ChangeNotifier {
-  // -----------  LIST WITH FIREBASE DATA -------------- //
   List<String> _shajraHasbiyaImageUrls = [];
-  List<String> _akwalImageUrls = []; // - -- akwal list
+  List<String> _akwalImageUrls = []; 
   List<int> _shajraHasbiyaImageIndex = [];
   List<String> _shajraNasbiyaImageUrls = [];
   List<int> _shajraNasbiyaImageIndex = [];
@@ -16,11 +15,13 @@ class DataProvider with ChangeNotifier {
 
   Map<String, String> _imageMap = {};
   Map<String, String> _audioMap = {};
+  Map<String, String> _pdfMap = {};
 
   Map<String, String> get imageMap => _imageMap;
   String get video => _video;
   Map<String, String> get audioMap => _audioMap;
   List<String?> get shajraHasbiyaImageUrls => _shajraHasbiyaImageUrls;
+  Map<String, String> get pdfMap => _pdfMap;
   List<int> get shajraHasbiyaImageIndex => _shajraHasbiyaImageIndex;
   List<String?> get shajraNasbiyaImageUrls => _shajraNasbiyaImageUrls;
   List<String> get simpleSound => _simpleSound;
@@ -228,6 +229,21 @@ class DataProvider with ChangeNotifier {
       String url = await ref.getDownloadURL();
 
       audioMap[fileName] = url;
+    }
+
+    notifyListeners();
+  }
+  Future<void> getPdfs() async {
+    pngUrls.clear();
+    final ListResult result =
+        await FirebaseStorage.instance.ref('pdfs/').listAll();
+
+    for (Reference ref in result.items) {
+      String fileName = ref.name.split('.').first;
+
+      String url = await ref.getDownloadURL();
+
+      pdfMap[fileName] = url;
     }
 
     notifyListeners();

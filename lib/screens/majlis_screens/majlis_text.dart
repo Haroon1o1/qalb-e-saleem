@@ -248,28 +248,7 @@ class _Majlis_TextState extends State<Majlis_Text> {
     );
   }
 
-  Future<String> fetchHtmlContent(String url) async {
-    final response = await http.get(Uri.parse(url));
-    if (response.statusCode == 200) {
-      // Check and handle encoding if necessary
-      final contentType = response.headers['content-type'];
-      if (contentType != null && contentType.contains('charset=')) {
-        final charset = contentType.split('charset=')[1];
-        return _convertToUtf8(response.bodyBytes, charset);
-      } else {
-        return utf8.decode(response.bodyBytes);
-      }
-    } else {
-      throw Exception('Failed to load HTML content');
-    }
-  }
+ 
 
-  String _convertToUtf8(List<int> bytes, String charset) {
-    try {
-      final encoding = Encoding.getByName(charset) ?? utf8;
-      return encoding.decode(bytes);
-    } catch (e) {
-      return utf8.decode(bytes); // Fallback to UTF-8
-    }
-  }
+
 }

@@ -22,5 +22,6 @@ class GetAllData {
     Provider.of<DataProvider>(context, listen: false).getAkwalAudio();
     Provider.of<DataProvider>(context, listen: false).getMajlisText();
     Provider.of<DataProvider>(context, listen: false).getMajlisAudios();
+    Provider.of<DataProvider>(context, listen: false).getPdfs();
   }
 }

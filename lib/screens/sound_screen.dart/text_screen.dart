@@ -34,21 +34,11 @@ class _TextScreenState extends State<TextScreen> {
   @override
   void initState() {
     super.initState();
-    textFile();
-    loadPdf();
   }
 
-  Future<void> textFile() async {
-    String fileContent = await rootBundle.loadString(getTextFile());
-    setState(() {
-      fileText = fileContent;
-    });
-  }
 
-   Future<void> loadPdf() async {
-    pdfBytes = await loadPdfFromAssets(getTextFile());
-    setState(() {});
-  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -268,9 +258,8 @@ class _TextScreenState extends State<TextScreen> {
                           
                           alignment: Alignment.center,
                           height: MediaQuery.of(context).size.height*0.66, width:MediaQuery.of(context).size.width*0.9,
-                          child: Container(child: pdfBytes != null
-          ? SfPdfViewer.memory(
-              pdfBytes!,
+                          child: Container(child: SfPdfViewer.network(
+                            getPdfsName(),
               canShowScrollHead: false,
               canShowPaginationDialog: false,
               pageSpacing: 0,
@@ -278,7 +267,7 @@ class _TextScreenState extends State<TextScreen> {
               canShowPageLoadingIndicator: false, // Disable page loading indicator
               canShowScrollStatus: true, 
             )
-          : Center(child: Container()),
+
     ),),
                                           
                                           SizedBox(height:5),
@@ -293,10 +282,7 @@ class _TextScreenState extends State<TextScreen> {
       ),
     );
   }
-  Future<Uint8List> loadPdfFromAssets(String assetPath) async {
-  final ByteData data = await rootBundle.load(assetPath);
-  return data.buffer.asUint8List();
-}
+
 
   String getTextFile() {
     final textFileMap = {
@@ -341,6 +327,35 @@ class _TextScreenState extends State<TextScreen> {
           .imageMap["manqabat2-white"],
     };
     return imageMap[widget.name] ?? "";
+  }
+
+
+  String getPdfsName() {
+    final pdfMap = {
+      "منقبت": Provider.of<DataProvider>(context, listen: false)
+          .pdfMap["manqabat"],
+      "اظہار تشکر": Provider.of<DataProvider>(context, listen: false)
+          .pdfMap["izhar"],
+      "الفراق": Provider.of<DataProvider>(context, listen: false)
+          .pdfMap["alfiraq"],
+      "مقّدمۃ الکتاب": Provider.of<DataProvider>(context, listen: false)
+          .pdfMap["muqadma"],
+      "پیش لفظ": Provider.of<DataProvider>(context, listen: false)
+          .pdfMap["paish_lafz"],
+      "سوانح حیات": Provider.of<DataProvider>(context, listen: false)
+          .pdfMap["sawane"],
+      "قلبِ سلیم": Provider.of<DataProvider>(context, listen: false)
+          .pdfMap["qalb_e_saleem"],
+      "شجرٔہ قادریہ حسبیہ": Provider.of<DataProvider>(context, listen: false)
+          .pdfMap["shajra_hasbia"],
+      "شجرٔہ قادریہ نسبیہ": Provider.of<DataProvider>(context, listen: false)
+          .pdfMap["shajra_nasbia"],
+      "قطعہ تاریخ وصال": Provider.of<DataProvider>(context, listen: false)
+          .pdfMap["qata"],
+      "2منقبت": Provider.of<DataProvider>(context, listen: false)
+          .pdfMap["manqabat2"],
+    };
+    return pdfMap[widget.name] ?? "";
   }
 
   Color? getColor() {
