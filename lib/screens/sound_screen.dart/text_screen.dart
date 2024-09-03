@@ -1,7 +1,5 @@
-import 'package:cached_network_image/cached_network_image.dart'; // Import cached_network_image
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
@@ -27,19 +25,6 @@ class TextScreen extends StatefulWidget {
 }
 
 class _TextScreenState extends State<TextScreen> {
-  String fileText = '';
-  Uint8List? pdfBytes;
-
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
-
-
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -76,28 +61,22 @@ class _TextScreenState extends State<TextScreen> {
                               children: [
                                 Row(
                                   children: [
-                                    getImageAddress() == ""
-                                        ? CachedNetworkImage(
-                                            imageUrl:
-                                                "https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png",
-                                            width: 70,
-                                            fit: BoxFit.fill,
-                                            placeholder: (context, url) =>
-                                                Container(),
-                                            errorWidget:
-                                                (context, url, error) =>
+                                    Consumer<DataProvider>(
+                                      builder: (context, dataProvider, child) {
+                                        String imageUrl = getImageAddress(dataProvider);
+                                        return imageUrl.isEmpty
+                                            ? Container(width: 70)
+                                            : CachedNetworkImage(
+                                                imageUrl: imageUrl,
+                                                width: 70,
+                                                fit: BoxFit.fill,
+                                                placeholder: (context, url) =>
+                                                    Container(),
+                                                errorWidget: (context, url, error) =>
                                                     Icon(Icons.error),
-                                          )
-                                        : CachedNetworkImage(
-                                            imageUrl: getImageAddress(),
-                                            width: 70,
-                                            fit: BoxFit.fill,
-                                            placeholder: (context, url) =>
-                                                Container(),
-                                            errorWidget:
-                                                (context, url, error) =>
-                                                    Icon(Icons.error),
-                                          ),
+                                              );
+                                      },
+                                    ),
                                     SizedBox(width: 10),
                                     GestureDetector(
                                       onTap: () => soundPlayerProvider
@@ -235,47 +214,45 @@ class _TextScreenState extends State<TextScreen> {
                   topRight: Radius.circular(40),
                 ),
               ),
-              child:
-                  SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        Image.asset("assets/new_images/arrow-up.png", width: 20,),
-                        SizedBox(height:5),
-                        Container(
-                          decoration: BoxDecoration(
-                            boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.5),
-              spreadRadius: 1,
-              blurRadius: 3,
-              offset: const Offset(1, 2),
-            ),
-          ],
-                            
-                            color: Colors.white, borderRadius: BorderRadius.circular(20)),
-                          margin: EdgeInsets.symmetric(horizontal:10),
-                          padding: EdgeInsets.symmetric(horizontal:20,vertical: 20),
-                          
-                          alignment: Alignment.center,
-                          height: MediaQuery.of(context).size.height*0.66, width:MediaQuery.of(context).size.width*0.9,
-                          child: Container(child: SfPdfViewer.network(
-                            getPdfsName(),
-              canShowScrollHead: false,
-              canShowPaginationDialog: false,
-              pageSpacing: 0,
-              enableTextSelection: false,
-              canShowPageLoadingIndicator: false, // Disable page loading indicator
-              canShowScrollStatus: true, 
-            )
-
-    ),),
-                                          
-                                          SizedBox(height:5),
-                                          Image.asset("assets/new_images/arrow-down.png", width: 20,),
-                      ],
-                    ),),
-              
-
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    Image.asset("assets/new_images/arrow-up.png", width: 20),
+                    SizedBox(height: 5),
+                    Container(
+                      decoration: BoxDecoration(
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.5),
+                              spreadRadius: 1,
+                              blurRadius: 3,
+                              offset: const Offset(1, 2),
+                            ),
+                          ],
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(20)),
+                      margin: EdgeInsets.symmetric(horizontal: 10),
+                      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                      alignment: Alignment.center,
+                      height: MediaQuery.of(context).size.height * 0.66,
+                      width: MediaQuery.of(context).size.width * 0.9,
+                      child: Container(
+                        child: SfPdfViewer.network(
+                          getPdfsName(),
+                          canShowScrollHead: false,
+                          canShowPaginationDialog: false,
+                          pageSpacing: 0,
+                          enableTextSelection: false,
+                          canShowPageLoadingIndicator: false, // Disable page loading indicator
+                          canShowScrollStatus: true,
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 5),
+                    Image.asset("assets/new_images/arrow-down.png", width: 20),
+                  ],
+                ),
+              ),
             ),
           ),
         ],
@@ -301,29 +278,29 @@ class _TextScreenState extends State<TextScreen> {
     return textFileMap[widget.name] ?? "";
   }
 
-  String getImageAddress() {
+  String getImageAddress(DataProvider dataProvider) {
     final imageMap = {
-      "منقبت": Provider.of<DataProvider>(context, listen: false)
+      "منقبت": dataProvider
           .imageMap["manqabat-white"],
-      "اظہار تشکر": Provider.of<DataProvider>(context, listen: false)
+      "اظہار تشکر": dataProvider
           .imageMap["izhar-white"],
-      "الفراق": Provider.of<DataProvider>(context, listen: false)
+      "الفراق": dataProvider
           .imageMap["alfiraq-white"],
-      "مقّدمۃ الکتاب": Provider.of<DataProvider>(context, listen: false)
+      "مقّدمۃ الکتاب": dataProvider
           .imageMap["muqadma-white"],
-      "پیش لفظ": Provider.of<DataProvider>(context, listen: false)
+      "پیش لفظ": dataProvider
           .imageMap["paish_lafz-white"],
-      "سوانح حیات": Provider.of<DataProvider>(context, listen: false)
+      "سوانح حیات": dataProvider
           .imageMap["sawane-white"],
-      "قلبِ سلیم": Provider.of<DataProvider>(context, listen: false)
+      "قلبِ سلیم": dataProvider
           .imageMap["qalb_e_saleem-white"],
-      "شجرٔہ قادریہ حسبیہ": Provider.of<DataProvider>(context, listen: false)
+      "شجرٔہ قادریہ حسبیہ": dataProvider
           .imageMap["shajra_hasbia"],
-      "شجرٔہ قادریہ نسبیہ": Provider.of<DataProvider>(context, listen: false)
+      "شجرٔہ قادریہ نسبیہ": dataProvider
           .imageMap["shajra_nasbia"],
-      "قطعہ تاریخ وصال": Provider.of<DataProvider>(context, listen: false)
+      "قطعہ تاریخ وصال": dataProvider
           .imageMap["qata_white"],
-      "2منقبت": Provider.of<DataProvider>(context, listen: false)
+      "2منقبت": dataProvider
           .imageMap["manqabat2-white"],
     };
     return imageMap[widget.name] ?? "";

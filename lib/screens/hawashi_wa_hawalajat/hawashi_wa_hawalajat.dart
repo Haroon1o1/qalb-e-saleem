@@ -111,7 +111,7 @@ class _hawashiwahawalajatScreenState extends State<hawashiwahawalajatScreen> {
               child: SingleChildScrollView(
                 child: Container(
                   width: double.infinity,
-                  height: MediaQuery.of(context).size.height * 0.6,
+                  height: MediaQuery.of(context).size.height * 0.7,
                   padding: EdgeInsets.symmetric(vertical: 55),
                   margin: EdgeInsets.symmetric(horizontal: 40),
                   decoration: BoxDecoration(
@@ -126,10 +126,12 @@ class _hawashiwahawalajatScreenState extends State<hawashiwahawalajatScreen> {
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(20)),
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
+                      
                       Image.asset("assets/images/hawalajat1.png", width: 150),
-                      Image.asset("assets/images/hawalajat2.png", width: 150),
+                      SizedBox(height: 50),
+                      Image.asset("assets/images/hawalajat2.png", width: 200, fit: BoxFit.cover,),
                     ],
                   ),
                 ),

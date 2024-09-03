@@ -18,12 +18,13 @@ class CustomPageNavigation extends PageRouteBuilder {
   @override
   Widget buildTransitions(BuildContext context, Animation<double> animation,
       Animation<double> secondaryAnimation, Widget child) {
-    return SlideTransition(
-      position: Tween<Offset>(
-        begin: const Offset(-1, 0), // Start from the left side (LTR)
-        end: Offset.zero, // End at the original position
-      ).animate(animation),
-      child: child,
-    );
+    return child;
+    // (
+      // position: Tween<Offset>(
+      //   begin: const Offset(-1, 0), // Start from the left side (LTR)
+      //   end: Offset.zero, // End at the original position
+      // ).animate(animation),
+      // child: child,
+    // );
   }
 }

@@ -40,21 +40,21 @@ class LongBox extends StatelessWidget {
       },
       child: Container(
         padding: const EdgeInsets.only(
-          right: 10,
-          left: 15,
+          right: 08,
+          left: 8,
         ),
-        margin: const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
-        height: 130,
+        margin: const EdgeInsets.symmetric( vertical: 3),
+        height: 120,
         decoration: BoxDecoration(
           color: backgroundColor,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.5),
-              spreadRadius: 1,
-              blurRadius: 3,
-              offset: const Offset(1, 2),
-            ),
-          ],
+          // boxShadow: [
+          //   BoxShadow(
+          //     color: Colors.grey.withOpacity(0.5),
+          //     spreadRadius: 1,
+          //     blurRadius: 3,
+          //     offset: const Offset(1, 2),
+          //   ),
+          // ],
           borderRadius: BorderRadius.circular(15),
         ),
         child: Row(
@@ -62,9 +62,10 @@ class LongBox extends StatelessWidget {
           children: [
             Expanded(
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
+                  SizedBox(height: 15),
                   Text(
                     textDirection: TextDirection.rtl,
                     mainText,
@@ -75,11 +76,14 @@ class LongBox extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 10),
-                  Text(
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Text(
                     subText1,
                     textDirection: TextDirection.rtl,
                     style: GoogleFonts.almarai(
-                      fontSize: 10,
+                      fontSize: 9,
                       color: Colors.white,
                     ),
                     overflow: TextOverflow.clip,
@@ -89,21 +93,24 @@ class LongBox extends StatelessWidget {
                     subText2,
                     textDirection: TextDirection.rtl,
                     style: GoogleFonts.almarai(
-                      fontSize: 13.5,
+                      fontSize: 9,
                       color: Colors.white,
                     ),
                     overflow: TextOverflow.clip,
                   ),
+                  SizedBox(height:20),
+                    ],
+                  )
                 ],
               ),
             ),
             const SizedBox(width: 8),
             ClipRRect(
-              borderRadius: BorderRadius.circular(15),
+              borderRadius: BorderRadius.circular(0),
               child: Image.asset(
                 imagePath,
-                width: 100,
-                height: 100,
+                width: 105,
+                height: 105,
                 fit: BoxFit.fill,
               ),
             ),

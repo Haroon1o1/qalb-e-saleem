@@ -16,6 +16,7 @@ class Majlis extends StatefulWidget {
   State<Majlis> createState() => _MajlisState();
 }
 
+
 class _MajlisState extends State<Majlis> {
   @override
   Widget build(BuildContext context) {
@@ -69,14 +70,15 @@ class _MajlisState extends State<Majlis> {
                             ),
                           ],
                         ),
-                        SizedBox(width: 15),
+                        const SizedBox(width: 15),
                         InkWell(
                           onTap: () {
                             Navigator.pop(context);
                           },
                           child: Image.asset(
-                              "assets/images/back-arrow-white.png",
-                              width: 25),
+                            "assets/images/back-arrow-white.png",
+                            width: 25,
+                          ),
                         ),
                       ],
                     ),
@@ -89,8 +91,9 @@ class _MajlisState extends State<Majlis> {
             top: MediaQuery.of(context).size.height * 0.19,
             left: 0,
             right: 0,
+            bottom: 0, // Ensure the content does not overflow outside the container
             child: Container(
-              height: MediaQuery.of(context).size.height * 0.8,
+              padding: EdgeInsets.only(top:20),
               decoration: const BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(
@@ -98,17 +101,24 @@ class _MajlisState extends State<Majlis> {
                   topRight: Radius.circular(40),
                 ),
               ),
-              child: ListView.builder(
-                itemCount: Provider.of<DataProvider>(context, listen: false)
-                    .majlisBookImages
-                    .length,
-                itemBuilder: (context, index) {
-                  return majlisContainer(
-                    Provider.of<DataProvider>(context, listen: false)
-                        .majlisImages[index],
-                    index,
-                  );
-                },
+              child: ClipRRect(
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(40),
+                  topRight: Radius.circular(40),
+                ),
+                child: ListView.builder(
+                  padding: const EdgeInsets.symmetric(vertical: 20),
+                  itemCount: Provider.of<DataProvider>(context, listen: false)
+                      .majlisBookImages
+                      .length,
+                  itemBuilder: (context, index) {
+                    return majlisContainer(
+                      Provider.of<DataProvider>(context, listen: false)
+                          .majlisImages[index],
+                      index,
+                    );
+                  },
+                ),
               ),
             ),
           ),
@@ -136,8 +146,8 @@ class _MajlisState extends State<Majlis> {
         );
       },
       child: Container(
-        margin: EdgeInsets.only(bottom: 30, left: 15, right: 15),
-        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+        margin: const EdgeInsets.only(bottom: 30, left: 15, right: 15),
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
         decoration: BoxDecoration(
           boxShadow: [
             BoxShadow(
@@ -148,7 +158,7 @@ class _MajlisState extends State<Majlis> {
             ),
           ],
           color: Colors.white,
-          borderRadius: BorderRadiusDirectional.circular(15),
+          borderRadius: BorderRadius.circular(15),
         ),
         height: 230,
         child: Column(
@@ -202,7 +212,7 @@ class _MajlisState extends State<Majlis> {
                         ),
                       ],
                     ),
-                    SizedBox(height: 17),
+                    const SizedBox(height: 17),
                   ],
                 ),
                 Column(
@@ -220,7 +230,7 @@ class _MajlisState extends State<Majlis> {
                         ),
                       ),
                     ),
-                    SizedBox(height: 8),
+                    const SizedBox(height: 8),
                     SizedBox(
                       width: 170,
                       child: Text(
@@ -238,7 +248,7 @@ class _MajlisState extends State<Majlis> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    VerticalDivider(
+                    const VerticalDivider(
                       color: Colors.black,
                       thickness: 0.5,
                       width: 0,
@@ -247,8 +257,8 @@ class _MajlisState extends State<Majlis> {
                     ),
                     SizedBox(width: MediaQuery.of(context).size.width * 0.02),
                     Container(
-                      padding: EdgeInsets.all(5),
-                      margin: EdgeInsets.only(top: 5),
+                      padding: const EdgeInsets.all(5),
+                      margin: const EdgeInsets.only(top: 5),
                       alignment: Alignment.center,
                       decoration: const BoxDecoration(
                         color: Colors.black,
@@ -297,3 +307,5 @@ class _MajlisState extends State<Majlis> {
     }
   }
 }
+
+
