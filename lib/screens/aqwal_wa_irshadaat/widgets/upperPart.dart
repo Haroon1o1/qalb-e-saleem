@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+// ignore: must_be_immutable
 class UpperPart extends StatelessWidget {
-  const UpperPart({super.key});
+  bool isNavbar;
+   UpperPart( {super.key, required this.isNavbar});
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +16,7 @@ class UpperPart extends StatelessWidget {
                 children: [
                   Container(
                     width: double.infinity,
-                    height: MediaQuery.of(context).size.height * 0.26,
+                    height: isNavbar ? MediaQuery.of(context).size.height * 0.18 : MediaQuery.of(context).size.height * 0.26,
                     decoration: const BoxDecoration(
                       image: DecorationImage(
                         image: AssetImage("assets/images/upergrad.png"),
@@ -27,9 +29,11 @@ class UpperPart extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
+                        
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
+                            SizedBox(height: isNavbar ? 20 :  10),
                             const SizedBox(height: 10),
                             Text(
                               "اقوال و ارشاداِت عالیہ",
@@ -40,7 +44,7 @@ class UpperPart extends StatelessWidget {
                               ),
                             ),
                             Text(
-                              "امام االولیاء حضرت پیر سّید محّمد عبد اهلل شاہ مشہدی قادری",
+                              "امام االولیاء حضرت پیر سّید محّمد عبد اللہ شاہ مشہدی قادری",
                               style: GoogleFonts.almarai(
                                 color: Colors.white,
                                 fontSize: 10,
@@ -52,13 +56,16 @@ class UpperPart extends StatelessWidget {
                         Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            InkWell(
-                              onTap: () {
-                                Navigator.pop(context);
-                              },
-                              child: Image.asset(
-                                  "assets/images/back-arrow-white.png",
-                                  width: 25),
+                            Visibility(
+                              visible: isNavbar ? false : true,
+                              child: InkWell(
+                                onTap: () {
+                                  Navigator.pop(context);
+                                },
+                                child: Image.asset(
+                                    "assets/images/back-arrow-white.png",
+                                    width: 25),
+                              ),
                             ),
                           ],
                         ),

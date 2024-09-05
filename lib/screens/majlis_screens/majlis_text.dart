@@ -15,11 +15,12 @@ class Majlis_Text extends StatefulWidget {
   final String image;
   final String name;
   final int index;
+  final int duration;
 
   final String file;
   final String audioPath;
 
-  Majlis_Text({super.key,required this.index, required this.image, required this.name, required this.file, required this.audioPath});
+  Majlis_Text({super.key,required this.index,required this.duration, required this.image, required this.name, required this.file, required this.audioPath});
 
   @override
   State<Majlis_Text> createState() => _Majlis_TextState();
@@ -153,7 +154,7 @@ class _Majlis_TextState extends State<Majlis_Text> {
                                         child: Slider(
                                           value: soundPlayerProvider.position.inSeconds.toDouble(),
                                           min: 0.0,
-                                          max: soundPlayerProvider.duration.inSeconds.toDouble(),
+                                          max:widget.duration.toDouble(),
                                           onChanged: (value) {
                                             soundPlayerProvider.seekAudio(value);
                                           },

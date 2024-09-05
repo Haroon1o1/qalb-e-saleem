@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:qalb/providers/HomeProvider.dart';
 import 'package:qalb/utils/firebase_options.dart';
 import 'package:qalb/providers/DataProvider.dart';
 import 'package:qalb/providers/SoundPlayerProvider.dart';
@@ -10,6 +11,7 @@ import 'package:qalb/screens/Splash_screen/starting_splash_screen.dart';
 //     3B8ABF27-63E1-4443-8862-BD2DF60F5F1F debug token
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
    
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
@@ -19,6 +21,7 @@ void main() async {
       providers: [
         ChangeNotifierProvider(create: (context) => DataProvider()),
         ChangeNotifierProvider(create: (context) => SoundPlayerProvider()),
+        ChangeNotifierProvider(create: (context) => HomeNavBarProvider()),
       ],
       child: MyApp(),
     ),

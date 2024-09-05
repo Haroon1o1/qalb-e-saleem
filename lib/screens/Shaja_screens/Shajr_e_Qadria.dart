@@ -8,8 +8,9 @@ import 'package:qalb/screens/Shaja_screens/TimeLine.dart';
 
 // ignore: must_be_immutable
 class ShajrEQadriaScreen extends StatefulWidget {
+  bool isNavBar;
   final String text;
-  ShajrEQadriaScreen({super.key, required this.text});
+  ShajrEQadriaScreen({super.key, required this.text,required this.isNavBar});
 
   @override
   State<ShajrEQadriaScreen> createState() => _ShajrEQadriaScreenState();
@@ -76,13 +77,16 @@ class _ShajrEQadriaScreenState extends State<ShajrEQadriaScreen> {
                               ),
                               textAlign: TextAlign.right,
                             ),
-                            SizedBox(width: 10),
-                            GestureDetector(
-                              onTap: (){
-                                Navigator.pop(context);
-                              },
-                              child: Image.asset("assets/images/back-arrow-white.png",
-                                  width: 25),
+                            SizedBox(width: widget.isNavBar? 30 : 10),
+                            Visibility(
+                              visible: widget.isNavBar ? false : true,
+                              child: GestureDetector(
+                                onTap: (){
+                                  Navigator.pop(context);
+                                },
+                                child: Image.asset("assets/images/back-arrow-white.png",
+                                    width: 25),
+                              ),
                             ),
                           ],
                         ),

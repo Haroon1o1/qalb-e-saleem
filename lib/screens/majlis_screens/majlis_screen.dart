@@ -10,7 +10,8 @@ import 'package:qalb/providers/SoundPlayerProvider.dart';
 import 'package:qalb/screens/majlis_screens/majlis_sound.dart';
 
 class Majlis extends StatefulWidget {
-  const Majlis({super.key});
+  bool isNavBar;
+   Majlis({super.key, required this.isNavBar});
 
   @override
   State<Majlis> createState() => _MajlisState();
@@ -61,7 +62,7 @@ class _MajlisState extends State<Majlis> {
                               ),
                             ),
                             Text(
-                              "امام االولیاء حضرت پیر سّید محّمد عبد اهلل شاہ مشہدی قادری",
+                              "امام االولیاء حضرت پیر سّید محّمد عبد اللہ شاہ مشہدی قادری",
                               style: GoogleFonts.almarai(
                                 color: Colors.white,
                                 fontSize:
@@ -71,13 +72,16 @@ class _MajlisState extends State<Majlis> {
                           ],
                         ),
                         const SizedBox(width: 15),
-                        InkWell(
-                          onTap: () {
-                            Navigator.pop(context);
-                          },
-                          child: Image.asset(
-                            "assets/images/back-arrow-white.png",
-                            width: 25,
+                        Visibility(
+                          visible: widget.isNavBar ? false : true,
+                          child: InkWell(
+                            onTap: () {
+                              Navigator.pop(context);
+                            },
+                            child: Image.asset(
+                              "assets/images/back-arrow-white.png",
+                              width: 25,
+                            ),
                           ),
                         ),
                       ],
@@ -186,30 +190,10 @@ class _MajlisState extends State<Majlis> {
                           height: 12,
                         ),
                         const SizedBox(width: 4),
-                        FutureBuilder<String?>(
-                          future: getAudioDuration(
-                              Provider.of<DataProvider>(context, listen: false)
-                                  .majlisSound[index]),
-                          builder: (context, snapshot) {
-                            if (snapshot.connectionState ==
-                                ConnectionState.waiting) {
-                              return Text(
-                                '10:23',
+                      Text(
+                                formatDuration(getDuration(index+1)),
                                 style: GoogleFonts.almarai(fontSize: 12),
-                              );
-                            } else if (snapshot.hasError) {
-                              return Container();
-                            } else if (snapshot.hasData) {
-                              final durationText = snapshot.data ?? '10:23';
-                              return Text(
-                                durationText,
-                                style: GoogleFonts.almarai(fontSize: 12),
-                              );
-                            } else {
-                              return Container();
-                            }
-                          },
-                        ),
+                              ),
                       ],
                     ),
                     const SizedBox(height: 17),
@@ -290,6 +274,38 @@ class _MajlisState extends State<Majlis> {
         ),
       ),
     );
+  }
+
+  String formatDuration(int seconds) {
+  final minutes = (seconds ~/ 60).toString().padLeft(2, '0');
+  final remainingSeconds = (seconds % 60).toString().padLeft(2, '0');
+  return '$minutes:$remainingSeconds';
+}
+
+   int getDuration(int index) {
+    final duration = {
+      1:853,
+      2:1046,
+      3:789,
+      4:1229,
+      5:1848,
+      6:1828,
+      7:856,
+      8:1029,
+      9:646,
+      10:968,
+      11:1240,
+      12:827,
+      13:1631,
+      14:932,
+      15:2331,
+      16:1296,
+      17:1608,
+      18:764,
+      19:782,
+      20:1975,
+    };
+    return duration[index] ?? 0;
   }
 
   Future<String?> getAudioDuration(String url) async {

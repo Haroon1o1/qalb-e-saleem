@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 
@@ -15,17 +14,22 @@ class SoundPlayerProvider with ChangeNotifier {
   Duration get position => _position;
 
   SoundPlayerProvider() {
+    // Listening to duration changes of the audio file
     _audioPlayer.onDurationChanged.listen((duration) {
       _duration = duration;
       log("Duration updated: $_duration");
       notifyListeners();
     });
 
+    // Listening to position changes
     _audioPlayer.onPositionChanged.listen((position) {
-      _position = position;
-      notifyListeners();
+      if (position <= _duration) {
+        _position = position;
+        notifyListeners();
+      }
     });
 
+    // Resetting player when the audio completes
     _audioPlayer.onPlayerComplete.listen((_) {
       _isPlaying = false;
       _position = Duration.zero;
@@ -33,28 +37,34 @@ class SoundPlayerProvider with ChangeNotifier {
     });
   }
 
-  void togglePlayStop(String audioPath) async {
+  Future<void> togglePlayStop(String audioPath) async {
     log("${audioPath}--------------");
     if (_isPlaying) {
       await _audioPlayer.pause();
       _isPlaying = false;
     } else {
       try {
+        
         await _audioPlayer.play(UrlSource(audioPath));
         _isPlaying = true;
       } catch (e) {
-        print('Error playing audio: $e');
+        
+        log('Error playing audio: $e');
       }
     }
     notifyListeners();
   }
 
-  void seekAudio(double value) async {
-    final position = Duration(seconds: value.toInt());
+  Future<void> seekAudio(double value) async {
+    log("in seek audio method --- seconds: ${value}");
+  final position = Duration(seconds: value.toInt());
     await _audioPlayer.seek(position);
     _position = position;
+    log('Seek to position: $position');
     notifyListeners();
-  }
+
+}
+
 
   String formatDuration(Duration duration) {
     String twoDigits(int n) => n.toString().padLeft(2, '0');
@@ -63,12 +73,12 @@ class SoundPlayerProvider with ChangeNotifier {
     return '$minutes:$seconds';
   }
 
-  void stopAudio() async {
+  Future<void> stopAudio() async {
     if (_isPlaying) {
       await _audioPlayer.stop();
       _isPlaying = false;
-      _position = Duration.zero;
       _duration = Duration.zero;
+      // _position = Duration.zero; // Reset position to the start
       notifyListeners();
     }
   }

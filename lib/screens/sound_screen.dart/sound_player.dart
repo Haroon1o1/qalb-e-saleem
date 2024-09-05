@@ -1,9 +1,12 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:qalb/providers/DataProvider.dart';
 import 'package:qalb/providers/SoundPlayerProvider.dart';
 import 'package:qalb/screens/sound_screen.dart/text_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SoundPlayer extends StatefulWidget {
   final String image;
@@ -23,15 +26,49 @@ class SoundPlayer extends StatefulWidget {
 
 class _SoundPlayerState extends State<SoundPlayer> {
   Map<String, dynamic> images = {};
-
   late SoundPlayerProvider soundPlayerProvider;
-
-
   @override
   void initState() {
-    images = Provider.of<DataProvider>(context, listen: false).audioMap;
+    loadAudioPosition(widget.name);
     super.initState();
+    images = Provider.of<DataProvider>(context, listen: false).audioMap;
+    soundPlayerProvider = Provider.of<SoundPlayerProvider>(context, listen: false);
+    
+    
   }
+
+  @override
+  void dispose() {
+    saveAudioPosition(widget.name, soundPlayerProvider.position);
+    soundPlayerProvider.stopAudio();
+    super.dispose();
+  }
+
+  Future<void> saveAudioPosition(String name, Duration position) async {
+    final prefs = await SharedPreferences.getInstance();
+        log("in saving audio method for name ${name} --- seconds: ${position.inSeconds}"); 
+
+    if(position.inSeconds.toDouble() > 0){
+      prefs.setInt(name, position.inSeconds);
+    }
+  }
+
+  Future<void> loadAudioPosition(String name) async {
+    final prefs = await SharedPreferences.getInstance();
+    int? savedPosition = prefs.getInt(name);
+
+    if (savedPosition != null && savedPosition > 0) {
+                log("in load audio method for name ${name} --- seconds: ${savedPosition} -- duration is ${getDuration()}"); 
+
+    
+     
+        soundPlayerProvider.seekAudio(savedPosition.toDouble());
+
+    }else{
+        soundPlayerProvider.seekAudio(Duration.zero.inSeconds.toDouble());
+      }
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -127,16 +164,17 @@ class _SoundPlayerState extends State<SoundPlayer> {
                               overlayColor: Colors.grey.withOpacity(0.2),
                               trackHeight: 4.0,
                             ),
-                            child: Slider(
-                              value: soundPlayerProvider.position.inSeconds
-                                  .toDouble(),
-                              min: 0.0,
-                              max: soundPlayerProvider.duration.inSeconds
-                                  .toDouble(),
-                              onChanged: (value) {
-                                soundPlayerProvider.seekAudio(value);
-                              },
-                            ),
+                            child:  Slider(
+  value: soundPlayerProvider.position.inSeconds.toDouble(),
+  min: 0.0,
+  max: Duration(seconds: getDuration()).inSeconds.toDouble(),
+  onChanged: (value) {
+    log('Slider changed to: $value');
+    soundPlayerProvider.seekAudio(value);
+  },
+),
+
+
                           ),
                         ),
                         Padding(
@@ -151,7 +189,7 @@ class _SoundPlayerState extends State<SoundPlayer> {
                               ),
                               Text(
                                 soundPlayerProvider.formatDuration(
-                                    soundPlayerProvider.duration),
+                                    Duration(seconds:getDuration())),
                                 style: TextStyle(color: Colors.black),
                               ),
                             ],
@@ -171,6 +209,7 @@ class _SoundPlayerState extends State<SoundPlayer> {
                                           builder: (context) => TextScreen(
                                             audioPath: getAudio(),
                                             image: widget.image,
+                                            duration: getDuration(),
                                             name: widget.name,
                                           ),
                                         ));
@@ -223,6 +262,23 @@ class _SoundPlayerState extends State<SoundPlayer> {
       "2منقبت": images["manqabat2"],
     };
     return audioMap[widget.name] ?? "";
+  }
+
+  int getDuration() {
+    final duration = {
+      "منقبت": 72,
+      "اظہار تشکر": 316,
+      "الفراق": 160,
+      "مقّدمۃ الکتاب": 880,
+      "پیش لفظ": 2321,
+      "سوانح حیات": 2080,
+      "قلبِ سلیم": 515,
+      "شجرٔہ قادریہ حسبیہ": 752,
+      "شجرٔہ قادریہ نسبیہ": 421,
+      "قطعہ تاریخ وصال": 51,
+      "2منقبت": 72 ,
+    };
+    return duration[widget.name] ?? 0;
   }
 }
 

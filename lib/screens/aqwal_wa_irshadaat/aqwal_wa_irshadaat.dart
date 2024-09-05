@@ -8,8 +8,10 @@ import 'package:qalb/screens/aqwal_wa_irshadaat/widgets/upperPart.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:qalb/providers/SoundPlayerProvider.dart'; // Import SoundPlayerProvider
 
+// ignore: must_be_immutable
 class AqwalWaIrshadaatScreen extends StatefulWidget {
-  const AqwalWaIrshadaatScreen({super.key});
+  bool isNavBar;
+   AqwalWaIrshadaatScreen({super.key, required this.isNavBar});
 
   @override
   State<AqwalWaIrshadaatScreen> createState() => _AqwalWaIrshadaatScreenState();
@@ -59,15 +61,15 @@ class _AqwalWaIrshadaatScreenState extends State<AqwalWaIrshadaatScreen> {
       body: Stack(
         alignment: Alignment.bottomCenter,
         children: [
-          UpperPart(),
+          UpperPart(isNavbar: widget.isNavBar,),
           Positioned(
             top: MediaQuery.of(context).size.height * 0.21,
             left: 0,
             right: 0,
             child: Container(
-              padding: const EdgeInsets.symmetric(vertical: 10),
+              padding:  EdgeInsets.symmetric(vertical: 10),
               height: MediaQuery.of(context).size.height * 0.8,
-              decoration: const BoxDecoration(
+              decoration:  BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(40),
@@ -76,7 +78,7 @@ class _AqwalWaIrshadaatScreenState extends State<AqwalWaIrshadaatScreen> {
               ),
               child: Column(
                 children: [
-                  const SizedBox(height: 30),
+                   SizedBox(height: widget.isNavBar ? 10 : 30 ),
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 0.5,
                     child: PageView.builder(

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:qalb/Transition/CustomPageTransition.dart';
+import 'package:qalb/providers/HomeProvider.dart';
 import 'package:qalb/screens/HomeScreen/LongBox.dart';
 import 'package:qalb/screens/HomeScreen/smallContainer.dart';
 import 'package:qalb/screens/Shaja_screens/Shajr_e_Qadria.dart';
@@ -11,108 +12,48 @@ import 'package:qalb/screens/majlis_screens/majlis_screen.dart';
 import 'package:qalb/screens/sound_screen.dart/sound_player.dart';
 import 'package:qalb/utils/videoPlayer.dart';
 
-class BottomNavBarScreen extends StatefulWidget {
-  const BottomNavBarScreen({super.key});
+import 'package:provider/provider.dart';
 
+class BottomNavBarScreen extends StatefulWidget {
   @override
   _BottomNavBarScreenState createState() => _BottomNavBarScreenState();
 }
 
-class _BottomNavBarScreenState extends State<BottomNavBarScreen>
-    with TickerProviderStateMixin {
+class _BottomNavBarScreenState extends State<BottomNavBarScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  // int _selectedIndex = 0; // Start with the middle icon selected
-  // late AnimationController _controller;
-  // late AnimationController _prevController;
-
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   _controller = AnimationController(
-  //     vsync: this,
-  //     duration: const Duration(milliseconds: 300),
-  //     value: 1.0, // The selected icon starts in the popped state
-  //   );
-
-  //   _prevController = AnimationController(
-  //     vsync: this,
-  //     duration: const Duration(milliseconds: 300),
-  //   );
-  // }
-
-  // void _onItemTapped(int index) {
-  //   if (index == 4) {
-  //     // Open drawer when the last item is clicked
-  //     _scaffoldKey.currentState?.openEndDrawer();
-  //     return;
-  //   }
-
-  //   if (index == _selectedIndex) {
-  //     return; // Do nothing if the selected icon is tapped again
-  //   }
-
-  //   setState(() {
-  //     _prevController = _controller;
-  //     _selectedIndex = index;
-
-  //     // Animate the previous icon to its normal state
-  //     _prevController.reverse();
-
-  //     // Animate the new selected icon to its popped-up state
-  //     _controller = AnimationController(
-  //       vsync: this,
-  //       duration: const Duration(milliseconds: 300),
-  //     );
-  //     _controller.forward();
-  //   });
-  // }
-  int selectedIndex = 0;
   late PageController pageController;
 
   @override
   void initState() {
     super.initState();
-    pageController = PageController(initialPage: selectedIndex);
+    pageController = PageController(
+      initialPage: context.read<HomeNavBarProvider>().selectedIndex,
+    );
   }
 
-   @override
+  @override
   void dispose() {
     pageController.dispose();
     super.dispose();
   }
 
-  void onItemTapped(int index) {
-    if (index == 4) { // If last item (مضامین) is clicked, open drawer
-      _scaffoldKey.currentState?.openEndDrawer();
-      return;
-    }
-    setState(() {
-      selectedIndex = index;
-    });
-    pageController.animateToPage(
-      selectedIndex,
-      duration: const Duration(milliseconds: 400),
-      curve: Curves.easeOutQuad,
-    );
-  }
-
-@override
+  @override
   Widget build(BuildContext context) {
+    final navBarProvider = Provider.of<HomeNavBarProvider>(context);
+
     return Scaffold(
-      key: _scaffoldKey, // Set the key to the scaffold
+      endDrawer: buildDrawer(context),
+      key: _scaffoldKey,
       body: PageView(
         controller: pageController,
         onPageChanged: (index) {
-          setState(() {
-            selectedIndex = index;
-          });
+          navBarProvider.setSelectedIndex(index);
         },
-        children: const <Widget>[
+        children: <Widget>[
           Home(),
-          Page1(),
-          Page2(),
-          Page3(),
-          Page4(),
+          AqwalWaIrshadaatScreen(isNavBar: true),
+          Majlis(isNavBar: true),
+          ShajrEQadriaScreen(text: 'hasbiya', isNavBar: true),
         ],
       ),
       bottomNavigationBar: Stack(
@@ -151,9 +92,12 @@ class _BottomNavBarScreenState extends State<BottomNavBarScreen>
             ),
           ),
           Positioned(
-            bottom: 5, // Adjust this value to control the hover effect
+            bottom: 5, 
             child: GestureDetector(
-              onTap: () => onItemTapped(2),
+              onTap: () {
+                navBarProvider.setSelectedIndex(2);
+                pageController.jumpToPage(2);
+              },
               child: Padding(
                 padding: const EdgeInsets.only(left: 8.0),
                 child: Column(
@@ -185,7 +129,7 @@ class _BottomNavBarScreenState extends State<BottomNavBarScreen>
                         ),
                         child: Image.asset(
                           "assets/new_images/dash.png",
-                          color: selectedIndex == 2
+                          color: navBarProvider.selectedIndex == 2
                               ? Colors.white
                               : Colors.white, // Highlight selected
                         ),
@@ -211,136 +155,62 @@ class _BottomNavBarScreenState extends State<BottomNavBarScreen>
           ),
         ],
       ),
-      endDrawer: buildDrawer(context), // Add the drawer
+     
     );
   }
 
   // Helper method to build each navigation item with animation
   Widget buildNavItem(int index, String assetPath, String text) {
-    return GestureDetector(
-      onTap: () => onItemTapped(index),
-      child: Column(
-        children: [
-          AnimatedContainer(
-            duration: const Duration(milliseconds: 300),
-            curve: Curves.easeInOut,
-            padding: const EdgeInsets.all(10),
-            width: 40,
-            height: 40,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: selectedIndex == index
-                  ? Color(0xFF345EF1)
-                  : Colors.transparent,
-            ),
-            child: Image.asset(
-              assetPath,
-              width: 25,
-              color: selectedIndex == index
-                  ? Colors.white
-                  : Colors.grey, // Highlight selected
-            ),
+  final navBarProvider = Provider.of<HomeNavBarProvider>(context);
+
+  return GestureDetector(
+    onTap: () {
+      if (index == 4) {
+        _scaffoldKey.currentState?.openEndDrawer();
+        return;
+      } else {
+        navBarProvider.setSelectedIndex(index);
+        pageController.jumpToPage(index); 
+      }
+    },
+    child: Column(
+      children: [
+        AnimatedContainer(
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeInOut,
+          padding: const EdgeInsets.all(10),
+          width: 40,
+          height: 40,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: Colors.transparent,
           ),
-
-          Text(text, style: GoogleFonts.almarai(
-                                          fontSize: 10,
-                                          fontWeight: FontWeight.bold,
-                                          color: Color(0xFFBEBEC0),
-                                        ),)
-        ],
-      ),
-    );
-  }
-
-
-
-  // Widget _buildIcon(String iconURL, int index) {
-  //   bool isSelected = _selectedIndex == index;
-
-  //   return AnimatedBuilder(
-  //     animation: isSelected ? _controller : _prevController,
-  //     builder: (context, child) {
-  //       return Transform.translate(
-  //         offset: isSelected ? const Offset(0, -15) : Offset.zero,
-  //         child: Transform.scale(
-  //           scale: isSelected ? _controller.value + 0.6 : 1.0,
-  //           child: Container(
-  //             padding: const EdgeInsets.all(8.0),
-  //             decoration: isSelected
-  //                 ? const BoxDecoration(
-  //                     color: Colors.blue,
-  //                     shape: BoxShape.circle,
-  //                   )
-  //                 : null,
-  //             child: Image.asset(
-  //               iconURL,
-  //               color: isSelected ? Colors.white : Colors.grey,
-  //               width: 15,
-  //               height: 15,
-  //             ),
-  //           ),
-  //         ),
-  //       );
-  //     },
-  //   );
-  // }
-
-  // Widget _buildContent(int index) {
-  //   // Return the content widget for the selected tab.
-  //   switch (index) {
-  //     case 0:
-  //       return const Home();
-  //     case 1:
-  //       return const Center(child: Text('Quotes Screen'));
-  //     case 2:
-  //       return const Center(child: Text('Menu Screen'));
-  //     case 3:
-  //       return const Center(child: Text('Profile Screen'));
-  //     case 4:
-  //       return const Center(child: Text('More Screen'));
-  //     default:
-  //       return const Center(child: Text('Home Screen'));
-  //   }
-  // }
-
-  
-    }
-
-    class Page1 extends StatelessWidget {
-  const Page1({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(child: Text('Page 2'));
-  }
+          child: Image.asset(
+            assetPath,
+            width: 25,
+            color: navBarProvider.selectedIndex == index
+                ? Color(0xFF345EF1)
+                : Colors.grey, // Highlight selected
+          ),
+        ),
+        Text(
+          text,
+          style: GoogleFonts.almarai(
+            fontSize: 10,
+            fontWeight: FontWeight.bold,
+            color: navBarProvider.selectedIndex == index
+                ? Color(0xFF345EF1)
+                : Color(0xFFBEBEC0),
+          ),
+        ),
+      ],
+    ),
+  );
 }
 
-class Page2 extends StatelessWidget {
-  const Page2({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(child: Text('Page 3'));
-  }
 }
 
-class Page3 extends StatelessWidget {
-  const Page3({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    return Center(child: Text('Page 4'));
-  }
-}
-
-class Page4 extends StatelessWidget {
-  const Page4({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(child: Text('Page 5'));
-}
-}
   Widget buildDrawer(BuildContext context) {
     return Padding(
 
@@ -369,7 +239,7 @@ class Page4 extends StatelessWidget {
                     Navigator.push(
                               context,
                               CustomPageNavigation(
-                                child: Majlis(),
+                                child: Majlis(isNavBar: false,),
                               ),
                             );
                   }),
@@ -404,15 +274,15 @@ class Page4 extends StatelessWidget {
               
                   }),
                   drawerItems("اقوال و ارشاداتِ عالیہ",(){
-                    Navigator.push(context, CustomPageNavigation(child: AqwalWaIrshadaatScreen()));
+                    Navigator.push(context, CustomPageNavigation(child: AqwalWaIrshadaatScreen(isNavBar: false)));
               
                   }),
                   drawerItems("شجرۂ قادریہ حسبیہ",(){
-                    Navigator.push(context, CustomPageNavigation(child: ShajrEQadriaScreen(text: "hasbiya")));
+                    Navigator.push(context, CustomPageNavigation(child: ShajrEQadriaScreen(text: "hasbiya",isNavBar: false)));
               
                   }),
                   drawerItems("شجرۂ قادریہ نسبیہ",(){
-                    Navigator.push(context, CustomPageNavigation(child: ShajrEQadriaScreen(text: "nasbiya")));
+                    Navigator.push(context, CustomPageNavigation(child: ShajrEQadriaScreen(text: "nasbiya",isNavBar: false)));
               
                   }),
                   drawerItems("شجرۂ حسبیہ منظوم مع تضمین",(){
@@ -525,6 +395,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  ScrollController _scrollController = ScrollController();
   @override
   void initState() {
     
@@ -549,6 +420,7 @@ class _HomeState extends State<Home> {
       backgroundColor: Colors.white,
       body: Container(
         child: SingleChildScrollView(
+          controller: _scrollController,
           child: Column(
             children: [
               Padding(
@@ -560,15 +432,15 @@ class _HomeState extends State<Home> {
                         Navigator.push(
                           context,
                           CustomPageNavigation(
-                            child: Majlis(),
+                            child: Majlis(isNavBar: false,),
                           ),
                         );
                       },
                       child: Container(
-                        padding: EdgeInsets.symmetric(horizontal: 30),
+                        padding: EdgeInsets.symmetric(horizontal: 20),
                         width: double.infinity,
                         height: MediaQuery.of(context).size.height * 0.32,
-                        margin: EdgeInsets.symmetric(vertical: 30),
+                        margin: EdgeInsets.only(top: 30),
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadiusDirectional.circular(20),
@@ -584,7 +456,7 @@ class _HomeState extends State<Home> {
                             Text(
                               "فهرست مجالس",
                               style: GoogleFonts.almarai(
-                                fontSize: 22,
+                                fontSize: 18,
                                 color: Color(0xFF02DBC6),
                                 fontWeight: FontWeight.bold,
                               ),
@@ -592,16 +464,17 @@ class _HomeState extends State<Home> {
                             SizedBox(height: 5),
                             Text(
                               textAlign: TextAlign.center,
-                              "امام االولیاء حضرت پیر سّید محّمد عبد اهلل شاہ مشہدی قادری",
+                              "امام االولیاء حضرت پیر سّید محّمد عبد اللہ شاہ مشہدی قادری",
                               style: GoogleFonts.almarai(
-                                  fontSize: 9,
+                                  fontSize: 10,
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold),
                             ),
                             Text(
                               "رحمة الله تعالى عليه",
                               style: GoogleFonts.almarai(
-                                fontSize: 9,
+                                fontSize: 10,
+                                fontWeight: FontWeight.bold,
                                 color: Colors.white,
                               ),
                             ),
@@ -609,6 +482,7 @@ class _HomeState extends State<Home> {
                         ),
                       ),
                     ),
+                    SizedBox(height:20),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -645,7 +519,7 @@ class _HomeState extends State<Home> {
                       ],
                     ),
                     SizedBox(
-                      height: 20,
+                      height: 5,
                     ),
                     Padding(
                       padding: EdgeInsets.symmetric(vertical: 10),
@@ -783,7 +657,7 @@ class _HomeState extends State<Home> {
                             Navigator.push(
                               context,
                               CustomPageNavigation(
-                                child: ShajrEQadriaScreen(text: "nasbiya"),
+                                child: ShajrEQadriaScreen(text: "nasbiya",isNavBar:false),
                               ),
                             );
                           },
@@ -805,7 +679,7 @@ class _HomeState extends State<Home> {
                             Navigator.push(
                               context,
                               CustomPageNavigation(
-                                child: ShajrEQadriaScreen(text: "hasbiya"),
+                                child: ShajrEQadriaScreen(text: "hasbiya",isNavBar:false),
                               ),
                             );
                           },
@@ -836,7 +710,7 @@ class _HomeState extends State<Home> {
                             Navigator.push(
                               context,
                               CustomPageNavigation(
-                                child: ShajrEQadriaScreen(text: "nasbiya"),
+                                child: ShajrEQadriaScreen(text: "nasbiya",isNavBar:false),
                               ),
                             );
                           },
@@ -864,7 +738,7 @@ class _HomeState extends State<Home> {
                               Navigator.push(
                                 context,
                                 CustomPageNavigation(
-                                    child: ShajrEQadriaScreen(text: "hasbiya")),
+                                    child: ShajrEQadriaScreen(text: "hasbiya",isNavBar:false)),
                               );
                             },
                             child: Container(
@@ -1022,7 +896,7 @@ class _HomeState extends State<Home> {
                         audioPath: '',
                       ),
               ),
-              SizedBox(height:5),
+              SizedBox(height:12),
               Padding(
                 padding: EdgeInsetsDirectional.symmetric(horizontal: 10),
                 child: Row(
@@ -1272,14 +1146,23 @@ class _HomeState extends State<Home> {
                     width: 40,
                   ),
                   SizedBox(width: 10),
-                  Image.asset(
-                    "assets/images/gototop.png",
-                    width: 40,
+                  GestureDetector(
+                    onTap: (){
+                      _scrollController.animateTo(
+            0.0,
+            duration: Duration(milliseconds: 500),
+            curve: Curves.easeInOut,
+          );
+                    },
+                    child: Image.asset(
+                      "assets/images/gototop.png",
+                      width: 40,
+                    ),
                   ),
                   SizedBox(width: 10),
                 ],
               ),
-              SizedBox(height: 20),
+              SizedBox(height: 40),
             ],
           ),
         ),

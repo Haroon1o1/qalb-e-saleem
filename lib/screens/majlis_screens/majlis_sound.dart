@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -8,6 +10,7 @@ import 'package:qalb/providers/DataProvider.dart';
 import 'package:qalb/providers/SoundPlayerProvider.dart';
 import 'package:qalb/screens/majlis_screens/majlis_text.dart';
 import 'package:qalb/screens/sound_screen.dart/sound_player.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Majlis_Sound extends StatefulWidget {
   final String image;
@@ -37,6 +40,43 @@ class _Majlis_SoundState extends State<Majlis_Sound> {
     super.didChangeDependencies();
     soundPlayerProvider =
         Provider.of<SoundPlayerProvider>(context, listen: true);
+  }
+  @override
+  void initState() {
+    loadAudioPosition();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    saveAudioPosition(widget.name, soundPlayerProvider.position);
+    soundPlayerProvider.stopAudio();
+    super.dispose();
+  }
+
+  Future<void> saveAudioPosition(String name, Duration position) async {
+    final prefs = await SharedPreferences.getInstance();
+        log("in saving audio method for name ${name} --- seconds: ${position.inSeconds}"); 
+
+    if(position.inSeconds.toDouble() > 0){
+      prefs.setInt("majlis${widget.index+1}", position.inSeconds);
+    }
+  }
+
+  Future<void> loadAudioPosition() async {
+    final prefs = await SharedPreferences.getInstance();
+    int? savedPosition = prefs.getInt("majlis${widget.index+1}");
+                log("in load audio method for name majlis${widget.index+1} --- seconds: ${savedPosition} -- duration is ${getDuration()}"); 
+
+    if (savedPosition != null && savedPosition > 0) {
+
+    
+     
+        soundPlayerProvider.seekAudio(savedPosition.toDouble());
+
+    }else{
+        soundPlayerProvider.seekAudio(Duration.zero.inSeconds.toDouble());
+      }
   }
 
   void navigateToMajlis(int newIndex) {
@@ -164,8 +204,7 @@ class _Majlis_SoundState extends State<Majlis_Sound> {
                             value: soundPlayerProvider.position.inSeconds
                                 .toDouble(),
                             min: 0.0,
-                            max: soundPlayerProvider.duration.inSeconds
-                                .toDouble(),
+                            max: getDuration().toDouble(),
                             onChanged: (value) {
                               soundPlayerProvider.seekAudio(value);
                             },
@@ -183,7 +222,7 @@ class _Majlis_SoundState extends State<Majlis_Sound> {
                               ),
                               Text(
                                 soundPlayerProvider.formatDuration(
-                                    soundPlayerProvider.duration),
+                                   Duration(seconds: getDuration())),
                                 style: TextStyle(color: Colors.black),
                               ),
                             ],
@@ -198,6 +237,7 @@ class _Majlis_SoundState extends State<Majlis_Sound> {
                                     context,
                                     CustomPageNavigation(
                                       child: Majlis_Text(
+                                        duration: getDuration(),
                                         audioPath: widget.audioPath,
                                         index: widget.index,
                                         image: Provider.of<DataProvider>(
@@ -277,5 +317,31 @@ class _Majlis_SoundState extends State<Majlis_Sound> {
         ),
       ),
     );
+  }
+
+    int getDuration() {
+    final duration = {
+      1:853,
+      2:1046,
+      3:789,
+      4:1229,
+      5:1848,
+      6:1828,
+      7:856,
+      8:1029,
+      9:646,
+      10:968,
+      11:1240,
+      12:827,
+      13:1631,
+      14:932,
+      15:2331,
+      16:1296,
+      17:1608,
+      18:764,
+      19:782,
+      20:1975,
+    };
+    return duration[widget.index+1] ?? 0;
   }
 }

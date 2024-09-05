@@ -1,4 +1,6 @@
+
 import 'package:flutter/material.dart';
+import 'package:flutter_file_downloader/flutter_file_downloader.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class hawashiwahawalajatScreen extends StatefulWidget {
@@ -129,9 +131,34 @@ class _hawashiwahawalajatScreenState extends State<hawashiwahawalajatScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       
-                      Image.asset("assets/images/hawalajat1.png", width: 150),
+                      GestureDetector(
+                        onTap: (){
+                          
+                          FileDownloader.downloadFile(url: "https://firebasestorage.googleapis.com/v0/b/qalb-e-saleem-c7987.appspot.com/o/hawashiPdf%2FHawashe-O-Hawalajat%201.pdf?alt=media&token=f24fb3d0-df78-4e05-a3d1-4847ac1ea868" , onDownloadError: (String error){
+                          },notificationType: NotificationType.all,
+                          name: "Hawalajat-Part01",
+                          onDownloadCompleted: (String m){
+                          }
+                          );
+                              // downloadPdf("https://firebasestorage.googleapis.com/v0/b/qalb-e-saleem-c7987.appspot.com/o/hawashiPdf%2FHawashe-O-Hawalajat%201.pdf?alt=media&token=f24fb3d0-df78-4e05-a3d1-4847ac1ea868", "Part01");
+                        },
+                        child: Image.asset("assets/images/hawalajat1.png", width: 150)),
                       SizedBox(height: 50),
-                      Image.asset("assets/images/hawalajat2.png", width: 200, fit: BoxFit.cover,),
+                      GestureDetector(
+                         onTap: (){
+                          FileDownloader.downloadFile(
+                            name: "Hawalajat-Part02",
+                            url: "https://firebasestorage.googleapis.com/v0/b/qalb-e-saleem-c7987.appspot.com/o/hawashiPdf%2FHawashe-O-Hawalajat%202.pdf?alt=media&token=60c139ff-4e5f-4f7e-8662-4a56061c1f41" , onDownloadError: (String error){
+                          },notificationType: NotificationType.all,
+                          onDownloadCompleted: (String m){
+                          }
+                          );
+                              // downloadPdf("https://firebasestorage.googleapis.com/v0/b/qalb-e-saleem-c7987.appspot.com/o/hawashiPdf%2FHawashe-O-Hawalajat%201.pdf?alt=media&token=f24fb3d0-df78-4e05-a3d1-4847ac1ea868", "Part01");
+                        },
+                        // onTap: (){
+                        //   // downloadPdf("https://firebasestorage.googleapis.com/v0/b/qalb-e-saleem-c7987.appspot.com/o/hawashiPdf%2FHawashe-O-Hawalajat%202.pdf?alt=media&token=60c139ff-4e5f-4f7e-8662-4a56061c1f41", "Part02");
+                        // },
+                        child: Image.asset("assets/images/hawalajat2.png", width: 200, fit: BoxFit.cover,)),
                     ],
                   ),
                 ),
@@ -142,4 +169,36 @@ class _hawashiwahawalajatScreenState extends State<hawashiwahawalajatScreen> {
       )),
     );
   }
+
+// void downloadPdf(String url,String name) async {
+//   await requestStoragePermission();
+
+//   try{
+//   var path = "/storage/emulated/0/Download/$name.pdf";
+//   var file = File(path);
+//   var res = await get(Uri.parse(url));
+  
+//     file.writeAsBytes(res.bodyBytes);
+//     ScaffoldMessenger.of(context).showSnackBar(
+//           SnackBar(
+//             content: Text("File downloaded to $path"),
+//             duration: Duration(seconds: 3),
+//           ),
+//         );
+//   }catch(e){
+//     log("${e}");
+//   }
+// }
+
+// Future<void> requestStoragePermission() async {
+//   final status = await Permission.storage.request();
+//   if (status.isGranted) {
+//     print('Storage permission granted');
+//   } else {
+//     print('Storage permission denied');
+//   }
+// }
+
+
+
 }

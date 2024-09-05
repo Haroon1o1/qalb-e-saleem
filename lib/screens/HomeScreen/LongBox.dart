@@ -29,7 +29,7 @@ class LongBox extends StatelessWidget {
           context,
           CustomPageNavigation(
             child: getImageAddress() == "akwal"
-                ? AqwalWaIrshadaatScreen()
+                ? AqwalWaIrshadaatScreen(isNavBar: false,)
                 : SoundPlayer(
                     image: getImageAddress(),
                     name: mainText,

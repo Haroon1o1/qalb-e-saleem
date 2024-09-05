@@ -94,25 +94,28 @@ class _SplashscreenState extends State<Splashscreen>
                   opacity: fadeAnimation,
                   child: SlideTransition(
                     position: slideAnimationText,
-                    child: Column(
-                      children: [
-                         Text(
-                          'فهرست مجالس',
-                          style: GoogleFonts.almarai(
-                            fontSize: 12,
-                            color: Colors.blueAccent,
-                            fontWeight: FontWeight.bold,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      child: Column(
+                        children: [
+                           Text(
+                            'فهرست مجالس',
+                            style: GoogleFonts.almarai(
+                              fontSize: 12,
+                              color: Colors.blueAccent,
+                              fontWeight: FontWeight.bold,
+                            ),
+                           ),
+                           Text(
+                            'امام االولیاء حضرت پیر سّید محّمد عبد اهلل شاہ مشہدی قادری',
+                            style: GoogleFonts.almarai(
+                              fontSize: 12,
+                              color: Colors.blueAccent,
+                              
+                            ),
                           ),
-                         ),
-                         Text(
-                          'امام االولیاء حضرت پیر سّید محّمد عبد اهلل شاہ مشہدی قادری',
-                          style: GoogleFonts.almarai(
-                            fontSize: 12,
-                            color: Colors.blueAccent,
-                            
-                          ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 ),

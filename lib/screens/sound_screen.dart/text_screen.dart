@@ -12,10 +12,12 @@ class TextScreen extends StatefulWidget {
   final String image;
   final String name;
   final String audioPath;
+  final int duration;
 
   TextScreen({
     super.key,
     required this.image,
+    required this.duration,
     required this.name,
     required this.audioPath,
   });
@@ -168,9 +170,7 @@ class _TextScreenState extends State<TextScreen> {
                                                     .position.inSeconds
                                                     .toDouble(),
                                                 min: 0.0,
-                                                max: soundPlayerProvider
-                                                    .duration.inSeconds
-                                                    .toDouble(),
+                                                max: widget.duration.toDouble(),
                                                 onChanged: (value) {
                                                   soundPlayerProvider
                                                       .seekAudio(value);
