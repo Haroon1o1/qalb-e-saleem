@@ -10,6 +10,7 @@ import 'package:qalb/providers/DataProvider.dart';
 import 'package:qalb/providers/SoundPlayerProvider.dart';
 import 'package:qalb/screens/majlis_screens/majlis_text.dart';
 import 'package:qalb/screens/sound_screen.dart/sound_player.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Majlis_Sound extends StatefulWidget {
@@ -49,35 +50,28 @@ class _Majlis_SoundState extends State<Majlis_Sound> {
 
   @override
   void dispose() {
-    saveAudioPosition(widget.name, soundPlayerProvider.position);
+    saveAudioPosition( soundPlayerProvider.position);
     soundPlayerProvider.stopAudio();
     super.dispose();
   }
-
-  Future<void> saveAudioPosition(String name, Duration position) async {
-    final prefs = await SharedPreferences.getInstance();
-        log("in saving audio method for name ${name} --- seconds: ${position.inSeconds}"); 
-
-    if(position.inSeconds.toDouble() > 0){
-      prefs.setInt("majlis${widget.index+1}", position.inSeconds);
-    }
+Future<void> saveAudioPosition(Duration position) async {
+  final prefs = await SharedPreferences.getInstance();
+  log("Saving position: ${position.inSeconds}");
+  if (position.inSeconds > 0) {
+    prefs.setInt("majlis${widget.index+1}", position.inSeconds);
   }
+}
 
-  Future<void> loadAudioPosition() async {
-    final prefs = await SharedPreferences.getInstance();
-    int? savedPosition = prefs.getInt("majlis${widget.index+1}");
-                log("in load audio method for name majlis${widget.index+1} --- seconds: ${savedPosition} -- duration is ${getDuration()}"); 
-
-    if (savedPosition != null && savedPosition > 0) {
-
-    
-     
-        soundPlayerProvider.seekAudio(savedPosition.toDouble());
-
-    }else{
-        soundPlayerProvider.seekAudio(Duration.zero.inSeconds.toDouble());
-      }
+Future<void> loadAudioPosition() async {
+  final prefs = await SharedPreferences.getInstance();
+  int? savedPosition = prefs.getInt("majlis${widget.index+1}");
+  log("Loaded position: ${savedPosition} for index ${widget.index+1}");
+  if (savedPosition != null && savedPosition > 0) {
+    soundPlayerProvider.seekAudio(savedPosition.toDouble());
+  } else {
+    soundPlayerProvider.seekAudio(Duration.zero.inSeconds.toDouble());
   }
+}
 
   void navigateToMajlis(int newIndex) {
     Navigator.pushReplacement(
@@ -105,9 +99,10 @@ class _Majlis_SoundState extends State<Majlis_Sound> {
       child: Scaffold(
         backgroundColor: Colors.white,
         body: Container(
+          
           padding: EdgeInsets.symmetric(
               vertical: MediaQuery.of(context).size.height * 0.1),
-          height: MediaQuery.of(context).size.height * 1,
+        
           child: Consumer<SoundPlayerProvider>(
             builder: (context, soundPlayerProvider, _) {
               return Padding(
@@ -116,8 +111,8 @@ class _Majlis_SoundState extends State<Majlis_Sound> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    SizedBox(height: 0),
                     Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -127,7 +122,7 @@ class _Majlis_SoundState extends State<Majlis_Sound> {
                                 Container(
                                   alignment: Alignment.center,
                                   decoration: BoxDecoration(
-                                    color: Colors.grey[500],
+                                    color: Color(0xFF8590A3),
                                     shape: BoxShape.circle,
                                   ),
                                   width: 25,
@@ -145,9 +140,10 @@ class _Majlis_SoundState extends State<Majlis_Sound> {
                                     style: GoogleFonts.almarai(
                                         fontSize: 20,
                                         fontWeight: FontWeight.bold,
-                                        color: Colors.grey[500])),
+                                        color: Color(0xFF8590A3))),
                               ],
                             ),
+                            SizedBox(height: 30),
                             InkWell(
                               onTap: () {
                                 Navigator.pop(context);
@@ -160,9 +156,9 @@ class _Majlis_SoundState extends State<Majlis_Sound> {
                             ),
                           ],
                         ),
-                        SizedBox(height: 10),
+                        SizedBox(height: 40),
                         Container(
-                          height: MediaQuery.of(context).size.height * 0.5,
+                          height: MediaQuery.of(context).size.height * 0.45,
                           decoration: BoxDecoration(
                             image: DecorationImage(
                               image: CachedNetworkImageProvider(widget.image),
@@ -173,7 +169,9 @@ class _Majlis_SoundState extends State<Majlis_Sound> {
                         ),
                       ],
                     ),
+                    
                     Column(
+                      
                       children: [
                         Text(
                           widget.name,
@@ -182,6 +180,7 @@ class _Majlis_SoundState extends State<Majlis_Sound> {
                               color: Colors.black,
                               fontWeight: FontWeight.bold),
                         ),
+                        SizedBox(height:10),
                         Text(
                           textDirection: TextDirection.rtl,
                           overflow: TextOverflow.ellipsis,
@@ -191,14 +190,17 @@ class _Majlis_SoundState extends State<Majlis_Sound> {
                             color: Colors.black,
                           ),
                         ),
+                        SizedBox(height:10),
                         SliderTheme(
                           data: SliderTheme.of(context).copyWith(
-                            activeTrackColor: Colors.grey,
+                            
+                            activeTrackColor: Color(0xFF8590A3),
                             inactiveTrackColor: Colors.grey[300],
-                            thumbColor: Colors.grey,
+                            thumbColor: Color(0xFF9BA8B9),
                             thumbShape: CustomRoundSliderThumbShape(),
                             overlayColor: Colors.grey.withOpacity(0.2),
-                            trackHeight: 4.0,
+                            trackHeight: 1.8,
+                            
                           ),
                           child: Slider(
                             value: soundPlayerProvider.position.inSeconds
@@ -210,20 +212,21 @@ class _Majlis_SoundState extends State<Majlis_Sound> {
                             },
                           ),
                         ),
+
                         Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                          padding:  EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width*0.06),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
                                 soundPlayerProvider.formatDuration(
                                     soundPlayerProvider.position),
-                                style: TextStyle(color: Colors.black),
+                                style: GoogleFonts.openSans(color: Color(0xFF8590A3), fontSize: 11, ),
                               ),
                               Text(
                                 soundPlayerProvider.formatDuration(
                                    Duration(seconds: getDuration())),
-                                style: TextStyle(color: Colors.black),
+                                style: GoogleFonts.openSans(color: Color(0xFF8590A3), fontSize: 11),
                               ),
                             ],
                           ),
@@ -253,27 +256,30 @@ class _Majlis_SoundState extends State<Majlis_Sound> {
                               },
                               child: Image.asset(
                                 "assets/images/read.png",
-                                width: 35,
+                                width: 30,
                               ),
                             ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 // Previous button, hide if index is 0
-                                // if (widget.index > 0)
-                                //   GestureDetector(
-                                //     onTap: () {
-                                //       soundPlayerProvider.stopAudio();
-                                //       navigateToMajlis(widget.index - 1);
-                                //     },
-                                //     child: Image.asset(
-                                //       "assets/new_images/next-left.png",
-                                //       width: 30,
-                                //     ),
-                                //   )
-                                // else
-                                //   SizedBox(width: 35),
-                                // SizedBox(width: 5),
+                                if (widget.index < 19)
+                                  GestureDetector(
+                                    onTap: () {
+                                       saveAudioPosition(soundPlayerProvider.position).then((_){
+                                          soundPlayerProvider.stopAudio();
+                                      navigateToMajlis(widget.index + 1);
+                                       });
+                                      
+                                    },
+                                    child: Image.asset(
+                                      "assets/new_images/next-left.png",
+                                      width: 20,
+                                    ),
+                                  )
+                                else
+                                  SizedBox(width: 35),
+                                SizedBox(width: 5),
                                 GestureDetector(
                                   onTap: () => soundPlayerProvider
                                       .togglePlayStop(widget.audioPath),
@@ -284,26 +290,33 @@ class _Majlis_SoundState extends State<Majlis_Sound> {
                                     width: 60,
                                   ),
                                 ),
-                                // SizedBox(width: 5),
-                                // // Next button, hide if index is 19
-                                // if (widget.index < 19)
-                                //   GestureDetector(
-                                //     onTap: () {
-                                //       soundPlayerProvider.stopAudio();
-                                //       navigateToMajlis(widget.index + 1);
-                                //     },
-                                //     child: Image.asset(
-                                //       "assets/new_images/next-right.png",
-                                //       width: 30,
-                                //     ),
-                                //   )
-                                // else
-                                //   SizedBox(width: 35),
+                                SizedBox(width: 5),
+                                // Next button, hide if index is 19
+                                if (widget.index > 0)
+                                  GestureDetector(
+                                    onTap: () {
+                                      saveAudioPosition(soundPlayerProvider.position).then((_){
+                                          soundPlayerProvider.stopAudio();
+                                      navigateToMajlis(widget.index - 1);
+                                       });
+                                    },
+                                    child: Image.asset(
+                                      "assets/new_images/next-right.png",
+                                      width: 20,
+                                    ),
+                                  )
+                                else
+                                  SizedBox(width: 35),
                               ],
                             ),
-                            Image.asset(
-                              "assets/images/share-grey.png",
-                              width: 35,
+                            GestureDetector(
+                              onTap: () {
+                                Share.share('Download Qalb-E-Saleem App: https://play.google.com/store/apps/details?id=com.hizburehman.qalb_e_saleem&hl=en');
+                              },
+                              child: Image.asset(
+                                "assets/images/share-grey.png",
+                                width: 28,
+                              ),
                             ),
                           ],
                         ),

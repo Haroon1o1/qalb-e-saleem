@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:qalb/providers/DataProvider.dart';
 import 'package:qalb/providers/SoundPlayerProvider.dart';
 import 'package:qalb/screens/sound_screen.dart/text_screen.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SoundPlayer extends StatefulWidget {
@@ -106,7 +107,7 @@ class _SoundPlayerState extends State<SoundPlayer> {
                                 style: GoogleFonts.almarai(
                                     fontSize: 20,
                                     fontWeight: FontWeight.bold,
-                                    color: Colors.grey[500])),
+                                    color: Color(0xFF8590A3))),
                             InkWell(
                               onTap: () {
                                 Navigator.pop(context);
@@ -153,44 +154,37 @@ class _SoundPlayerState extends State<SoundPlayer> {
                           ),
                         ),
                         SizedBox(height: 0),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 3.0),
-                          child: SliderTheme(
-                            data: SliderTheme.of(context).copyWith(
-                              activeTrackColor: Colors.grey,
-                              inactiveTrackColor: Colors.grey[300],
-                              thumbColor: Colors.grey,
-                              thumbShape: CustomRoundSliderThumbShape(),
-                              overlayColor: Colors.grey.withOpacity(0.2),
-                              trackHeight: 4.0,
-                            ),
-                            child:  Slider(
-  value: soundPlayerProvider.position.inSeconds.toDouble(),
-  min: 0.0,
-  max: Duration(seconds: getDuration()).inSeconds.toDouble(),
-  onChanged: (value) {
-    log('Slider changed to: $value');
-    soundPlayerProvider.seekAudio(value);
-  },
-),
-
-
+                        SliderTheme(
+                          data: SliderTheme.of(context).copyWith(
+                            activeTrackColor: Color(0xFF8590A3),
+                            inactiveTrackColor: Colors.grey[300],
+                            thumbColor: Color(0xFF9BA8B9),
+                            thumbShape: CustomRoundSliderThumbShape(),
+                            overlayColor: Colors.grey.withOpacity(0.2),
+                            trackHeight: 1.8,
                           ),
+                          child:  Slider(
+                          value: soundPlayerProvider.position.inSeconds.toDouble(),
+                          min: 0.0,
+                          max: Duration(seconds: getDuration()).inSeconds.toDouble(),
+                          onChanged: (value) {
+                            log('Slider changed to: $value');
+                            soundPlayerProvider.seekAudio(value);
+                          },
+                        ),
+                        
+                        
                         ),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 16.0),
                           child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            mainAxisAlignment: MainAxisAlignment.end,
                             children: [
-                              Text(
-                                soundPlayerProvider.formatDuration(
-                                    soundPlayerProvider.position),
-                                style: TextStyle(color: Colors.black),
-                              ),
+                             
                               Text(
                                 soundPlayerProvider.formatDuration(
                                     Duration(seconds:getDuration())),
-                                style: TextStyle(color: Colors.black),
+                                style: TextStyle(color: Color(0xFF9BA8B9)),
                               ),
                             ],
                           ),
@@ -216,7 +210,7 @@ class _SoundPlayerState extends State<SoundPlayer> {
                                   },
                                   child: Image.asset(
                                     "assets/images/read.png",
-                                    width: 35,
+                                    width: 30,
                                   )),
                               GestureDetector(
                                 onTap: () => soundPlayerProvider
@@ -228,10 +222,15 @@ class _SoundPlayerState extends State<SoundPlayer> {
                                   width: 60,
                                 ),
                               ),
-                              Image.asset(
+                              GestureDetector(
+                              onTap: () {
+                                Share.share('Download Qalb-E-Saleem App: https://play.google.com/store/apps/details?id=com.hizburehman.qalb_e_saleem&hl=en');
+                              },
+                              child: Image.asset(
                                 "assets/images/share-grey.png",
-                                width: 30,
+                                width: 28,
                               ),
+                            ),
                             ],
                           ),
                         ),
@@ -283,11 +282,15 @@ class _SoundPlayerState extends State<SoundPlayer> {
 }
 
 // -----------------------------------------------SLIDER STYLE
-
 class CustomRoundSliderThumbShape extends SliderComponentShape {
+  final double outerRadius;
+  final double innerRadius;
+
+  CustomRoundSliderThumbShape({this.outerRadius = 12.0, this.innerRadius = 5.0});
+
   @override
   Size getPreferredSize(bool isEnabled, bool isDiscrete) {
-    return Size(24.0, 24.0);
+    return Size(outerRadius * 2 + 4.0, outerRadius * 2 + 4.0);
   }
 
   @override
@@ -311,12 +314,17 @@ class CustomRoundSliderThumbShape extends SliderComponentShape {
       ..color = sliderTheme.thumbColor!
       ..style = PaintingStyle.fill;
 
-    canvas.drawCircle(center, 12.0, outerPaint);
+    // Draw the outer circle with some padding
+    canvas.drawCircle(center, outerRadius, outerPaint);
 
     final Paint innerPaint = Paint()
       ..color = Colors.white
       ..style = PaintingStyle.fill;
 
-    canvas.drawCircle(center, 5.0, innerPaint);
+    // Draw the inner circle
+    canvas.drawCircle(center, innerRadius, innerPaint);
   }
 }
+
+
+

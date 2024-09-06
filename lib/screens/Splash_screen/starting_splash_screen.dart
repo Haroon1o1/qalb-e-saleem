@@ -77,7 +77,7 @@ class _SplashscreenState extends State<Splashscreen>
               mainAxisAlignment: MainAxisAlignment.end,
               mainAxisSize: MainAxisSize.min,
               children: [
-                SizedBox(height: MediaQuery.of(context).size.height*0.2),
+                SizedBox(height: MediaQuery.of(context).size.height*0.3),
                 FadeTransition(
                   opacity: fadeAnimation,
                   child: SlideTransition(
@@ -98,6 +98,7 @@ class _SplashscreenState extends State<Splashscreen>
                       padding: const EdgeInsets.symmetric(horizontal: 10),
                       child: Column(
                         children: [
+                          SizedBox(height: MediaQuery.of(context).size.height*0.1),
                            Text(
                             'فهرست مجالس',
                             style: GoogleFonts.almarai(
@@ -107,7 +108,7 @@ class _SplashscreenState extends State<Splashscreen>
                             ),
                            ),
                            Text(
-                            'امام االولیاء حضرت پیر سّید محّمد عبد اهلل شاہ مشہدی قادری',
+                            'امام االولیاء حضرت پیر سّید محّمد عبد اللہ شاہ مشہدی قادری',
                             style: GoogleFonts.almarai(
                               fontSize: 12,
                               color: Colors.blueAccent,

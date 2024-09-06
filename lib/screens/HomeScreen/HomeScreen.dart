@@ -13,6 +13,7 @@ import 'package:qalb/screens/sound_screen.dart/sound_player.dart';
 import 'package:qalb/utils/videoPlayer.dart';
 
 import 'package:provider/provider.dart';
+import 'package:share_plus/share_plus.dart';
 
 class BottomNavBarScreen extends StatefulWidget {
   @override
@@ -348,7 +349,11 @@ class _BottomNavBarScreenState extends State<BottomNavBarScreen> {
                         SizedBox(width: 5),
                         Container( width: 35,padding: EdgeInsets.all(8), height: 35, decoration: BoxDecoration(borderRadius: BorderRadiusDirectional.circular(10),color: Color(0xFF00FFFF)),child: Image.asset("assets/new_images/world.png",color: Color(0xFF2F49D1),),),
                         SizedBox(width: 5),
-                        Container( width: 35,padding: EdgeInsets.all(8), height: 35, decoration: BoxDecoration(borderRadius: BorderRadiusDirectional.circular(10),color: Color(0xFF00FFFF), ),child:  Image.asset("assets/new_images/share.png",color: Color(0xFF2F49D1),),),
+                        GestureDetector(
+                          onTap: (){
+                                Share.share('Download Qalb-E-Saleem App: https://play.google.com/store/apps/details?id=com.hizburehman.qalb_e_saleem&hl=en');
+                          },
+                          child: Container( width: 35,padding: EdgeInsets.all(8), height: 35, decoration: BoxDecoration(borderRadius: BorderRadiusDirectional.circular(10),color: Color(0xFF00FFFF), ),child:  Image.asset("assets/new_images/share.png",color: Color(0xFF2F49D1),),)),
                       ],
                     ),),
               
