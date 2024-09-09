@@ -20,7 +20,7 @@ class _SplashscreenState extends State<Splashscreen>
   @override
   void initState() {
     super.initState();
-    
+
     _controller = AnimationController(
       duration: const Duration(seconds: 2),
       vsync: this,
@@ -53,9 +53,7 @@ class _SplashscreenState extends State<Splashscreen>
 
     Future.delayed(const Duration(seconds: 6), () {
       Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
-            builder: (_) =>
-                BottomNavBarScreen()),
+        MaterialPageRoute(builder: (_) => BottomNavBarScreen()),
       );
     });
   }
@@ -74,22 +72,26 @@ class _SplashscreenState extends State<Splashscreen>
         children: [
           Center(
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.center,
               mainAxisSize: MainAxisSize.min,
               children: [
-                SizedBox(height: MediaQuery.of(context).size.height*0.3),
+                // SizedBox(height: MediaQuery.of(context).size.height * 0.2),
                 FadeTransition(
                   opacity: fadeAnimation,
                   child: SlideTransition(
                     position: slideAnimationImage,
                     child: Container(
-                      height:180,width:180,decoration: BoxDecoration(
-                        
-                        image: DecorationImage(image: AssetImage("assets/images/logo.jpg"),),borderRadius: BorderRadiusDirectional.circular(20)),
+                      height: 180,
+                      width: 180,
+                      decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: AssetImage("assets/images/logo.jpg"),
+                          ),
+                          borderRadius: BorderRadiusDirectional.circular(20)),
                     ),
                   ),
                 ),
-                const SizedBox(height: 100),
+                // const SizedBox(height: 50),
                 FadeTransition(
                   opacity: fadeAnimation,
                   child: SlideTransition(
@@ -98,21 +100,22 @@ class _SplashscreenState extends State<Splashscreen>
                       padding: const EdgeInsets.symmetric(horizontal: 10),
                       child: Column(
                         children: [
-                          SizedBox(height: MediaQuery.of(context).size.height*0.1),
-                           Text(
+                          SizedBox(
+                              height: MediaQuery.of(context).size.height * 0.1),
+                          Text(
                             'فهرست مجالس',
                             style: GoogleFonts.almarai(
-                              fontSize: 12,
+                              fontSize: 15,
                               color: Colors.blueAccent,
                               fontWeight: FontWeight.bold,
                             ),
-                           ),
-                           Text(
+                          ),
+                          Text(
+                            textAlign: TextAlign.center,
                             'امام االولیاء حضرت پیر سّید محّمد عبد اللہ شاہ مشہدی قادری',
                             style: GoogleFonts.almarai(
-                              fontSize: 12,
+                              fontSize: 15,
                               color: Colors.blueAccent,
-                              
                             ),
                           ),
                         ],

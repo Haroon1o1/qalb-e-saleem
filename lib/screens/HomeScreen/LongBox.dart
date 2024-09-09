@@ -29,7 +29,9 @@ class LongBox extends StatelessWidget {
           context,
           CustomPageNavigation(
             child: getImageAddress() == "akwal"
-                ? AqwalWaIrshadaatScreen(isNavBar: false,)
+                ? AqwalWaIrshadaatScreen(
+                    isNavBar: false,
+                  )
                 : SoundPlayer(
                     image: getImageAddress(),
                     name: mainText,
@@ -43,7 +45,7 @@ class LongBox extends StatelessWidget {
           right: 08,
           left: 8,
         ),
-        margin: const EdgeInsets.symmetric( vertical: 3),
+        margin: const EdgeInsets.symmetric(vertical: 3),
         height: 120,
         decoration: BoxDecoration(
           color: backgroundColor,
@@ -62,7 +64,7 @@ class LongBox extends StatelessWidget {
           children: [
             Expanded(
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   SizedBox(height: 15),
@@ -75,44 +77,41 @@ class LongBox extends StatelessWidget {
                       color: Colors.white,
                     ),
                   ),
-                  const SizedBox(height: 10),
+                  // const SizedBox(height: 10),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Text(
-                    subText1,
-                    textDirection: TextDirection.rtl,
-                    style: GoogleFonts.almarai(
-                      fontSize: 9,
-                      color: Colors.white,
-                    ),
-                    overflow: TextOverflow.clip,
-                  ),
-                  const SizedBox(height: 02),
-                  Text(
-                    subText2,
-                    textDirection: TextDirection.rtl,
-                    style: GoogleFonts.almarai(
-                      fontSize: 9,
-                      color: Colors.white,
-                    ),
-                    overflow: TextOverflow.clip,
-                  ),
-                  SizedBox(height:20),
+                        subText1,
+                        textDirection: TextDirection.rtl,
+                        style: GoogleFonts.almarai(
+                          fontSize: 11,
+                          color: Colors.white,
+                        ),
+                        overflow: TextOverflow.clip,
+                      ),
+                      const SizedBox(height: 02),
+                      Text(
+                        subText2,
+                        textDirection: TextDirection.rtl,
+                        style: GoogleFonts.almarai(
+                          fontSize: 11,
+                          color: Colors.white,
+                        ),
+                        overflow: TextOverflow.clip,
+                      ),
+                      SizedBox(height: 20),
                     ],
                   )
                 ],
               ),
             ),
             const SizedBox(width: 8),
-            ClipRRect(
-              borderRadius: BorderRadius.circular(0),
-              child: Image.asset(
-                imagePath,
-                width: 105,
-                height: 105,
-                fit: BoxFit.fill,
-              ),
+            Image.asset(
+              imagePath,
+              width: 93,
+              height: 100,
+              fit: BoxFit.fill,
             ),
           ],
         ),

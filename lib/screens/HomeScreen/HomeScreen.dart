@@ -489,7 +489,7 @@ class _HomeState extends State<Home> {
                     ),
                     SizedBox(height:20),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         SmallContainer(
                           backgroundColor: Color(0xFF10A8E3),
