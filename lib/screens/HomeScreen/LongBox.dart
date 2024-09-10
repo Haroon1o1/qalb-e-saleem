@@ -49,14 +49,6 @@ class LongBox extends StatelessWidget {
         height: 120,
         decoration: BoxDecoration(
           color: backgroundColor,
-          // boxShadow: [
-          //   BoxShadow(
-          //     color: Colors.grey.withOpacity(0.5),
-          //     spreadRadius: 1,
-          //     blurRadius: 3,
-          //     offset: const Offset(1, 2),
-          //   ),
-          // ],
           borderRadius: BorderRadius.circular(15),
         ),
         child: Row(
@@ -109,7 +101,7 @@ class LongBox extends StatelessWidget {
             const SizedBox(width: 8),
             Image.asset(
               imagePath,
-              width: 93,
+              width: 92,
               height: 100,
               fit: BoxFit.fill,
             ),

@@ -42,6 +42,7 @@ class _Majlis_SoundState extends State<Majlis_Sound> {
     soundPlayerProvider =
         Provider.of<SoundPlayerProvider>(context, listen: true);
   }
+
   @override
   void initState() {
     loadAudioPosition();
@@ -50,28 +51,29 @@ class _Majlis_SoundState extends State<Majlis_Sound> {
 
   @override
   void dispose() {
-    saveAudioPosition( soundPlayerProvider.position);
+    saveAudioPosition(soundPlayerProvider.position);
     soundPlayerProvider.stopAudio();
     super.dispose();
   }
-Future<void> saveAudioPosition(Duration position) async {
-  final prefs = await SharedPreferences.getInstance();
-  log("Saving position: ${position.inSeconds}");
-  if (position.inSeconds > 0) {
-    prefs.setInt("majlis${widget.index+1}", position.inSeconds);
-  }
-}
 
-Future<void> loadAudioPosition() async {
-  final prefs = await SharedPreferences.getInstance();
-  int? savedPosition = prefs.getInt("majlis${widget.index+1}");
-  log("Loaded position: ${savedPosition} for index ${widget.index+1}");
-  if (savedPosition != null && savedPosition > 0) {
-    soundPlayerProvider.seekAudio(savedPosition.toDouble());
-  } else {
-    soundPlayerProvider.seekAudio(Duration.zero.inSeconds.toDouble());
+  Future<void> saveAudioPosition(Duration position) async {
+    final prefs = await SharedPreferences.getInstance();
+    log("Saving position: ${position.inSeconds}");
+    if (position.inSeconds > 0) {
+      prefs.setInt("majlis${widget.index + 1}", position.inSeconds);
+    }
   }
-}
+
+  Future<void> loadAudioPosition() async {
+    final prefs = await SharedPreferences.getInstance();
+    int? savedPosition = prefs.getInt("majlis${widget.index + 1}");
+    log("Loaded position: ${savedPosition} for index ${widget.index + 1}");
+    if (savedPosition != null && savedPosition > 0) {
+      soundPlayerProvider.seekAudio(savedPosition.toDouble());
+    } else {
+      soundPlayerProvider.seekAudio(Duration.zero.inSeconds.toDouble());
+    }
+  }
 
   void navigateToMajlis(int newIndex) {
     Navigator.pushReplacement(
@@ -99,10 +101,8 @@ Future<void> loadAudioPosition() async {
       child: Scaffold(
         backgroundColor: Colors.white,
         body: Container(
-          
           padding: EdgeInsets.symmetric(
               vertical: MediaQuery.of(context).size.height * 0.1),
-        
           child: Consumer<SoundPlayerProvider>(
             builder: (context, soundPlayerProvider, _) {
               return Padding(
@@ -169,9 +169,7 @@ Future<void> loadAudioPosition() async {
                         ),
                       ],
                     ),
-                    
                     Column(
-                      
                       children: [
                         Text(
                           widget.name,
@@ -180,7 +178,7 @@ Future<void> loadAudioPosition() async {
                               color: Colors.black,
                               fontWeight: FontWeight.bold),
                         ),
-                        SizedBox(height:10),
+                        SizedBox(height: 10),
                         Text(
                           textDirection: TextDirection.rtl,
                           overflow: TextOverflow.ellipsis,
@@ -190,17 +188,15 @@ Future<void> loadAudioPosition() async {
                             color: Colors.black,
                           ),
                         ),
-                        SizedBox(height:10),
+                        SizedBox(height: 30),
                         SliderTheme(
                           data: SliderTheme.of(context).copyWith(
-                            
                             activeTrackColor: Color(0xFF8590A3),
                             inactiveTrackColor: Colors.grey[300],
                             thumbColor: Color(0xFF9BA8B9),
                             thumbShape: CustomRoundSliderThumbShape(),
                             overlayColor: Colors.grey.withOpacity(0.2),
                             trackHeight: 1.8,
-                            
                           ),
                           child: Slider(
                             value: soundPlayerProvider.position.inSeconds
@@ -212,21 +208,26 @@ Future<void> loadAudioPosition() async {
                             },
                           ),
                         ),
-
                         Padding(
-                          padding:  EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width*0.06),
+                          padding: EdgeInsets.symmetric(
+                              horizontal:
+                                  MediaQuery.of(context).size.width * 0.06),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
                                 soundPlayerProvider.formatDuration(
                                     soundPlayerProvider.position),
-                                style: GoogleFonts.openSans(color: Color(0xFF8590A3), fontSize: 11, ),
+                                style: GoogleFonts.openSans(
+                                  color: Color(0xFF8590A3),
+                                  fontSize: 11,
+                                ),
                               ),
                               Text(
                                 soundPlayerProvider.formatDuration(
-                                   Duration(seconds: getDuration())),
-                                style: GoogleFonts.openSans(color: Color(0xFF8590A3), fontSize: 11),
+                                    Duration(seconds: getDuration())),
+                                style: GoogleFonts.openSans(
+                                    color: Color(0xFF8590A3), fontSize: 11),
                               ),
                             ],
                           ),
@@ -266,11 +267,12 @@ Future<void> loadAudioPosition() async {
                                 if (widget.index < 19)
                                   GestureDetector(
                                     onTap: () {
-                                       saveAudioPosition(soundPlayerProvider.position).then((_){
-                                          soundPlayerProvider.stopAudio();
-                                      navigateToMajlis(widget.index + 1);
-                                       });
-                                      
+                                      saveAudioPosition(
+                                              soundPlayerProvider.position)
+                                          .then((_) {
+                                        soundPlayerProvider.stopAudio();
+                                        navigateToMajlis(widget.index + 1);
+                                      });
                                     },
                                     child: Image.asset(
                                       "assets/new_images/next-left.png",
@@ -295,10 +297,12 @@ Future<void> loadAudioPosition() async {
                                 if (widget.index > 0)
                                   GestureDetector(
                                     onTap: () {
-                                      saveAudioPosition(soundPlayerProvider.position).then((_){
-                                          soundPlayerProvider.stopAudio();
-                                      navigateToMajlis(widget.index - 1);
-                                       });
+                                      saveAudioPosition(
+                                              soundPlayerProvider.position)
+                                          .then((_) {
+                                        soundPlayerProvider.stopAudio();
+                                        navigateToMajlis(widget.index - 1);
+                                      });
                                     },
                                     child: Image.asset(
                                       "assets/new_images/next-right.png",
@@ -311,7 +315,8 @@ Future<void> loadAudioPosition() async {
                             ),
                             GestureDetector(
                               onTap: () {
-                                Share.share('Download Qalb-E-Saleem App: https://play.google.com/store/apps/details?id=com.hizburehman.qalb_e_saleem&hl=en');
+                                Share.share(
+                                    'Download Qalb-E-Saleem App: https://play.google.com/store/apps/details?id=com.hizburehman.qalb_e_saleem&hl=en');
                               },
                               child: Image.asset(
                                 "assets/images/share-grey.png",
@@ -332,29 +337,29 @@ Future<void> loadAudioPosition() async {
     );
   }
 
-    int getDuration() {
+  int getDuration() {
     final duration = {
-      1:853,
-      2:1046,
-      3:789,
-      4:1229,
-      5:1848,
-      6:1828,
-      7:856,
-      8:1029,
-      9:646,
-      10:968,
-      11:1240,
-      12:827,
-      13:1631,
-      14:932,
-      15:2331,
-      16:1296,
-      17:1608,
-      18:764,
-      19:782,
-      20:1975,
+      1: 853,
+      2: 1046,
+      3: 789,
+      4: 1229,
+      5: 1848,
+      6: 1828,
+      7: 856,
+      8: 1029,
+      9: 646,
+      10: 968,
+      11: 1240,
+      12: 827,
+      13: 1631,
+      14: 932,
+      15: 2331,
+      16: 1296,
+      17: 1608,
+      18: 764,
+      19: 782,
+      20: 1975,
     };
-    return duration[widget.index+1] ?? 0;
+    return duration[widget.index + 1] ?? 0;
   }
 }

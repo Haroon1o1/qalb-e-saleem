@@ -11,12 +11,11 @@ import 'package:qalb/screens/majlis_screens/majlis_sound.dart';
 
 class Majlis extends StatefulWidget {
   bool isNavBar;
-   Majlis({super.key, required this.isNavBar});
+  Majlis({super.key, required this.isNavBar});
 
   @override
   State<Majlis> createState() => _MajlisState();
 }
-
 
 class _MajlisState extends State<Majlis> {
   @override
@@ -95,9 +94,10 @@ class _MajlisState extends State<Majlis> {
             top: MediaQuery.of(context).size.height * 0.19,
             left: 0,
             right: 0,
-            bottom: 0, // Ensure the content does not overflow outside the container
+            bottom:
+                0, // Ensure the content does not overflow outside the container
             child: Container(
-              padding: EdgeInsets.only(top:20),
+              padding: EdgeInsets.only(top: 20),
               decoration: const BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(
@@ -190,10 +190,10 @@ class _MajlisState extends State<Majlis> {
                           height: 12,
                         ),
                         const SizedBox(width: 4),
-                      Text(
-                                formatDuration(getDuration(index+1)),
-                                style: GoogleFonts.almarai(fontSize: 12),
-                              ),
+                        Text(
+                          formatDuration(getDuration(index + 1)),
+                          style: GoogleFonts.almarai(fontSize: 12),
+                        ),
                       ],
                     ),
                     const SizedBox(height: 17),
@@ -231,18 +231,23 @@ class _MajlisState extends State<Majlis> {
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    const VerticalDivider(
-                      color: Colors.black,
-                      thickness: 0.5,
-                      width: 0,
-                      indent: 0,
-                      endIndent: 0,
+                    Container(
+                      alignment: Alignment.center,
+                      height: 30,
+                      child: const VerticalDivider(
+                        color: Colors.black,
+                        thickness: 1,
+                        width: 0,
+                        indent: 0,
+                        endIndent: 0,
+                      ),
                     ),
                     SizedBox(width: MediaQuery.of(context).size.width * 0.02),
                     Container(
                       padding: const EdgeInsets.all(5),
-                      margin: const EdgeInsets.only(top: 5),
+                      // margin: const EdgeInsets.only(top: 5),
                       alignment: Alignment.center,
                       decoration: const BoxDecoration(
                         color: Colors.black,
@@ -277,33 +282,33 @@ class _MajlisState extends State<Majlis> {
   }
 
   String formatDuration(int seconds) {
-  final minutes = (seconds ~/ 60).toString().padLeft(2, '0');
-  final remainingSeconds = (seconds % 60).toString().padLeft(2, '0');
-  return '$minutes:$remainingSeconds';
-}
+    final minutes = (seconds ~/ 60).toString().padLeft(2, '0');
+    final remainingSeconds = (seconds % 60).toString().padLeft(2, '0');
+    return '$minutes:$remainingSeconds';
+  }
 
-   int getDuration(int index) {
+  int getDuration(int index) {
     final duration = {
-      1:853,
-      2:1046,
-      3:789,
-      4:1229,
-      5:1848,
-      6:1828,
-      7:856,
-      8:1029,
-      9:646,
-      10:968,
-      11:1240,
-      12:827,
-      13:1631,
-      14:932,
-      15:2331,
-      16:1296,
-      17:1608,
-      18:764,
-      19:782,
-      20:1975,
+      1: 853,
+      2: 1046,
+      3: 789,
+      4: 1229,
+      5: 1848,
+      6: 1828,
+      7: 856,
+      8: 1029,
+      9: 646,
+      10: 968,
+      11: 1240,
+      12: 827,
+      13: 1631,
+      14: 932,
+      15: 2331,
+      16: 1296,
+      17: 1608,
+      18: 764,
+      19: 782,
+      20: 1975,
     };
     return duration[index] ?? 0;
   }
@@ -323,5 +328,3 @@ class _MajlisState extends State<Majlis> {
     }
   }
 }
-
-
