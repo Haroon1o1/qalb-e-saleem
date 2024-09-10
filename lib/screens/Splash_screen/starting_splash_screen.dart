@@ -114,7 +114,7 @@ class _SplashscreenState extends State<Splashscreen>
                             textAlign: TextAlign.center,
                             'امام االولیاء حضرت پیر سّید محّمد عبد اللہ شاہ مشہدی قادری',
                             style: GoogleFonts.almarai(
-                              fontSize: 15,
+                              fontSize: 12,
                               color: Colors.blueAccent,
                             ),
                           ),
