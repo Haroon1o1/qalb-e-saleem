@@ -188,7 +188,7 @@ class _hawashiwahawalajatScreenState extends State<hawashiwahawalajatScreen> {
       String dir;
       
       if (foundation.defaultTargetPlatform == TargetPlatform.iOS) {
-        final directory = await getApplicationDocumentsDirectory();
+        final directory = await getApplicationSupportDirectory();
         dir = directory.path;
       } else if (foundation.defaultTargetPlatform == TargetPlatform.android) {
         dir = '/storage/emulated/0/Download';
