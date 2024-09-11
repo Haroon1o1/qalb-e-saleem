@@ -13,6 +13,7 @@ import 'package:qalb/screens/majlis_screens/majlis_screen.dart';
 import 'package:qalb/screens/sound_screen.dart/sound_player.dart';
 import 'package:qalb/utils/videoPlayer.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class BottomNavBarScreen extends StatefulWidget {
   @override
@@ -1112,19 +1113,24 @@ class _HomeState extends State<Home> {
                   width: double.infinity,
                   decoration: BoxDecoration(color: Color(0xFF2B3491)),
                   child: Column(children: [
-                    Container(
-                      height: 240,
-
-                      width: double.infinity, // Set the desired width
-
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadiusDirectional.circular(20),
-                          color: Color(0xFF162170)),
-                      child: Image.asset(
-                        "assets/images/hizb.png",
-                        fit: BoxFit.contain,
-                        height: 300,
+                    GestureDetector(
+                      onTap: (){
+                        _launchUrl("https://www.hizb-ur-rahman.com/");
+                      },
+                      child: Container(
+                        height: 240,
+                      
+                        width: double.infinity, // Set the desired width
+                      
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadiusDirectional.circular(20),
+                            color: Color(0xFF162170)),
+                        child: Image.asset(
+                          "assets/images/hizb.png",
+                          fit: BoxFit.contain,
+                          height: 300,
+                        ),
                       ),
                     ),
                     SizedBox(
@@ -1224,19 +1230,34 @@ class _HomeState extends State<Home> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Image.asset(
-                    "assets/images/facebook.png",
-                    width: 40,
+                  GestureDetector(
+                    onTap: (){
+                      _launchUrl("https://www.facebook.com/profile.php?id=100081278269074");
+                    },
+                    child: Image.asset(
+                      "assets/images/facebook.png",
+                      width: 40,
+                    ),
                   ),
                   SizedBox(width: 10),
-                  Image.asset(
-                    "assets/images/instagram.png",
-                    width: 40,
+                  GestureDetector(
+                    onTap: (){
+                      _launchUrl("https://www.instagram.com/qalbesaleem_?igsh=Z3F4NjVpNHZ1amdj");
+                    },
+                    child: Image.asset(
+                      "assets/images/instagram.png",
+                      width: 40,
+                    ),
                   ),
                   SizedBox(width: 10),
-                  Image.asset(
-                    "assets/images/web.png",
-                    width: 40,
+                  GestureDetector(
+                    onTap: (){
+                      _launchUrl("https://www.qalb-e-saleem.com");
+                    },
+                    child: Image.asset(
+                      "assets/images/web.png",
+                      width: 40,
+                    ),
                   ),
                   SizedBox(width: 10),
                   GestureDetector(
@@ -1272,5 +1293,11 @@ class _HomeState extends State<Home> {
         ),
       ),
     );
+  }
+
+   Future<void> _launchUrl(String url) async {
+    if (!await launchUrl(Uri.parse(url))) {
+      throw new Exception("NAI CHALA");
+    }
   }
 }

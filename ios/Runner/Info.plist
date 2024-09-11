@@ -55,6 +55,12 @@
 <string>Need to save files to your photo library</string>
 <key>NSDocumentsFolderUsageDescription</key>
 <string>Need to save files to your documents folder</string>
+<key>LSApplicationQueriesSchemes</key>
+<array>
+  <string>http</string>
+  <string>https</string>
+</array>
+
 
 </dict>
 </plist>
