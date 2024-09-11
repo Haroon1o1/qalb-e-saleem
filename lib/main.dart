@@ -2,6 +2,7 @@ import 'package:fast_cached_network_image/fast_cached_network_image.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:qalb/providers/HomeProvider.dart';
 import 'package:qalb/utils/firebase_options.dart';
@@ -11,9 +12,19 @@ import 'package:qalb/screens/Splash_screen/starting_splash_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-await FastCachedImageConfig.init(clearCacheAfter: const Duration(days: 15));
 
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  try {
+    // Initialize Firebase
+    await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
+    // Initialize other services
+    await FastCachedImageConfig.init(
+      clearCacheAfter: const Duration(days: 15),
+    );
+  } catch (e) {
+    // Handle initialization errors
+    print('Initialization error: $e');
+  }
 
   runApp(
     MultiProvider(
