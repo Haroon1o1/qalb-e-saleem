@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:flutter_file_downloader/flutter_file_downloader.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -132,14 +133,21 @@ class _hawashiwahawalajatScreenState extends State<hawashiwahawalajatScreen> {
                     children: [
                       
                       GestureDetector(
-                        onTap: (){
+                        onTap: ()async{
+                          await FlutterDownloader.enqueue(
+  url: 'your download link',
+  headers: {}, // optional: header send with url (auth token etc)
+  savedDir: 'the path of directory where you want to save downloaded files',
+  showNotification: true, // show download progress in status bar (for Android)
+  openFileFromNotification: true, // click on notification to open downloaded file (for Android)
+);
                           
-                          FileDownloader.downloadFile(url: "https://firebasestorage.googleapis.com/v0/b/qalb-e-saleem-c7987.appspot.com/o/hawashiPdf%2FHawashe-O-Hawalajat%201.pdf?alt=media&token=f24fb3d0-df78-4e05-a3d1-4847ac1ea868" , onDownloadError: (String error){
-                          },notificationType: NotificationType.all,
-                          name: "Hawalajat-Part01",
-                          onDownloadCompleted: (String m){
-                          }
-                          );
+                          // FileDownloader.downloadFile(url: "https://firebasestorage.googleapis.com/v0/b/qalb-e-saleem-c7987.appspot.com/o/hawashiPdf%2FHawashe-O-Hawalajat%201.pdf?alt=media&token=f24fb3d0-df78-4e05-a3d1-4847ac1ea868" , onDownloadError: (String error){
+                          // },notificationType: NotificationType.all,
+                          // name: "Hawalajat-Part01",
+                          // onDownloadCompleted: (String m){
+                          // }
+                          // );
                               // downloadPdf("https://firebasestorage.googleapis.com/v0/b/qalb-e-saleem-c7987.appspot.com/o/hawashiPdf%2FHawashe-O-Hawalajat%201.pdf?alt=media&token=f24fb3d0-df78-4e05-a3d1-4847ac1ea868", "Part01");
                         },
                         child: Image.asset("assets/images/hawalajat1.png", width: 150)),
