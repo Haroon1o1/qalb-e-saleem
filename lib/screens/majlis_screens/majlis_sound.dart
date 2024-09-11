@@ -188,7 +188,7 @@ class _Majlis_SoundState extends State<Majlis_Sound> {
                             color: Colors.black,
                           ),
                         ),
-                        SizedBox(height: 30),
+                        SizedBox(height: 10),
                         SliderTheme(
                           data: SliderTheme.of(context).copyWith(
                             activeTrackColor: Color(0xFF8590A3),

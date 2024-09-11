@@ -1,5 +1,6 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:fast_cached_network_image/fast_cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -167,14 +168,25 @@ class _MajlisState extends State<Majlis> {
         height: 230,
         child: Column(
           children: [
-            CachedNetworkImage(
-              imageUrl: image,
-              height: 150,
-              width: MediaQuery.of(context).size.width * 0.87,
-              fit: BoxFit.fill,
-              placeholder: (context, url) => Container(),
-              errorWidget: (context, url, error) => const Icon(Icons.error),
+            // CachedNetworkImage(
+            //   imageUrl: image,
+            //   height: 150,
+            //   width: MediaQuery.of(context).size.width * 0.87,
+            //   fit: BoxFit.fill,
+            //   placeholder: (context, url) => Container(),
+            //   errorWidget: (context, url, error) => const Icon(Icons.error),
+            // ),
+            FastCachedImage(url: image,
+            height: 150,
+            width: MediaQuery.of(context).size.width * 0.87,
+            fit: BoxFit.fill,
+            loadingBuilder: (context, progress){
+              return Container(height:150, );
+            },
+            
             ),
+
+
             SizedBox(height: MediaQuery.of(context).size.height * 0.02),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,

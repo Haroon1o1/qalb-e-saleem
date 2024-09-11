@@ -52,6 +52,8 @@ dependencies:
   share_plus: ^10.0.0
   permission_handler: ^11.3.1
   path_provider: ^2.1.4
+  flutter_cache_manager: ^3.4.1
+  fast_cached_network_image: ^1.2.9
 dev_dependencies:
   flutter_test:
     sdk: flutter
