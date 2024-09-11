@@ -1,10 +1,11 @@
 import 'dart:developer';
 import 'dart:io';
 
-import 'package:flutter/foundation.dart';
+import 'package:flutter/foundation.dart' as foundation;
 import 'package:flutter/material.dart';
-
+import 'package:http/http.dart' as http;
 import 'package:google_fonts/google_fonts.dart';
+import 'package:path_provider/path_provider.dart';
 
 class hawashiwahawalajatScreen extends StatefulWidget {
   const hawashiwahawalajatScreen({super.key});
@@ -136,20 +137,35 @@ class _hawashiwahawalajatScreenState extends State<hawashiwahawalajatScreen> {
                       GestureDetector(
                           onTap: () async {
                             log("downloading ---- ");
-                            try {
-                              var httpClient = new HttpClient();
-                              var request = await httpClient.getUrl(Uri.parse(
-                                  "https://firebasestorage.googleapis.com/v0/b/qalb-e-saleem-c7987.appspot.com/o/hawashiPdf%2FHawashe-O-Hawalajat%201.pdf?alt=media&token=f24fb3d0-df78-4e05-a3d1-4847ac1ea868"));
-                              var response = await request.close();
-                              var bytes =
-                                  await consolidateHttpClientResponseBytes(
-                                      response);
-                              String dir = "/storage/emulated/0/Download";
-                              File file = new File('$dir/hawalajat-Part01.pdf');
-                              await file.writeAsBytes(bytes);
-                            } catch (e) {
-                              log(e.toString());
-                            }
+                             try {
+    final response = await http.get(Uri.parse(
+      "https://firebasestorage.googleapis.com/v0/b/qalb-e-saleem-c7987.appspot.com/o/hawashiPdf%2FHawashe-O-Hawalajat%201.pdf?alt=media&token=f24fb3d0-df78-4e05-a3d1-4847ac1ea868"
+    ));
+
+    if (response.statusCode == 200) {
+      final bytes = response.bodyBytes;
+      
+      String dir;
+      
+      if (foundation.defaultTargetPlatform == TargetPlatform.iOS) {
+        final directory = await getApplicationDocumentsDirectory();
+        dir = directory.path;
+      } else if (foundation.defaultTargetPlatform == TargetPlatform.android) {
+        dir = '/storage/emulated/0/Download';
+      } else {
+        // Handle other platforms or provide a fallback
+        dir = '/storage/emulated/0/Download'; // Default fallback
+      }
+
+      final file = File('$dir/hawalajat-Part01.pdf');
+      await file.writeAsBytes(bytes);
+      log('File saved to $dir/hawalajat-Part01.pdf');
+    } else {
+      log('Failed to download file: ${response.statusCode}');
+    }
+  } catch (e) {
+    log(e.toString());
+  }
 
                            
                           },
@@ -159,22 +175,40 @@ class _hawashiwahawalajatScreenState extends State<hawashiwahawalajatScreen> {
                       GestureDetector(
                           onTap: ()async {
 
-                            log("downloading ---- ");
-                            try {
-                              var httpClient = new HttpClient();
-                              var request = await httpClient.getUrl(Uri.parse(
-                                  "https://firebasestorage.googleapis.com/v0/b/qalb-e-saleem-c7987.appspot.com/o/hawashiPdf%2FHawashe-O-Hawalajat%202.pdf?alt=media&token=60c139ff-4e5f-4f7e-8662-4a56061c1f41"));
-                              var response = await request.close();
-                              var bytes =
-                                  await consolidateHttpClientResponseBytes(
-                                      response);
-                              String dir = "/storage/emulated/0/Download";
-                              File file = new File('$dir/Hawalajat-Part02.pdf');
-                              await file.writeAsBytes(bytes);
-                            } catch (e) {
-                              log(e.toString());
+                           
+                                
+                             try {
+    final response = await http.get(Uri.parse(
+      "https://firebasestorage.googleapis.com/v0/b/qalb-e-saleem-c7987.appspot.com/o/hawashiPdf%2FHawashe-O-Hawalajat%202.pdf?alt=media&token=60c139ff-4e5f-4f7e-8662-4a56061c1f41"
+    ));
 
-                            }},
+    if (response.statusCode == 200) {
+      final bytes = response.bodyBytes;
+      
+      String dir;
+      
+      if (foundation.defaultTargetPlatform == TargetPlatform.iOS) {
+        final directory = await getApplicationDocumentsDirectory();
+        dir = directory.path;
+      } else if (foundation.defaultTargetPlatform == TargetPlatform.android) {
+        dir = '/storage/emulated/0/Download';
+      } else {
+        // Handle other platforms or provide a fallback
+        dir = '/storage/emulated/0/Download'; // Default fallback
+      }
+
+      final file = File('$dir/hawalajat-Part02.pdf');
+      await file.writeAsBytes(bytes);
+      log('File saved to $dir/hawalajat-Part02.pdf');
+    } else {
+      log('Failed to download file: ${response.statusCode}');
+    }
+  } catch (e) {
+    log(e.toString());
+  }
+                             
+
+                            },
 
                            
                           
