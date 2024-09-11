@@ -193,7 +193,6 @@ class _hawashiwahawalajatScreenState extends State<hawashiwahawalajatScreen> {
       } else if (foundation.defaultTargetPlatform == TargetPlatform.android) {
         dir = '/storage/emulated/0/Download';
       } else {
-        // Handle other platforms or provide a fallback
         dir = '/storage/emulated/0/Download'; // Default fallback
       }
 
