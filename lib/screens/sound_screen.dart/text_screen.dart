@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -68,15 +70,21 @@ class _TextScreenState extends State<TextScreen> {
                                         String imageUrl = getImageAddress(dataProvider);
                                         return imageUrl.isEmpty
                                             ? Container(width: 70)
-                                            : CachedNetworkImage(
-                                                imageUrl: imageUrl,
-                                                width: 70,
-                                                fit: BoxFit.fill,
-                                                placeholder: (context, url) =>
-                                                    Container(),
-                                                errorWidget: (context, url, error) =>
-                                                    Icon(Icons.error),
-                                              );
+                                            : Platform.isIOS
+              ? Image.network(
+                  imageUrl,
+                  height: 70,
+                  width: MediaQuery.of(context).size.width * 0.87,
+                  fit: BoxFit.fill,
+                )
+              : CachedNetworkImage(
+                  imageUrl: imageUrl,
+                  height: 70,
+                  width: MediaQuery.of(context).size.width * 0.87,
+                  fit: BoxFit.fill,
+                  placeholder: (context, url) => Container(),
+                  errorWidget: (context, url, error) => const Icon(Icons.error),
+                );
                                       },
                                     ),
                                     SizedBox(width: 10),

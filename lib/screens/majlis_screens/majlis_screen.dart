@@ -1,6 +1,8 @@
+import 'dart:io';
+
 import 'package:audioplayers/audioplayers.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:fast_cached_network_image/fast_cached_network_image.dart';
+// import 'package:fast_cached_network_image/fast_cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -132,166 +134,164 @@ class _MajlisState extends State<Majlis> {
     );
   }
 
-  Widget majlisContainer(String image, int index) {
-    return GestureDetector(
-      onTap: () {
-        Navigator.push(
-          context,
-          CustomPageNavigation(
-            child: Majlis_Sound(
-              image: Provider.of<DataProvider>(context, listen: false)
-                  .majlisThumb[index],
-              index: index,
-              name: TextData.majlisUrdu[index],
-              sub: TextData.majlisEnglish[index],
-              audioPath: Provider.of<DataProvider>(context, listen: false)
-                  .majlisSound[index],
-            ),
+
+Widget majlisContainer(String image, int index) {
+  return GestureDetector(
+    onTap: () {
+      Navigator.push(
+        context,
+        CustomPageNavigation(
+          child: Majlis_Sound(
+            image: Provider.of<DataProvider>(context, listen: false)
+                .majlisThumb[index],
+            index: index,
+            name: TextData.majlisUrdu[index],
+            sub: TextData.majlisEnglish[index],
+            audioPath: Provider.of<DataProvider>(context, listen: false)
+                .majlisSound[index],
           ),
-        );
-      },
-      child: Container(
-        margin: const EdgeInsets.only(bottom: 30, left: 15, right: 15),
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-        decoration: BoxDecoration(
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.5),
-              spreadRadius: 1,
-              blurRadius: 3,
-              offset: const Offset(1, 2),
-            ),
-          ],
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(15),
         ),
-        height: 230,
-        child: Column(
-          children: [
-            // CachedNetworkImage(
-            //   imageUrl: image,
-            //   height: 150,
-            //   width: MediaQuery.of(context).size.width * 0.87,
-            //   fit: BoxFit.fill,
-            //   placeholder: (context, url) => Container(),
-            //   errorWidget: (context, url, error) => const Icon(Icons.error),
-            // ),
-            FastCachedImage(url: image,
-            height: 150,
-            width: MediaQuery.of(context).size.width * 0.87,
-            fit: BoxFit.fill,
-            loadingBuilder: (context, progress){
-              return Container(height:150, );
-            },
-            
-            ),
-
-
-            SizedBox(height: MediaQuery.of(context).size.height * 0.02),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        Image.asset(
-                          "assets/images/clock-white.png",
-                          color: Colors.black,
-                          height: 12,
-                        ),
-                        const SizedBox(width: 4),
-                        Text(
-                          formatDuration(getDuration(index + 1)),
-                          style: GoogleFonts.almarai(fontSize: 12),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 17),
-                  ],
+      );
+    },
+    child: Container(
+      margin: const EdgeInsets.only(bottom: 30, left: 15, right: 15),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+      decoration: BoxDecoration(
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.5),
+            spreadRadius: 1,
+            blurRadius: 3,
+            offset: const Offset(1, 2),
+          ),
+        ],
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(15),
+      ),
+      height: 230,
+      child: Column(
+        children: [
+          // Check if the platform is iOS
+          Platform.isIOS
+              ? Image.network(
+                  image,
+                  height: 150,
+                  width: MediaQuery.of(context).size.width * 0.87,
+                  fit: BoxFit.fill,
+                )
+              : CachedNetworkImage(
+                  imageUrl: image,
+                  height: 150,
+                  width: MediaQuery.of(context).size.width * 0.87,
+                  fit: BoxFit.fill,
+                  placeholder: (context, url) => Container(),
+                  errorWidget: (context, url, error) => const Icon(Icons.error),
                 ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    SizedBox(
-                      width: 170,
-                      child: Text(
-                        textDirection: TextDirection.rtl,
-                        overflow: TextOverflow.ellipsis,
-                        TextData.majlisUrdu[index],
-                        style: GoogleFonts.almarai(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 12,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    SizedBox(
-                      width: 170,
-                      child: Text(
-                        textAlign: TextAlign.end,
-                        textDirection: TextDirection.ltr,
-                        overflow: TextOverflow.ellipsis,
-                        TextData.majlisEnglish[index],
-                        style: GoogleFonts.almarai(
-                          fontSize: 9,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Container(
-                      alignment: Alignment.center,
-                      height: 30,
-                      child: const VerticalDivider(
+          SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Image.asset(
+                        "assets/images/clock-white.png",
                         color: Colors.black,
-                        thickness: 1,
-                        width: 0,
-                        indent: 0,
-                        endIndent: 0,
+                        height: 12,
                       ),
-                    ),
-                    SizedBox(width: MediaQuery.of(context).size.width * 0.02),
-                    Container(
-                      padding: const EdgeInsets.all(5),
-                      // margin: const EdgeInsets.only(top: 5),
-                      alignment: Alignment.center,
-                      decoration: const BoxDecoration(
-                        color: Colors.black,
-                        shape: BoxShape.circle,
+                      const SizedBox(width: 4),
+                      Text(
+                        formatDuration(getDuration(index + 1)),
+                        style: GoogleFonts.almarai(fontSize: 12),
                       ),
-                      child: Text(
-                        "${index + 1}",
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 10,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 5),
-                    Text(
-                      "مجلس",
+                    ],
+                  ),
+                  const SizedBox(height: 17),
+                ],
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  SizedBox(
+                    width: 170,
+                    child: Text(
+                      textDirection: TextDirection.rtl,
+                      overflow: TextOverflow.ellipsis,
+                      TextData.majlisUrdu[index],
                       style: GoogleFonts.almarai(
+                        fontWeight: FontWeight.bold,
                         fontSize: 12,
-                        color: Colors.black,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  SizedBox(
+                    width: 170,
+                    child: Text(
+                      textAlign: TextAlign.end,
+                      textDirection: TextDirection.ltr,
+                      overflow: TextOverflow.ellipsis,
+                      TextData.majlisEnglish[index],
+                      style: GoogleFonts.almarai(
+                        fontSize: 9,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Container(
+                    alignment: Alignment.center,
+                    height: 30,
+                    child: const VerticalDivider(
+                      color: Colors.black,
+                      thickness: 1,
+                      width: 0,
+                      indent: 0,
+                      endIndent: 0,
+                    ),
+                  ),
+                  SizedBox(width: MediaQuery.of(context).size.width * 0.02),
+                  Container(
+                    padding: const EdgeInsets.all(5),
+                    alignment: Alignment.center,
+                    decoration: const BoxDecoration(
+                      color: Colors.black,
+                      shape: BoxShape.circle,
+                    ),
+                    child: Text(
+                      "${index + 1}",
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 10,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                  ],
-                ),
-              ],
-            ),
-          ],
-        ),
+                  ),
+                  const SizedBox(width: 5),
+                  Text(
+                    "مجلس",
+                    style: GoogleFonts.almarai(
+                      fontSize: 12,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ],
       ),
-    );
-  }
+    ),
+  );
+}
+
 
   String formatDuration(int seconds) {
     final minutes = (seconds ~/ 60).toString().padLeft(2, '0');

@@ -1,4 +1,3 @@
-import 'package:fast_cached_network_image/fast_cached_network_image.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -14,15 +13,8 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   try {
-    // Initialize Firebase
     await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-
-    // Initialize other services
-    await FastCachedImageConfig.init(
-      clearCacheAfter: const Duration(days: 15),
-    );
   } catch (e) {
-    // Handle initialization errors
     print('Initialization error: $e');
   }
 

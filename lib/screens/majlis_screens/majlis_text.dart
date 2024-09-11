@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -70,14 +72,22 @@ class _Majlis_TextState extends State<Majlis_Text> {
                               children: [
                                 Row(
                                   children: [
-                                    CachedNetworkImage(
-                                      imageUrl: widget.image,
-                                      width: 80,
-                                      placeholder: (context, url) =>
-                                          Container(),
-                                      errorWidget: (context, url, error) =>
-                                          Icon(Icons.error),
-                                    ),
+                                    Platform.isIOS
+              ? Image.network(
+                  widget.image,
+                  height: 150,
+                  width: MediaQuery.of(context).size.width * 0.87,
+                  fit: BoxFit.fill,
+                )
+              : CachedNetworkImage(
+                  imageUrl: widget.image,
+                  width: 80,
+                  
+                  fit: BoxFit.fill,
+                  placeholder: (context, url) => Container(),
+                  errorWidget: (context, url, error) => const Icon(Icons.error),
+                ),
+                                   
                                     SizedBox(width: 15),
                                     GestureDetector(
                                       onTap: () => soundPlayerProvider
