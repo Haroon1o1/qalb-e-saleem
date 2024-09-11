@@ -49,10 +49,8 @@ dependencies:
   syncfusion_flutter_pdfviewer:
   flutter_html: ^3.0.0-beta.2
   shared_preferences: ^2.3.2
-  flutter_file_downloader: ^2.0.0
   share_plus: ^10.0.0
-  flutter_downloader: ^1.11.8
-  # flutter_downloader: ^1.11.8
+  permission_handler: ^11.3.1
 dev_dependencies:
   flutter_test:
     sdk: flutter
