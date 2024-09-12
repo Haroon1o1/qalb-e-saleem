@@ -74,7 +74,7 @@ class _TextScreenState extends State<TextScreen> {
               ? Image.network(
                   imageUrl,
                   height: 70,
-                  width: MediaQuery.of(context).size.width * 0.87,
+                  width: MediaQuery.of(context).size.width * 70,
                   fit: BoxFit.fill,
                 )
               : CachedNetworkImage(

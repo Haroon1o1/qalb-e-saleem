@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -161,7 +162,7 @@ class _Majlis_SoundState extends State<Majlis_Sound> {
                           height: MediaQuery.of(context).size.height * 0.45,
                           decoration: BoxDecoration(
                             image: DecorationImage(
-                              image: CachedNetworkImageProvider(widget.image),
+                              image: Platform.isIOS ? NetworkImage(widget.image,) : CachedNetworkImageProvider(widget.image),
                               fit: BoxFit.fitWidth,
                             ),
                             borderRadius: BorderRadiusDirectional.circular(5),
