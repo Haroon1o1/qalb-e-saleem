@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:audioplayers/audioplayers.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-// import 'package:fast_cached_network_image/fast_cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -21,6 +20,11 @@ class Majlis extends StatefulWidget {
 }
 
 class _MajlisState extends State<Majlis> {
+  @override
+  void initState() {
+   Provider.of<DataProvider>(context, listen: false).majlisBookImagesUrl();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -217,12 +221,13 @@ Widget majlisContainer(String image, int index) {
                   SizedBox(
                     width: 170,
                     child: Text(
+                      textAlign: TextAlign.start,
                       textDirection: TextDirection.rtl,
                       overflow: TextOverflow.ellipsis,
                       TextData.majlisUrdu[index],
                       style: GoogleFonts.almarai(
                         fontWeight: FontWeight.bold,
-                        fontSize: 12,
+                        fontSize: 11,
                       ),
                     ),
                   ),
@@ -230,6 +235,7 @@ Widget majlisContainer(String image, int index) {
                   SizedBox(
                     width: 170,
                     child: Text(
+                      
                       textAlign: TextAlign.end,
                       textDirection: TextDirection.ltr,
                       overflow: TextOverflow.ellipsis,

@@ -1,4 +1,4 @@
-package com.example.qalb
+package com.hria.qalb
 
 import io.flutter.embedding.android.FlutterActivity
 

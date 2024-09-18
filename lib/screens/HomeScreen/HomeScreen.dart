@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -6,6 +8,7 @@ import 'package:qalb/Transition/CustomPageTransition.dart';
 import 'package:qalb/providers/HomeProvider.dart';
 import 'package:qalb/screens/HomeScreen/LongBox.dart';
 import 'package:qalb/screens/HomeScreen/smallContainer.dart';
+import 'package:qalb/screens/HomeScreen/uperContainer.dart';
 import 'package:qalb/screens/Shaja_screens/Shajr_e_Qadria.dart';
 import 'package:qalb/screens/aqwal_wa_irshadaat/aqwal_wa_irshadaat.dart';
 import 'package:qalb/screens/hawashi_wa_hawalajat/hawashi_wa_hawalajat.dart';
@@ -22,137 +25,142 @@ class BottomNavBarScreen extends StatefulWidget {
 
 class _BottomNavBarScreenState extends State<BottomNavBarScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  late PageController pageController;
+  final PageController _pageController = PageController();
+
+  double _linePosition = 0.0;
+  double _lineWidth = 0.0;
+  final List<GlobalKey> _navItemKeys = List.generate(4, (_) => GlobalKey());
+
+  final List<Widget> _pages = [
+    Home(),
+    AqwalWaIrshadaatScreen(isNavBar: true),
+    ShajrEQadriaScreen(text: "hasbiya", isNavBar: true),
+    Majlis(isNavBar: true),
+  ];
 
   @override
   void initState() {
     super.initState();
-    pageController = PageController(
-      initialPage: context.read<HomeNavBarProvider>().selectedIndex,
-    );
-  }
-
-  @override
-  void dispose() {
-    pageController.dispose();
-    super.dispose();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final provider = Provider.of<HomeNavBarProvider>(context, listen: false);
+      _updateLinePosition(provider.selectedIndex);
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    final navBarProvider = Provider.of<HomeNavBarProvider>(context);
+    final provider = Provider.of<HomeNavBarProvider>(context);
 
     return Scaffold(
       endDrawer: buildDrawer(context),
       key: _scaffoldKey,
       body: PageView(
-        controller: pageController,
+        controller: _pageController,
         onPageChanged: (index) {
-          navBarProvider.setSelectedIndex(index);
+          provider.setSelectedIndex(index);
+          _updateLinePosition(index);
         },
-        children: <Widget>[
-          Home(),
-          AqwalWaIrshadaatScreen(isNavBar: true),
-          Majlis(isNavBar: true),
-          ShajrEQadriaScreen(text: 'hasbiya', isNavBar: true),
-        ],
+        children: _pages,
       ),
-      bottomNavigationBar: Stack(
-        clipBehavior: Clip.none,
-        alignment: Alignment.bottomCenter,
-        children: [
-          Container(
-            height: 80,
-            padding: EdgeInsets.only(left: 10, right: 10, top: 10),
-            width: MediaQuery.of(context).size.width,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(30),
-                topRight: Radius.circular(30),
-              ),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.3),
-                  spreadRadius: 1,
-                  blurRadius: 5,
-                  offset: const Offset(-1, -2),
-                ),
-              ],
-            ),
-            child: Row(
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: FloatingActionButton(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(30),
+        ),
+        backgroundColor: const Color(0xFF345EF1),
+        foregroundColor: Colors.white,
+        onPressed: () {
+          provider.setSelectedIndex(3); // Set to index of Majlis page
+          _pageController.jumpToPage(3); // Navigate to Majlis page
+          _updateLinePosition(3); // Update line position for Majlis
+        },
+        child: Image.asset(
+          width: 25,
+          "assets/new_images/dash.png",
+          color: Colors.white,
+        ),
+      ),
+      bottomNavigationBar: BottomAppBar(
+        color: Colors.white,
+        child: Stack(
+          clipBehavior: Clip.none,
+          children: [
+            Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                buildNavItem(0, "assets/new_images/home.png", "هوم"),
-                buildNavItem(
-                    1, "assets/new_images/box.png", "اقوال و ارشاداتِ"),
-                const SizedBox(width: 30), // Spacer for the central button
-                buildNavItem(3, "assets/new_images/page.png", "شجرۂ قادریہ"),
-                buildNavItem(4, "assets/new_images/menu.png", "مضامین"),
-              ],
-            ),
-          ),
-          Positioned(
-            bottom: 5,
-            child: GestureDetector(
-              onTap: () {
-                navBarProvider.setSelectedIndex(2);
-                pageController.jumpToPage(2);
-              },
-              child: Padding(
-                padding: const EdgeInsets.only(left: 8.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.end,
+                Row(
                   children: [
-                    Container(
-                      padding: EdgeInsets.all(8),
-                      width: 75,
-                      height: 75,
-                      decoration: const BoxDecoration(
-                        color: Colors.white,
-                        shape: BoxShape.circle,
-                      ),
-                      child: Container(
-                        padding: const EdgeInsets.all(18),
-                        width: 60,
-                        height: 60,
-                        decoration: const BoxDecoration(
-                          color: Color(0xFF345EF1),
-                          shape: BoxShape.circle,
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black26,
-                              blurRadius: 8,
-                              offset: Offset(0, 4),
-                            )
-                          ],
-                        ),
-                        child: Image.asset(
-                          "assets/new_images/dash.png",
-                          color: navBarProvider.selectedIndex == 2
-                              ? Colors.white
-                              : Colors.white, // Highlight selected
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: 0),
-                    SizedBox(
-                      width: 60,
-                      child: Text(
-                        textAlign: TextAlign.center,
-                        "فهرست مجالس",
-                        style: GoogleFonts.almarai(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 10,
-                          color: Color(0xFFBEBEC0),
-                        ),
-                      ),
-                    )
+                    buildNavItem(0, "assets/new_images/home.png", "هوم", _navItemKeys[0]),
+                    const SizedBox(width: 30),
+                    buildNavItem(1, "assets/new_images/box.png", "اقوال و ارشاداتِ", _navItemKeys[1]),
                   ],
                 ),
+                Padding(
+                  padding: const EdgeInsets.only(top:20.0),
+                  child: Text("فهرست مجالس", style: TextStyle(fontSize:12, color: provider.selectedIndex == 3 ? Color(0xFF345EF1) : Colors.grey),),
+                ),
+                Row(
+                  children: [
+                    buildNavItem(2, "assets/new_images/page.png", "شجرۂ قادریہ", _navItemKeys[2]),
+                    const SizedBox(width: 30),
+                    buildNavItem(3, "assets/new_images/menu.png", "مضامین", _navItemKeys[3]),
+                  ],
+                ),
+              ],
+            ),
+            AnimatedPositioned(
+              duration: const Duration(milliseconds: 300),
+              curve: Curves.easeInOut,
+              left: _linePosition,
+              bottom: 0,
+              child: Container(
+                height: 3,
+                width: _lineWidth,
+                decoration: BoxDecoration(
+                  color: provider.selectedIndex == 3 ? Colors.white : Color(0xFF345EF1),
+                  borderRadius: BorderRadius.circular(20),
+                ),
               ),
+            ),
+          ],
+        ),
+        shape: const CircularNotchedRectangle(),
+      ),
+    );
+  }
+
+  Widget buildNavItem(int index, String icon, String text, GlobalKey key) {
+    final provider = Provider.of<HomeNavBarProvider>(context);
+
+    return GestureDetector(
+      onTap: () {
+        if (index == 3) {
+          // Open the drawer for index 3
+          _scaffoldKey.currentState?.openEndDrawer();
+        } else {
+          // Update page and line position for other indexes
+          provider.setSelectedIndex(index);
+          _pageController.jumpToPage(index);
+          _updateLinePosition(index);
+        }
+      },
+      key: key,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Image.asset(
+            icon,
+            width: 20,
+            color: provider.selectedIndex == 3 ? Colors.grey : provider.selectedIndex == index ? const Color(0xFF345EF1) : Colors.grey,
+          ),
+          Text(
+            text,
+            style: provider.selectedIndex == 3 ? TextStyle(
+              fontSize: 12,
+              color: Colors.grey,
+            ) : TextStyle(
+              fontSize: 12,
+              color: provider.selectedIndex == index ? const Color(0xFF345EF1) : Colors.grey,
             ),
           ),
         ],
@@ -160,53 +168,17 @@ class _BottomNavBarScreenState extends State<BottomNavBarScreen> {
     );
   }
 
-  // Helper method to build each navigation item with animation
-  Widget buildNavItem(int index, String assetPath, String text) {
-    final navBarProvider = Provider.of<HomeNavBarProvider>(context);
+  void _updateLinePosition(int index) {
+    final RenderBox? renderBox = _navItemKeys[index].currentContext?.findRenderObject() as RenderBox?;
+    if (renderBox != null) {
+      final size = renderBox.size;
+      final offset = renderBox.localToGlobal(Offset.zero);
 
-    return GestureDetector(
-      onTap: () {
-        if (index == 4) {
-          _scaffoldKey.currentState?.openEndDrawer();
-          return;
-        } else {
-          navBarProvider.setSelectedIndex(index);
-          pageController.jumpToPage(index);
-        }
-      },
-      child: Column(
-        children: [
-          AnimatedContainer(
-            duration: const Duration(milliseconds: 300),
-            curve: Curves.easeInOut,
-            padding: const EdgeInsets.all(10),
-            width: 40,
-            height: 40,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: Colors.transparent,
-            ),
-            child: Image.asset(
-              assetPath,
-              width: 25,
-              color: navBarProvider.selectedIndex == index
-                  ? Color(0xFF345EF1)
-                  : Colors.grey, // Highlight selected
-            ),
-          ),
-          Text(
-            text,
-            style: GoogleFonts.almarai(
-              fontSize: 10,
-              fontWeight: FontWeight.bold,
-              color: navBarProvider.selectedIndex == index
-                  ? Color(0xFF345EF1)
-                  : Color(0xFFBEBEC0),
-            ),
-          ),
-        ],
-      ),
-    );
+      setState(() {
+        _lineWidth = size.width;
+        _linePosition = offset.dx + (size.width - _lineWidth-32) / 2;
+      });
+    }
   }
 }
 
@@ -540,51 +512,7 @@ class _HomeState extends State<Home> {
                           ),
                         );
                       },
-                      child: Container(
-                        padding: EdgeInsets.symmetric(horizontal: 20),
-                        width: double.infinity,
-                        height: MediaQuery.of(context).size.height * 0.32,
-                        margin: EdgeInsets.only(top: 30),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadiusDirectional.circular(20),
-                          image: DecorationImage(
-                            image: AssetImage("assets/images/darbar.png"),
-                            fit: BoxFit
-                                .cover, // Ensures the image covers the entire container
-                          ),
-                        ),
-                        child: Column(
-                          children: [
-                            SizedBox(height: 20),
-                            Text(
-                              "فهرست مجالس",
-                              style: GoogleFonts.almarai(
-                                fontSize: 18,
-                                color: Color(0xFF02DBC6),
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            SizedBox(height: 5),
-                            Text(
-                              textAlign: TextAlign.center,
-                              "امام االولیاء حضرت پیر سّید محّمد عبد اللہ شاہ مشہدی قادری",
-                              style: GoogleFonts.almarai(
-                                  fontSize: 10,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            Text(
-                              "رحمة الله تعالى عليه",
-                              style: GoogleFonts.almarai(
-                                fontSize: 10,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
+                      child: UpperContainer(),
                     ),
                     SizedBox(height: 20),
                     Row(

@@ -3,9 +3,6 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart' as foundation;
 import 'package:flutter/material.dart';
-import 'package:flutter_url_shortener/bitly.dart';
-import 'package:flutter_url_shortener/bitly_exception.dart';
-import 'package:flutter_url_shortener/bitly_params.dart';
 import 'package:http/http.dart' as http;
 import 'package:google_fonts/google_fonts.dart';
 import 'package:path_provider/path_provider.dart';

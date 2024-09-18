@@ -4,7 +4,7 @@ import 'package:qalb/Transition/CustomPageTransition.dart';
 import 'package:qalb/screens/aqwal_wa_irshadaat/aqwal_wa_irshadaat.dart';
 import 'package:qalb/screens/sound_screen.dart/sound_player.dart';
 
-class LongBox extends StatelessWidget {
+class LongBox extends StatefulWidget {
   final String imagePath;
   final String mainText;
   final String subText1;
@@ -22,97 +22,141 @@ class LongBox extends StatelessWidget {
   });
 
   @override
+  _LongBoxState createState() => _LongBoxState();
+}
+
+class _LongBoxState extends State<LongBox> with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<Offset> _slideAnimation;
+  late Animation<double> _fadeAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _controller = AnimationController(
+      duration: const Duration(milliseconds: 500),
+      vsync: this,
+    )..forward(); // Start animation automatically
+
+    _slideAnimation = Tween<Offset>(
+      begin: const Offset(0, 0.5), // Start from the bottom
+      end: Offset.zero, // End at its final position
+    ).animate(
+      CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
+    );
+
+    _fadeAnimation = Tween<double>(
+      begin: 0.0, // Start fully transparent
+      end: 1.0, // End fully opaque
+    ).animate(
+      CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
+    );
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        Navigator.push(
-          context,
-          CustomPageNavigation(
-            child: getImageAddress() == "akwal"
-                ? AqwalWaIrshadaatScreen(
-                    isNavBar: false,
-                  )
-                : SoundPlayer(
-                    image: getImageAddress(),
-                    name: mainText,
-                    sub: subText2,
-                  ),
-          ),
-        );
-      },
-      child: Container(
-        padding: const EdgeInsets.only(
-          right: 08,
-          left: 8,
-        ),
-        margin: const EdgeInsets.symmetric(vertical: 3),
-        height: 120,
-        decoration: BoxDecoration(
-          color: backgroundColor,
-          borderRadius: BorderRadius.circular(15),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Expanded(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  SizedBox(height: 15),
-                  Text(
-                    textDirection: TextDirection.rtl,
-                    mainText,
-                    style: GoogleFonts.almarai(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18,
-                      color: Colors.white,
-                    ),
-                  ),
-                  // const SizedBox(height: 10),
-                  Column(
+    return FadeTransition(
+      opacity: _fadeAnimation,
+      child: SlideTransition(
+        position: _slideAnimation,
+        child: GestureDetector(
+          onTap: () {
+            Navigator.push(
+              context,
+              CustomPageNavigation(
+                child: getImageAddress() == "akwal"
+                    ? AqwalWaIrshadaatScreen(
+                        isNavBar: false,
+                      )
+                    : SoundPlayer(
+                        image: getImageAddress(),
+                        name: widget.mainText,
+                        sub: widget.subText2,
+                      ),
+              ),
+            );
+          },
+          child: Container(
+            padding: const EdgeInsets.only(
+              right: 8,
+              left: 8,
+            ),
+            margin: const EdgeInsets.symmetric(vertical: 3),
+            height: 120,
+            decoration: BoxDecoration(
+              color: widget.backgroundColor,
+              borderRadius: BorderRadius.circular(15),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Expanded(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
+                      SizedBox(height: 15),
                       Text(
-                        subText1,
                         textDirection: TextDirection.rtl,
+                        widget.mainText,
                         style: GoogleFonts.almarai(
-                          fontSize: 11,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
                           color: Colors.white,
                         ),
-                        overflow: TextOverflow.clip,
                       ),
-                      const SizedBox(height: 02),
-                      Text(
-                        subText2,
-                        textDirection: TextDirection.rtl,
-                        style: GoogleFonts.almarai(
-                          fontSize: 11,
-                          color: Colors.white,
-                        ),
-                        overflow: TextOverflow.clip,
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Text(
+                            widget.subText1,
+                            textDirection: TextDirection.rtl,
+                            style: GoogleFonts.almarai(
+                              fontSize: 11,
+                              color: Colors.white,
+                            ),
+                            overflow: TextOverflow.clip,
+                          ),
+                          const SizedBox(height: 2),
+                          Text(
+                            widget.subText2,
+                            textDirection: TextDirection.rtl,
+                            style: GoogleFonts.almarai(
+                              fontSize: 11,
+                              color: Colors.white,
+                            ),
+                            overflow: TextOverflow.clip,
+                          ),
+                          SizedBox(height: 20),
+                        ],
                       ),
-                      SizedBox(height: 20),
                     ],
-                  )
-                ],
-              ),
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Image.asset(
+                  widget.imagePath,
+                  width: 92,
+                  height: 100,
+                  fit: BoxFit.fill,
+                ),
+              ],
             ),
-            const SizedBox(width: 8),
-            Image.asset(
-              imagePath,
-              width: 92,
-              height: 100,
-              fit: BoxFit.fill,
-            ),
-          ],
+          ),
         ),
       ),
     );
   }
 
   String getImageAddress() {
-    switch (mainText) {
+    switch (widget.mainText) {
       case "سوانح حیات":
         return "assets/images/sawane-dark.png";
       case 'قلبِ سلیم':

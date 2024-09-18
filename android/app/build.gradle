@@ -9,7 +9,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.qalb"
+    namespace = "com.hria.qalb"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
