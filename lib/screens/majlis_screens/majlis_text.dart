@@ -165,7 +165,7 @@ class _Majlis_TextState extends State<Majlis_Text> {
                                         ),
                                       ),
                                       SizedBox(
-                                        width: 250,
+                                        width: 200,
                                         child: SliderTheme(
                                           data:
                                               SliderTheme.of(context).copyWith(

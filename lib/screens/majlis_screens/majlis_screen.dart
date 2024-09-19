@@ -2,6 +2,8 @@ import 'dart:io';
 
 import 'package:audioplayers/audioplayers.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:carousel_slider/carousel_slider.dart';
+// import 'package:fast_cached_network_image/fast_cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -12,19 +14,46 @@ import 'package:qalb/providers/SoundPlayerProvider.dart';
 import 'package:qalb/screens/majlis_screens/majlis_sound.dart';
 
 class Majlis extends StatefulWidget {
-  bool isNavBar;
+  final bool isNavBar;
   Majlis({super.key, required this.isNavBar});
 
   @override
   State<Majlis> createState() => _MajlisState();
 }
 
-class _MajlisState extends State<Majlis> {
+class _MajlisState extends State<Majlis> with SingleTickerProviderStateMixin {
+  late final ScrollController _scrollController;
+  late final AnimationController _animationController;
+  late final Animation<double> _animation;
+  final CarouselSliderController _carouselController =
+      CarouselSliderController();
+  final PageController _carousel = PageController();
+  int _currentIndex = 0;
+
   @override
   void initState() {
-   Provider.of<DataProvider>(context, listen: false).majlisBookImagesUrl();
     super.initState();
+    _scrollController = ScrollController();
+
+    _animationController = AnimationController(
+      duration: const Duration(milliseconds: 500),
+      vsync: this,
+    )..forward();
+    _animation = Tween<double>(begin: 1.0, end: 0.0).animate(
+      CurvedAnimation(
+        parent: _animationController,
+        curve: Curves.easeOut,
+      ),
+    );
   }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    _animationController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -98,13 +127,13 @@ class _MajlisState extends State<Majlis> {
             ],
           ),
           Positioned(
-            top: MediaQuery.of(context).size.height * 0.19,
+            top: MediaQuery.of(context).size.height * 0.21, // Adjust as needed
             left: 0,
             right: 0,
-            bottom:
-                0, // Ensure the content does not overflow outside the container
+            bottom: 0,
             child: Container(
-              padding: EdgeInsets.only(top: 20),
+              margin: EdgeInsets.symmetric(vertical: 0),
+              padding: EdgeInsets.symmetric(vertical: 50),
               decoration: const BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(
@@ -112,24 +141,58 @@ class _MajlisState extends State<Majlis> {
                   topRight: Radius.circular(40),
                 ),
               ),
-              child: ClipRRect(
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(40),
-                  topRight: Radius.circular(40),
-                ),
-                child: ListView.builder(
-                  padding: const EdgeInsets.symmetric(vertical: 20),
-                  itemCount: Provider.of<DataProvider>(context, listen: false)
-                      .majlisBookImages
-                      .length,
-                  itemBuilder: (context, index) {
-                    return majlisContainer(
-                      Provider.of<DataProvider>(context, listen: false)
-                          .majlisImages[index],
-                      index,
-                    );
+              child: CarouselSlider(
+                options: CarouselOptions(
+                  height: MediaQuery.of(context).size.height *
+                      0.5, // Adjust to your needs
+                  aspectRatio: 1,
+                  initialPage: 0,
+                  viewportFraction: 0.7,
+                  enableInfiniteScroll: false,
+                  enlargeCenterPage: true,
+                  scrollDirection: Axis.vertical,
+                  onPageChanged: (index, reason) {
+                    setState(() {
+                      _currentIndex = index;
+                    });
+                    // Stop audio when page changes
                   },
                 ),
+                carouselController: _carouselController,
+                items: Provider.of<DataProvider>(context)
+                    .majlisImages
+                    .asMap()
+                    .entries
+                    .map((entry) {
+                  int index = entry.key;
+                  String imageUrl = entry.value;
+
+                  return Builder(
+                    builder: (BuildContext context) {
+                      return GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            CustomPageNavigation(
+                              child: Majlis_Sound(
+                                image: Provider.of<DataProvider>(context,
+                                        listen: false)
+                                    .majlisThumb[index],
+                                index: index,
+                                name: TextData.majlisUrdu[index],
+                                sub: TextData.majlisEnglish[index],
+                                audioPath: Provider.of<DataProvider>(context,
+                                        listen: false)
+                                    .majlisSound[index],
+                              ),
+                            ),
+                          );
+                        },
+                        child: majlisContainer(imageUrl, index),
+                      );
+                    },
+                  );
+                }).toList(),
               ),
             ),
           ),
@@ -138,28 +201,14 @@ class _MajlisState extends State<Majlis> {
     );
   }
 
+  Widget majlisContainer(String image, int index) {
+    bool isSelected = _currentIndex == index;
 
-Widget majlisContainer(String image, int index) {
-  return GestureDetector(
-    onTap: () {
-      Navigator.push(
-        context,
-        CustomPageNavigation(
-          child: Majlis_Sound(
-            image: Provider.of<DataProvider>(context, listen: false)
-                .majlisThumb[index],
-            index: index,
-            name: TextData.majlisUrdu[index],
-            sub: TextData.majlisEnglish[index],
-            audioPath: Provider.of<DataProvider>(context, listen: false)
-                .majlisSound[index],
-          ),
-        ),
-      );
-    },
-    child: Container(
-      margin: const EdgeInsets.only(bottom: 30, left: 15, right: 15),
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+    return AnimatedContainer(
+      margin: EdgeInsets.symmetric(horizontal: 10),
+      duration: Duration(milliseconds: 300),
+      padding:
+          EdgeInsets.only(left: isSelected ? 10 : 5,right: isSelected ? 10 : 5, top: isSelected ? 0 : 0),
       decoration: BoxDecoration(
         boxShadow: [
           BoxShadow(
@@ -172,78 +221,24 @@ Widget majlisContainer(String image, int index) {
         color: Colors.white,
         borderRadius: BorderRadius.circular(15),
       ),
-      height: 230,
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          // Check if the platform is iOS
-          Platform.isIOS
-              ? Image.network(
-                  image,
-                  height: 150,
-                  width: MediaQuery.of(context).size.width * 0.87,
-                  fit: BoxFit.fill,
-                )
-              : CachedNetworkImage(
-                  imageUrl: image,
-                  height: 150,
-                  width: MediaQuery.of(context).size.width * 0.87,
-                  fit: BoxFit.fill,
-                  placeholder: (context, url) => Container(),
-                  errorWidget: (context, url, error) => const Icon(Icons.error),
-                ),
-          SizedBox(height: MediaQuery.of(context).size.height * 0.02),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Column(
-                mainAxisAlignment: MainAxisAlignment.start,
+              Row(
                 children: [
-                  Row(
-                    children: [
-                      Image.asset(
-                        "assets/images/clock-white.png",
-                        color: Colors.black,
-                        height: 12,
-                      ),
-                      const SizedBox(width: 4),
-                      Text(
-                        formatDuration(getDuration(index + 1)),
-                        style: GoogleFonts.almarai(fontSize: 12),
-                      ),
-                    ],
+                  Image.asset(
+                    "assets/images/clock-white.png",
+                    color: Colors.black,
+                    height: 12,
                   ),
-                  const SizedBox(height: 17),
-                ],
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  SizedBox(
-                    width: 170,
-                    child: Text(
-                      textAlign: TextAlign.start,
-                      textDirection: TextDirection.rtl,
-                      overflow: TextOverflow.ellipsis,
-                      TextData.majlisUrdu[index],
-                      style: GoogleFonts.almarai(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 11,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  SizedBox(
-                    width: 170,
-                    child: Text(
-                      
-                      textAlign: TextAlign.end,
-                      textDirection: TextDirection.ltr,
-                      overflow: TextOverflow.ellipsis,
-                      TextData.majlisEnglish[index],
-                      style: GoogleFonts.almarai(
-                        fontSize: 9,
-                      ),
-                    ),
+                  SizedBox(width: 5),
+                  Text(
+                    formatDuration(getDuration(index + 1)),
+                    style: GoogleFonts.almarai(fontSize: 12),
                   ),
                 ],
               ),
@@ -251,17 +246,6 @@ Widget majlisContainer(String image, int index) {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Container(
-                    alignment: Alignment.center,
-                    height: 30,
-                    child: const VerticalDivider(
-                      color: Colors.black,
-                      thickness: 1,
-                      width: 0,
-                      indent: 0,
-                      endIndent: 0,
-                    ),
-                  ),
                   SizedBox(width: MediaQuery.of(context).size.width * 0.02),
                   Container(
                     padding: const EdgeInsets.all(5),
@@ -283,7 +267,7 @@ Widget majlisContainer(String image, int index) {
                   Text(
                     "مجلس",
                     style: GoogleFonts.almarai(
-                      fontSize: 12,
+                      fontSize: 14,
                       color: Colors.black,
                       fontWeight: FontWeight.bold,
                     ),
@@ -292,17 +276,61 @@ Widget majlisContainer(String image, int index) {
               ),
             ],
           ),
+       
+          AnimatedContainer(
+            curve: Curves.easeInOut,
+            duration: const Duration(milliseconds: 300),
+            height: isSelected ? 190 : 130,
+            child: Platform.isIOS
+                ? Image.network(
+                    image,
+                    fit: BoxFit.fill,
+                  )
+                : CachedNetworkImage(
+                    imageUrl: image,
+                    fit: BoxFit.fill,
+                    placeholder: (context, url) => Container(),
+                    errorWidget: (context, url, error) =>
+                        const Icon(Icons.error),
+                  ),
+          ),
+    
+          AnimatedOpacity(
+            opacity: isSelected ? 1.0 : 0.0,
+            duration: const Duration(milliseconds: 800),
+            child: 
+                Column(
+               
+                  children: [
+                    Text(
+                      textAlign: TextAlign.center,
+                      textDirection: TextDirection.rtl,
+                      overflow: TextOverflow.clip,
+                      TextData.majlisUrdu[index],
+                      style: GoogleFonts.almarai(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                      ),
+                    ),
+                    const SizedBox(height: 15),
+                    Text(
+                      textAlign: TextAlign.center,
+                      textDirection: TextDirection.ltr,
+                      overflow: TextOverflow.clip,
+                      TextData.majlisEnglish[index],
+                      style: GoogleFonts.almarai(
+                        fontSize: 13,
+                        color: Colors.grey[600]
+                      ),
+                    ),
+                  ],
+                ),
+                
+            
+          ),
         ],
       ),
-    ),
-  );
-}
-
-
-  String formatDuration(int seconds) {
-    final minutes = (seconds ~/ 60).toString().padLeft(2, '0');
-    final remainingSeconds = (seconds % 60).toString().padLeft(2, '0');
-    return '$minutes:$remainingSeconds';
+    );
   }
 
   int getDuration(int index) {
@@ -329,6 +357,12 @@ Widget majlisContainer(String image, int index) {
       20: 1975,
     };
     return duration[index] ?? 0;
+  }
+
+  String formatDuration(int seconds) {
+    final minutes = (seconds ~/ 60).toString().padLeft(2, '0');
+    final remainingSeconds = (seconds % 60).toString().padLeft(2, '0');
+    return '$minutes:$remainingSeconds';
   }
 
   Future<String?> getAudioDuration(String url) async {

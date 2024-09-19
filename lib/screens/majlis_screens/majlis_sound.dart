@@ -20,6 +20,7 @@ class Majlis_Sound extends StatefulWidget {
   final String sub;
   final int index;
   final String audioPath;
+  
 
   Majlis_Sound({
     super.key,
@@ -43,10 +44,15 @@ class _Majlis_SoundState extends State<Majlis_Sound> {
     soundPlayerProvider =
         Provider.of<SoundPlayerProvider>(context, listen: true);
   }
-
+bool _isImageVisible = false;
   @override
   void initState() {
     loadAudioPosition();
+    Future.delayed(Duration(milliseconds: 000), () {
+      setState(() {
+        _isImageVisible = true;
+      });
+    });
     super.initState();
   }
 
@@ -158,7 +164,11 @@ class _Majlis_SoundState extends State<Majlis_Sound> {
                           ],
                         ),
                         SizedBox(height: 40),
-                        Container(
+                        AnimatedOpacity(
+                         opacity: _isImageVisible ? 1.0 : 0.0,
+                          duration: Duration(milliseconds: 800),
+                          curve: Curves.easeInOut,
+                          child:Container(
                           height: MediaQuery.of(context).size.height * 0.45,
                           decoration: BoxDecoration(
                             image: DecorationImage(
@@ -168,6 +178,7 @@ class _Majlis_SoundState extends State<Majlis_Sound> {
                             borderRadius: BorderRadiusDirectional.circular(5),
                           ),
                         ),
+                        )
                       ],
                     ),
                     Column(
