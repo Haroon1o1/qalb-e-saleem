@@ -4,6 +4,7 @@ import 'package:qalb/providers/DataProvider.dart';
 
 class GetAllData {
   static getData(BuildContext context) {
+    Provider.of<DataProvider>(context, listen: false).getGif();
     Provider.of<DataProvider>(context, listen: false).getPngs();
     Provider.of<DataProvider>(context, listen: false).getAllImageUrl();
     Provider.of<DataProvider>(context, listen: false).getVideo();

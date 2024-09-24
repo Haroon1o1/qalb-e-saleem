@@ -26,9 +26,9 @@ class _FullScreenVideoPlayerState extends State<FullScreenVideoPlayer> {
           _chewieController = ChewieController(
             videoPlayerController: _videoPlayerController,
             autoPlay: true,
-            looping: false,
+            looping: true,
             aspectRatio: _videoPlayerController.value.aspectRatio,
-            fullScreenByDefault: true, // Open in full screen
+            fullScreenByDefault: true,
           );
         });
       });

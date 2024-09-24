@@ -9,6 +9,7 @@ class SmallContainer extends StatefulWidget {
   final String text;
   final String sub;
   final String audioPath;
+  final String tag;
 
   SmallContainer({
     required this.backgroundColor,
@@ -16,6 +17,8 @@ class SmallContainer extends StatefulWidget {
     required this.text,
     required this.sub,
     required this.audioPath,
+    required this.tag,
+
   });
 
   @override
@@ -69,6 +72,7 @@ class _SmallContainerState extends State<SmallContainer> with SingleTickerProvid
               context,
               CustomPageNavigation(
                 child: SoundPlayer(
+                  tag: widget.tag,
                   image: widget.imagePath,
                   name: widget.text,
                   sub: widget.sub,
@@ -79,15 +83,18 @@ class _SmallContainerState extends State<SmallContainer> with SingleTickerProvid
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Container(
-                width: 70,
-                height: 75,
-                padding: EdgeInsets.only(bottom: 4),
-                alignment: Alignment.bottomCenter,
-                decoration: BoxDecoration(
-                  color: widget.backgroundColor,
-                  image: DecorationImage(image: AssetImage(widget.imagePath)),
-                  borderRadius: BorderRadiusDirectional.circular(20),
+              Hero(
+                tag:widget.tag,
+                child: Container(
+                  width: 70,
+                  height: 75,
+                  padding: EdgeInsets.only(bottom: 4),
+                  alignment: Alignment.bottomCenter,
+                  decoration: BoxDecoration(
+                    color: widget.backgroundColor,
+                    image: DecorationImage(image: AssetImage(widget.imagePath)),
+                    borderRadius: BorderRadiusDirectional.circular(20),
+                  ),
                 ),
               ),
               SizedBox(height: 5),

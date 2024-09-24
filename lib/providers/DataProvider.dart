@@ -12,6 +12,7 @@ class DataProvider with ChangeNotifier {
   List<String> _majlisText = [];
   List<String> _akwalAudio = [];
   String _video = "";
+  String _gif = "";
 
   Map<String, String> _imageMap = {};
   Map<String, String> _audioMap = {};
@@ -19,6 +20,7 @@ class DataProvider with ChangeNotifier {
 
   Map<String, String> get imageMap => _imageMap;
   String get video => _video;
+  String get gif => _gif;
   Map<String, String> get audioMap => _audioMap;
   List<String?> get shajraHasbiyaImageUrls => _shajraHasbiyaImageUrls;
   Map<String, String> get pdfMap => _pdfMap;
@@ -245,6 +247,14 @@ class DataProvider with ChangeNotifier {
 
       pdfMap[fileName] = url;
     }
+
+    notifyListeners();
+  }
+  Future<void> getGif() async {
+       String url =  await FirebaseStorage.instance.ref('doc.gif').getDownloadURL();
+    _gif = url;
+   
+    
 
     notifyListeners();
   }

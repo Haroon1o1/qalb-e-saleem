@@ -14,6 +14,7 @@ class TextScreen extends StatefulWidget {
   final String image;
   final String name;
   final String audioPath;
+  final String tag;
   final int duration;
 
   TextScreen({
@@ -21,6 +22,7 @@ class TextScreen extends StatefulWidget {
     required this.image,
     required this.duration,
     required this.name,
+    required this.tag,
     required this.audioPath,
   });
 
@@ -45,16 +47,19 @@ class _TextScreenState extends State<TextScreen> {
                   Stack(
                     alignment: Alignment.center,
                     children: [
-                      Container(
-                        width: double.infinity,
-                        height: MediaQuery.of(context).size.height * 0.30,
-                        decoration: getColor() == null
-                            ? BoxDecoration(
-                                image: DecorationImage(
-                                    image: AssetImage(
-                                        "assets/images/upergrad.png"),
-                                    fit: BoxFit.fill))
-                            : BoxDecoration(color: getColor()),
+                      Hero(
+                        tag:widget.tag,
+                        child: Container(
+                          width: double.infinity,
+                          height: MediaQuery.of(context).size.height * 0.30,
+                          decoration: getColor() == null
+                              ? BoxDecoration(
+                                  image: DecorationImage(
+                                      image: AssetImage(
+                                          "assets/images/upergrad.png"),
+                                      fit: BoxFit.fill))
+                              : BoxDecoration(color: getColor()),
+                        ),
                       ),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -74,13 +79,13 @@ class _TextScreenState extends State<TextScreen> {
               ? Image.network(
                   imageUrl,
                   height: 70,
-                  width: MediaQuery.of(context).size.width * 70,
+                  width: 70,
                   fit: BoxFit.fill,
                 )
               : CachedNetworkImage(
                   imageUrl: imageUrl,
                   height: 70,
-                  width: MediaQuery.of(context).size.width * 0.87,
+                  width: 70,
                   fit: BoxFit.fill,
                   placeholder: (context, url) => Container(),
                   errorWidget: (context, url, error) => const Icon(Icons.error),

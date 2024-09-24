@@ -1,5 +1,7 @@
 import 'dart:developer';
+import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qalb/providers/DataProvider.dart';
@@ -20,7 +22,6 @@ class AqwalWaIrshadaatScreen extends StatefulWidget {
 
 class _AqwalWaIrshadaatScreenState extends State<AqwalWaIrshadaatScreen> {
   final CarouselSliderController _carouselController = CarouselSliderController();
-  final PageController _carousel = PageController();
   int _currentIndex = 0;
 
   @override
@@ -79,6 +80,7 @@ class _AqwalWaIrshadaatScreenState extends State<AqwalWaIrshadaatScreen> {
                     options: CarouselOptions(
                       height: MediaQuery.of(context).size.height * 0.5,
                       aspectRatio: 16 / 9,
+                      enableInfiniteScroll: false,
                       viewportFraction: 0.75,
                       enlargeCenterPage: true,
                       onPageChanged: (index, reason) {
@@ -108,20 +110,34 @@ class _AqwalWaIrshadaatScreenState extends State<AqwalWaIrshadaatScreen> {
                               child: SingleChildScrollView(
                                 child: Column(
                                   children: [
-                                    Hero(
-                                      tag: imageUrl, // Unique tag for each image
-                                      child: Container(
-                                        alignment: Alignment.bottomCenter,
+                                    Container(
+                                      alignment: Alignment.bottomCenter,
+                                     
+                                      margin: const EdgeInsets.only(top: 10),
+                                      clipBehavior: Clip.hardEdge,
+                                      decoration: BoxDecoration(
                                        
-                                        margin: const EdgeInsets.only(top: 10),
-                                        clipBehavior: Clip.hardEdge,
-                                        decoration: BoxDecoration(
-                                         
-                                          
-                                          borderRadius: BorderRadius.circular(20),
-                                        ),child:Image.network(imageUrl,fit: BoxFit.cover,width: MediaQuery.of(context).size.width*0.7,)
-                                        
-                                      ),
+                                        // color: Colors.black,
+                                        borderRadius: BorderRadius.circular(20),
+                                      ),child:Platform.isIOS
+              ? AnimatedContainer(
+               
+                duration: Duration(milliseconds: 300),
+                child: Image.network(
+                    imageUrl,
+                   
+                    fit: BoxFit.cover,width: MediaQuery.of(context).size.width*0.7,
+                  ),
+              )
+              : CachedNetworkImage(
+                    imageUrl: imageUrl,
+                    
+                    fit: BoxFit.cover,width: MediaQuery.of(context).size.width*0.7,
+                    placeholder: (context, url) => Container(),
+                    errorWidget: (context, url, error) => const Icon(Icons.error),
+                  ),
+              // Image.network(imageUrl,fit: BoxFit.cover,width: MediaQuery.of(context).size.width*0.7,)
+                                      
                                     ),
                                   ],
                                 ),

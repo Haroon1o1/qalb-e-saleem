@@ -13,12 +13,14 @@ class SoundPlayer extends StatefulWidget {
   final String image;
   final String name;
   final String sub;
+  final String tag;
 
   SoundPlayer({
     super.key,
     required this.image,
     required this.name,
     required this.sub,
+    required this.tag,
   });
 
   @override
@@ -121,16 +123,19 @@ class _SoundPlayerState extends State<SoundPlayer> {
                         ),
                       ),
                       SizedBox(height: 30),
-                      Container(
-                        height: MediaQuery.of(context).size.height * 0.42,
-                        decoration: BoxDecoration(
-                            image: DecorationImage(
-                              image: AssetImage(
-                                widget.image,
+                      Hero(
+                        tag:widget.tag,
+                        child: Container(
+                          height: MediaQuery.of(context).size.height * 0.42,
+                          decoration: BoxDecoration(
+                              image: DecorationImage(
+                                image: AssetImage(
+                                  widget.image,
+                                ),
+                                fit: BoxFit.fill,
                               ),
-                              fit: BoxFit.fill,
-                            ),
-                            borderRadius: BorderRadiusDirectional.circular(5)),
+                              borderRadius: BorderRadiusDirectional.circular(5)),
+                        ),
                       )
                     ]),
                     SizedBox(height: 0),
@@ -201,6 +206,7 @@ class _SoundPlayerState extends State<SoundPlayer> {
                                         context,
                                         MaterialPageRoute(
                                           builder: (context) => TextScreen(
+                                            tag: widget.tag,
                                             audioPath: getAudio(),
                                             image: widget.image,
                                             duration: getDuration(),

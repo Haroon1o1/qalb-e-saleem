@@ -133,7 +133,10 @@ class _ShajrEQadriaScreenState extends State<ShajrEQadriaScreen> {
                                 : TextData.shajraHasbiya.length,
                             physics: NeverScrollableScrollPhysics(),
                             itemBuilder: (context, index) {
-                              return Container(
+                              if(itemProvider.shajraHasbiyaImageIndex.isEmpty){
+                                return Container();
+                              }else{
+                                return Container(
                                 margin: EdgeInsets.symmetric(vertical: 0.0),
                                 child: TimelineStep(
                                   name: widget.text,
@@ -144,6 +147,7 @@ class _ShajrEQadriaScreenState extends State<ShajrEQadriaScreen> {
                                       : TextData.shajraHasbiya[index],
                                 ),
                               );
+                              }
                             },
                           );
                         },

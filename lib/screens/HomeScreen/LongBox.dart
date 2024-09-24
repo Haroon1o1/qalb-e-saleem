@@ -11,12 +11,14 @@ class LongBox extends StatefulWidget {
   final String subText2;
   final String audioPath;
   final Color backgroundColor;
+  final String tag;
 
   const LongBox({
     required this.imagePath,
     required this.mainText,
     required this.subText1,
     required this.subText2,
+    required this.tag,
     required this.audioPath,
     required this.backgroundColor,
   });
@@ -76,6 +78,7 @@ class _LongBoxState extends State<LongBox> with SingleTickerProviderStateMixin {
                         isNavBar: false,
                       )
                     : SoundPlayer(
+                      tag: widget.tag,
                         image: getImageAddress(),
                         name: widget.mainText,
                         sub: widget.subText2,
@@ -83,71 +86,83 @@ class _LongBoxState extends State<LongBox> with SingleTickerProviderStateMixin {
               ),
             );
           },
-          child: Container(
-            padding: const EdgeInsets.only(
-              right: 8,
-              left: 8,
-            ),
-            margin: const EdgeInsets.symmetric(vertical: 3),
-            height: 120,
-            decoration: BoxDecoration(
-              color: widget.backgroundColor,
-              borderRadius: BorderRadius.circular(15),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Expanded(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      SizedBox(height: 15),
-                      Text(
-                        textDirection: TextDirection.rtl,
-                        widget.mainText,
-                        style: GoogleFonts.almarai(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18,
-                          color: Colors.white,
+          child: Hero(
+            tag:widget.tag,
+            child: Container(
+              padding: const EdgeInsets.only(
+                right: 8,
+                left: 8,
+              ),
+              margin: const EdgeInsets.symmetric(vertical: 3),
+              height: 120,
+              decoration: BoxDecoration(
+                color: widget.backgroundColor,
+                borderRadius: BorderRadius.circular(15),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Expanded(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        SizedBox(height: 15),
+                        Material(
+  color: Colors.transparent,  // Make it transparent or choose your preferred color
+  child: Text(
+    
+    widget.mainText,  // The text you want to display
+    textDirection: TextDirection.rtl,  // Right-to-left direction
+    style: GoogleFonts.almarai(
+      decoration: TextDecoration.none,
+      fontWeight: FontWeight.bold,
+      fontSize: 18,
+      color: Colors.white,
+    ),
+  ),
+),
+
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Text(
+
+                              widget.subText1,
+                              textDirection: TextDirection.rtl,
+                              style: GoogleFonts.almarai(
+                                decoration: TextDecoration.none,
+                                fontSize: 11,
+                                color: Colors.white,
+                              ),
+                              overflow: TextOverflow.clip,
+                            ),
+                            const SizedBox(height: 2),
+                            Text(
+                              widget.subText2,
+                              textDirection: TextDirection.rtl,
+                              style: GoogleFonts.almarai(
+                                decoration: TextDecoration.none,
+                                fontSize: 11,
+                                color: Colors.white,
+                              ),
+                              overflow: TextOverflow.clip,
+                            ),
+                            SizedBox(height: 20),
+                          ],
                         ),
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          Text(
-                            widget.subText1,
-                            textDirection: TextDirection.rtl,
-                            style: GoogleFonts.almarai(
-                              fontSize: 11,
-                              color: Colors.white,
-                            ),
-                            overflow: TextOverflow.clip,
-                          ),
-                          const SizedBox(height: 2),
-                          Text(
-                            widget.subText2,
-                            textDirection: TextDirection.rtl,
-                            style: GoogleFonts.almarai(
-                              fontSize: 11,
-                              color: Colors.white,
-                            ),
-                            overflow: TextOverflow.clip,
-                          ),
-                          SizedBox(height: 20),
-                        ],
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-                const SizedBox(width: 8),
-                Image.asset(
-                  widget.imagePath,
-                  width: 92,
-                  height: 100,
-                  fit: BoxFit.fill,
-                ),
-              ],
+                  const SizedBox(width: 8),
+                  Image.asset(
+                    widget.imagePath,
+                    width: 92,
+                    height: 100,
+                    fit: BoxFit.fill,
+                  ),
+                ],
+              ),
             ),
           ),
         ),

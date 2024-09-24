@@ -75,14 +75,14 @@ class _Majlis_TextState extends State<Majlis_Text> {
                                     Platform.isIOS
               ? Image.network(
                   widget.image,
-                  height: 150,
-                  width: MediaQuery.of(context).size.width * 0.87,
+                  width: 80,
+                  height:80,
                   fit: BoxFit.fill,
                 )
               : CachedNetworkImage(
                   imageUrl: widget.image,
                   width: 80,
-                  
+                  height:80,
                   fit: BoxFit.fill,
                   placeholder: (context, url) => Container(),
                   errorWidget: (context, url, error) => const Icon(Icons.error),
