@@ -226,6 +226,7 @@ Widget majlisContainer(String image, int index) {
         context,
         CustomPageNavigation(
           child: Majlis_Sound(
+            tag: TextData.majlisUrdu[index],
             image: Provider.of<DataProvider>(context, listen: false)
                 .majlisThumb[index],
             index: index,
@@ -257,27 +258,33 @@ Widget majlisContainer(String image, int index) {
         children: [
           // Check if the platform is iOS
           Platform.isIOS
-              ? AnimatedContainer(
-                height: isCurrent ? 150 : 100,
-                duration: Duration(milliseconds: 300),
-                child: Image.network(
-                    image,
-                   
-                    width: MediaQuery.of(context).size.width * 0.87,
-                    fit: BoxFit.fill,
-                  ),
+              ? Hero(
+                tag:TextData.majlisUrdu[index],
+                child: AnimatedContainer(
+                  height: isCurrent ? 150 : 100,
+                  duration: Duration(milliseconds: 300),
+                  child: Image.network(
+                      image,
+                     
+                      width: MediaQuery.of(context).size.width * 0.87,
+                      fit: BoxFit.fill,
+                    ),
+                ),
               )
-              : AnimatedContainer(
-                height: isCurrent ? 150 : 100,
-                duration: Duration(milliseconds: 300),
-                child: CachedNetworkImage(
-                    imageUrl: image,
-                    
-                    width: MediaQuery.of(context).size.width * 0.87,
-                    fit: BoxFit.fill,
-                    placeholder: (context, url) => Container(),
-                    errorWidget: (context, url, error) => const Icon(Icons.error),
-                  ),
+              : Hero(
+                tag: TextData.majlisUrdu[index],
+                child: AnimatedContainer(
+                  height: isCurrent ? 150 : 100,
+                  duration: Duration(milliseconds: 300),
+                  child: CachedNetworkImage(
+                      imageUrl: image,
+                      
+                      width: MediaQuery.of(context).size.width * 0.87,
+                      fit: BoxFit.fill,
+                      placeholder: (context, url) => Container(),
+                      errorWidget: (context, url, error) => const Icon(Icons.error),
+                    ),
+                ),
               ),
           SizedBox(height: MediaQuery.of(context).size.height * 0.02),
           AnimatedOpacity(

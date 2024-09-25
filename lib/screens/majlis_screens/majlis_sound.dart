@@ -18,6 +18,7 @@ class Majlis_Sound extends StatefulWidget {
   final String image;
   final String name;
   final String sub;
+  final String tag;
   final int index;
   final String audioPath;
   
@@ -28,6 +29,7 @@ class Majlis_Sound extends StatefulWidget {
     required this.index,
     required this.name,
     required this.sub,
+    required this.tag,
     required this.audioPath,
   });
 
@@ -87,6 +89,7 @@ bool _isImageVisible = false;
       context,
       CustomPageNavigation(
         child: Majlis_Sound(
+          tag: TextData.majlisUrdu[newIndex],
           image: Provider.of<DataProvider>(context, listen: false)
               .majlisThumb[newIndex],
           index: newIndex,
@@ -164,11 +167,9 @@ bool _isImageVisible = false;
                           ],
                         ),
                         SizedBox(height: 40),
-                        AnimatedOpacity(
-                         opacity: _isImageVisible ? 1.0 : 0.0,
-                          duration: Duration(milliseconds: 800),
-                          curve: Curves.easeInOut,
-                          child:Container(
+                        Hero(
+                          tag: widget.tag,
+                          child: Container(
                           height: MediaQuery.of(context).size.height * 0.45,
                           decoration: BoxDecoration(
                             image: DecorationImage(
@@ -177,7 +178,7 @@ bool _isImageVisible = false;
                             ),
                             borderRadius: BorderRadiusDirectional.circular(5),
                           ),
-                        ),
+                                                  ),
                         )
                       ],
                     ),
