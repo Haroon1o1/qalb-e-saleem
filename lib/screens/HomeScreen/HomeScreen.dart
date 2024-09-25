@@ -159,10 +159,10 @@ class _BottomNavBarScreenState extends State<BottomNavBarScreen> {
           ),
           Text(
             text,
-            style: provider.selectedIndex == 3 ? TextStyle(
+            style: provider.selectedIndex == 3 ? GoogleFonts.almarai(
               fontSize: 10,
               color: Colors.grey,
-            ) : TextStyle(
+            ) : GoogleFonts.almarai(
               fontSize: 10,
               color: provider.selectedIndex == index ? const Color(0xFF345EF1) : Colors.grey,
             ),

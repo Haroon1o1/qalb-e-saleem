@@ -33,7 +33,7 @@ class UpperPart extends StatelessWidget {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
-                            SizedBox(height: isNavbar ? 20 :  10),
+                            SizedBox(height: isNavbar ? 20 :  5),
                             const SizedBox(height: 10),
                             Text(
                               "اقوال و ارشاداِت عالیہ",

@@ -93,7 +93,7 @@ class _SmallContainerState extends State<SmallContainer> with SingleTickerProvid
                   decoration: BoxDecoration(
                     color: widget.backgroundColor,
                     image: DecorationImage(image: AssetImage(widget.imagePath)),
-                    borderRadius: BorderRadiusDirectional.circular(20),
+                    borderRadius: BorderRadiusDirectional.circular(10),
                   ),
                 ),
               ),
