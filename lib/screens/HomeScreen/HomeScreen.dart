@@ -100,7 +100,7 @@ class _BottomNavBarScreenState extends State<BottomNavBarScreen> {
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top:20.0),
-                    child: Text("مجالس", style: TextStyle(fontSize:12, color: provider.selectedIndex == 3 ? Color(0xFF345EF1) : Colors.grey),),
+                    child: Text("مجالس", style: GoogleFonts.almarai(fontSize:10, color: provider.selectedIndex == 3 ? Color(0xFF345EF1) : Colors.grey),),
                   ),
                   Row(
                     children: [
