@@ -511,7 +511,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
      SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       systemNavigationBarColor: Colors.black,
-    statusBarColor: Colors.transparent, // Make status bar transparent
+    statusBarColor: Colors.white, // Make status bar transparent
     statusBarIconBrightness: Brightness.dark
   ));
 

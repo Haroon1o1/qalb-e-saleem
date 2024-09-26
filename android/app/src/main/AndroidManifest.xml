@@ -4,7 +4,7 @@
 
     <application
         android:label="Qalb e Saleem"
-        android:name="${applicationName}"
+        android:name="Qalb e Saleem"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
