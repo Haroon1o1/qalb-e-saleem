@@ -40,7 +40,7 @@ class MyApp extends StatelessWidget {
       SystemUiOverlayStyle(
         statusBarColor: Colors.black,
         statusBarIconBrightness:
-            Brightness.light,
+            Brightness.dark,
       ),
     );
     return MaterialApp(

@@ -1,10 +1,7 @@
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:audioplayers/audioplayers.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:carousel_slider/carousel_slider.dart';
-// import 'package:fast_cached_network_image/fast_cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -15,50 +12,22 @@ import 'package:qalb/providers/SoundPlayerProvider.dart';
 import 'package:qalb/screens/majlis_screens/majlis_sound.dart';
 
 class Majlis extends StatefulWidget {
-  final bool isNavBar;
+  bool isNavBar;
   Majlis({super.key, required this.isNavBar});
 
   @override
   State<Majlis> createState() => _MajlisState();
 }
 
-class _MajlisState extends State<Majlis> with SingleTickerProviderStateMixin {
-  late final ScrollController _scrollController;
-  late final AnimationController _animationController;
-  late final Animation<double> _animation;
-  final CarouselSliderController _carouselController =
-      CarouselSliderController();
-  final PageController _carousel = PageController();
-  int _currentIndex = 0;
-
+class _MajlisState extends State<Majlis> {
   @override
   void initState() {
+   Provider.of<DataProvider>(context, listen: false).majlisBookImagesUrl();
     super.initState();
-    _scrollController = ScrollController();
-
-    _animationController = AnimationController(
-      duration: const Duration(milliseconds: 500),
-      vsync: this,
-    )..forward();
-    _animation = Tween<double>(begin: 1.0, end: 0.0).animate(
-      CurvedAnimation(
-        parent: _animationController,
-        curve: Curves.easeOut,
-      ),
-    );
   }
-
-  @override
-  void dispose() {
-    _scrollController.dispose();
-    _animationController.dispose();
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       body: Stack(
         alignment: Alignment.bottomCenter,
         children: [
@@ -129,14 +98,13 @@ class _MajlisState extends State<Majlis> with SingleTickerProviderStateMixin {
             ],
           ),
           Positioned(
-            top: MediaQuery.of(context).size.height * 0.21, // Adjust as needed
+            top: MediaQuery.of(context).size.height * 0.19,
             left: 0,
             right: 0,
-            bottom: 0,
+            bottom:
+                0, // Ensure the content does not overflow outside the container
             child: Container(
-              
-              margin: EdgeInsets.only(bottom: 50, ),
-              padding: EdgeInsets.only(bottom: 0, top:20),
+              padding: EdgeInsets.only(top: 20),
               decoration: const BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(
@@ -144,96 +112,47 @@ class _MajlisState extends State<Majlis> with SingleTickerProviderStateMixin {
                   topRight: Radius.circular(40),
                 ),
               ),
-              child: ListWheelScrollView(
-                scrollBehavior: ScrollBehavior(
-                  
+              child: ClipRRect(
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(40),
+                  topRight: Radius.circular(40),
                 ),
-                  physics: FixedExtentScrollPhysics(),
-                  perspective: 0.002,
-                  onSelectedItemChanged: (index){
-                    setState(() {
-                      _currentIndex = index;
-                    });
-                    log(_currentIndex.toString());
+                child: ListView.builder(
+                  padding: const EdgeInsets.symmetric(vertical: 20),
+                  itemCount: Provider.of<DataProvider>(context, listen: false)
+                      .majlisBookImages
+                      .length,
+                  itemBuilder: (context, index) {
+                    return majlisContainer(
+                      Provider.of<DataProvider>(context, listen: false)
+                          .majlisImages[index],
+                      index,
+                    );
                   },
-                itemExtent: 280, children: List.generate(Provider.of<DataProvider>(context).majlisImages.length, (index){
-                  return majlisContainer(Provider.of<DataProvider>(context).majlisImages[index], index);
-                })),
-              // child: CarouselSlider(
-              //   options: CarouselOptions(
-              //     height: MediaQuery.of(context).size.height *
-              //         0.5, // Adjust to your needs
-              //     aspectRatio: 1,
-              //     initialPage: 0,
-              //     viewportFraction: 0.7,
-              //     enableInfiniteScroll: false,
-              //     enlargeCenterPage: true,
-              //     scrollDirection: Axis.vertical,
-              //     onPageChanged: (index, reason) {
-              //       setState(() {
-              //         _currentIndex = index;
-              //       });
-              //       // Stop audio when page changes
-              //     },
-              //   ),
-              //   carouselController: _carouselController,
-              //   items: Provider.of<DataProvider>(context)
-              //       .majlisImages
-              //       .asMap()
-              //       .entries
-              //       .map((entry) {
-              //     int index = entry.key;
-              //     String imageUrl = entry.value;
-
-              //     return Builder(
-              //       builder: (BuildContext context) {
-              //         return GestureDetector(
-              //           onTap: () {
-              //             Navigator.push(
-              //               context,
-              //               CustomPageNavigation(
-              //                 child: Majlis_Sound(
-              //                   image: Provider.of<DataProvider>(context,
-              //                           listen: false)
-              //                       .majlisThumb[index],
-              //                   index: index,
-              //                   name: TextData.majlisUrdu[index],
-              //                   sub: TextData.majlisEnglish[index],
-              //                   audioPath: Provider.of<DataProvider>(context,
-              //                           listen: false)
-              //                       .majlisSound[index],
-              //                 ),
-              //               ),
-              //             );
-              //           },
-              //           child: majlisContainer(imageUrl, index),
-              //         );
-              //       },
-              //     );
-              //   }).toList(),
-              // ),
+                ),
+              ),
             ),
           ),
         ],
       ),
     );
   }
+
+
 Widget majlisContainer(String image, int index) {
-  bool isCurrent = index == _currentIndex;
   return GestureDetector(
     onTap: () {
       Navigator.push(
         context,
         CustomPageNavigation(
           child: Majlis_Sound(
-            tag: TextData.majlisUrdu[index],
             image: Provider.of<DataProvider>(context, listen: false)
                 .majlisThumb[index],
             index: index,
             name: TextData.majlisUrdu[index],
             sub: TextData.majlisEnglish[index],
             audioPath: Provider.of<DataProvider>(context, listen: false)
-                .majlisSound[index],
+                .majlisSound[index], tag: TextData.majlisUrdu[index],
           ),
         ),
       );
@@ -253,280 +172,138 @@ Widget majlisContainer(String image, int index) {
         color: Colors.white,
         borderRadius: BorderRadius.circular(15),
       ),
-      height: isCurrent ? 230 : 150,
+      height: 230,
       child: Column(
         children: [
           // Check if the platform is iOS
           Platform.isIOS
-              ? Hero(
-                tag:TextData.majlisUrdu[index],
-                child: AnimatedContainer(
-                  height: isCurrent ? 150 : 100,
-                  duration: Duration(milliseconds: 300),
-                  child: Image.network(
-                      image,
-                     
-                      width: MediaQuery.of(context).size.width * 0.87,
-                      fit: BoxFit.fill,
-                    ),
+              ? Image.network(
+                  image,
+                  height: 150,
+                  width: MediaQuery.of(context).size.width * 0.87,
+                  fit: BoxFit.fill,
+                )
+              : CachedNetworkImage(
+                  imageUrl: image,
+                  height: 150,
+                  width: MediaQuery.of(context).size.width * 0.87,
+                  fit: BoxFit.fill,
+                  placeholder: (context, url) => Container(),
+                  errorWidget: (context, url, error) => const Icon(Icons.error),
                 ),
-              )
-              : Hero(
-                tag: TextData.majlisUrdu[index],
-                child: AnimatedContainer(
-                  height: isCurrent ? 150 : 100,
-                  duration: Duration(milliseconds: 300),
-                  child: CachedNetworkImage(
-                      imageUrl: image,
-                      
-                      width: MediaQuery.of(context).size.width * 0.87,
-                      fit: BoxFit.fill,
-                      placeholder: (context, url) => Container(),
-                      errorWidget: (context, url, error) => const Icon(Icons.error),
-                    ),
-                ),
-              ),
           SizedBox(height: MediaQuery.of(context).size.height * 0.02),
-          AnimatedOpacity(
-            duration: Duration(milliseconds: 700),
-            opacity: isCurrent ? 1 : 0.0,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        Image.asset(
-                          "assets/images/clock-white.png",
-                          color: Colors.black,
-                          height: 12,
-                        ),
-                        const SizedBox(width: 4),
-                        Text(
-                          formatDuration(getDuration(index + 1)),
-                          style: GoogleFonts.almarai(fontSize: 12),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 17),
-                  ],
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    SizedBox(
-                      width: 170,
-                      child: Text(
-                        textAlign: TextAlign.start,
-                        textDirection: TextDirection.rtl,
-                        overflow: TextOverflow.ellipsis,
-                        TextData.majlisUrdu[index],
-                        style: GoogleFonts.almarai(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 11,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    SizedBox(
-                      width: 170,
-                      child: Text(
-                        
-                        textAlign: TextAlign.end,
-                        textDirection: TextDirection.ltr,
-                        overflow: TextOverflow.ellipsis,
-                        TextData.majlisEnglish[index],
-                        style: GoogleFonts.almarai(
-                          fontSize: 9,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Container(
-                      alignment: Alignment.center,
-                      height: 30,
-                      child: const VerticalDivider(
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Image.asset(
+                        "assets/images/clock-white.png",
                         color: Colors.black,
-                        thickness: 1,
-                        width: 0,
-                        indent: 0,
-                        endIndent: 0,
+                        height: 12,
                       ),
-                    ),
-                    SizedBox(width: MediaQuery.of(context).size.width * 0.02),
-                    Container(
-                      padding: const EdgeInsets.all(5),
-                      alignment: Alignment.center,
-                      decoration: const BoxDecoration(
-                        color: Colors.black,
-                        shape: BoxShape.circle,
+                      const SizedBox(width: 4),
+                      Text(
+                        formatDuration(getDuration(index + 1)),
+                        style: GoogleFonts.almarai(fontSize: 12),
                       ),
-                      child: Text(
-                        "${index + 1}",
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 10,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 5),
-                    Text(
-                      "مجلس",
+                    ],
+                  ),
+                  const SizedBox(height: 17),
+                ],
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  SizedBox(
+                    width: 170,
+                    child: Text(
+                      textAlign: TextAlign.start,
+                      textDirection: TextDirection.rtl,
+                      overflow: TextOverflow.ellipsis,
+                      TextData.majlisUrdu[index],
                       style: GoogleFonts.almarai(
-                        fontSize: 12,
-                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 11,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  SizedBox(
+                    width: 170,
+                    child: Text(
+                      
+                      textAlign: TextAlign.end,
+                      textDirection: TextDirection.ltr,
+                      overflow: TextOverflow.ellipsis,
+                      TextData.majlisEnglish[index],
+                      style: GoogleFonts.almarai(
+                        fontSize: 9,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Container(
+                    alignment: Alignment.center,
+                    height: 30,
+                    child: const VerticalDivider(
+                      color: Colors.black,
+                      thickness: 1,
+                      width: 0,
+                      indent: 0,
+                      endIndent: 0,
+                    ),
+                  ),
+                  SizedBox(width: MediaQuery.of(context).size.width * 0.02),
+                  Container(
+                    padding: const EdgeInsets.all(5),
+                    alignment: Alignment.center,
+                    decoration: const BoxDecoration(
+                      color: Colors.black,
+                      shape: BoxShape.circle,
+                    ),
+                    child: Text(
+                      "${index + 1}",
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 10,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                  ],
-                ),
-              ],
-            ),
+                  ),
+                  const SizedBox(width: 5),
+                  Text(
+                    "مجلس",
+                    style: GoogleFonts.almarai(
+                      fontSize: 12,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
+            ],
           ),
         ],
       ),
     ),
   );
 }
-  // Widget majlisContainer(String image, int index) {
-  //   bool isSelected = _currentIndex == index;
 
-  //   return AnimatedContainer(
-  //     margin: EdgeInsets.symmetric(horizontal: 10),
-  //     duration: Duration(milliseconds: 300),
-  //     padding:
-  //         EdgeInsets.only(left: isSelected ? 10 : 5,right: isSelected ? 10 : 5, top: isSelected ? 0 : 0),
-  //     decoration: BoxDecoration(
-  //       boxShadow: [
-  //         BoxShadow(
-  //           color: Colors.grey.withOpacity(0.5),
-  //           spreadRadius: 1,
-  //           blurRadius: 3,
-  //           offset: const Offset(1, 2),
-  //         ),
-  //       ],
-  //       color: Colors.white,
-  //       borderRadius: BorderRadius.circular(15),
-  //     ),
-  //     child: Column(
-  //       crossAxisAlignment: CrossAxisAlignment.center,
-  //       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-  //       children: [
-  //         Row(
-  //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //           children: [
-  //             Row(
-  //               children: [
-  //                 Image.asset(
-  //                   "assets/images/clock-white.png",
-  //                   color: Colors.black,
-  //                   height: 12,
-  //                 ),
-  //                 SizedBox(width: 5),
-  //                 Text(
-  //                   formatDuration(getDuration(index + 1)),
-  //                   style: GoogleFonts.almarai(fontSize: 12),
-  //                 ),
-  //               ],
-  //             ),
-  //             Row(
-  //               mainAxisAlignment: MainAxisAlignment.center,
-  //               crossAxisAlignment: CrossAxisAlignment.center,
-  //               children: [
-  //                 SizedBox(width: MediaQuery.of(context).size.width * 0.02),
-  //                 Container(
-  //                   padding: const EdgeInsets.all(5),
-  //                   alignment: Alignment.center,
-  //                   decoration: const BoxDecoration(
-  //                     color: Colors.black,
-  //                     shape: BoxShape.circle,
-  //                   ),
-  //                   child: Text(
-  //                     "${index + 1}",
-  //                     style: const TextStyle(
-  //                       color: Colors.white,
-  //                       fontSize: 10,
-  //                       fontWeight: FontWeight.bold,
-  //                     ),
-  //                   ),
-  //                 ),
-  //                 const SizedBox(width: 5),
-  //                 Text(
-  //                   "مجلس",
-  //                   style: GoogleFonts.almarai(
-  //                     fontSize: 14,
-  //                     color: Colors.black,
-  //                     fontWeight: FontWeight.bold,
-  //                   ),
-  //                 ),
-  //               ],
-  //             ),
-  //           ],
-  //         ),
-       
-  //         AnimatedContainer(
-  //           curve: Curves.easeInOut,
-  //           duration: const Duration(milliseconds: 300),
-  //           height: isSelected ? 190 : 130,
-  //           child: Platform.isIOS
-  //               ? Image.network(
-  //                   image,
-  //                   fit: BoxFit.fill,
-  //                 )
-  //               : CachedNetworkImage(
-  //                   imageUrl: image,
-  //                   fit: BoxFit.fill,
-  //                   placeholder: (context, url) => Container(),
-  //                   errorWidget: (context, url, error) =>
-  //                       const Icon(Icons.error),
-  //                 ),
-  //         ),
-    
-  //         AnimatedOpacity(
-  //           opacity: isSelected ? 1.0 : 0.0,
-  //           duration: const Duration(milliseconds: 800),
-  //           child: 
-  //               Column(
-               
-  //                 children: [
-  //                   Text(
-  //                     textAlign: TextAlign.center,
-  //                     textDirection: TextDirection.rtl,
-  //                     overflow: TextOverflow.clip,
-  //                     TextData.majlisUrdu[index],
-  //                     style: GoogleFonts.almarai(
-  //                       fontWeight: FontWeight.bold,
-  //                       fontSize: 18,
-  //                     ),
-  //                   ),
-  //                   const SizedBox(height: 15),
-  //                   Text(
-  //                     textAlign: TextAlign.center,
-  //                     textDirection: TextDirection.ltr,
-  //                     overflow: TextOverflow.clip,
-  //                     TextData.majlisEnglish[index],
-  //                     style: GoogleFonts.almarai(
-  //                       fontSize: 13,
-  //                       color: Colors.grey[600]
-  //                     ),
-  //                   ),
-  //                 ],
-  //               ),
-                
-            
-  //         ),
-  //       ],
-  //     ),
-  //   );
-  // }
+
+  String formatDuration(int seconds) {
+    final minutes = (seconds ~/ 60).toString().padLeft(2, '0');
+    final remainingSeconds = (seconds % 60).toString().padLeft(2, '0');
+    return '$minutes:$remainingSeconds';
+  }
 
   int getDuration(int index) {
     final duration = {
@@ -552,12 +329,6 @@ Widget majlisContainer(String image, int index) {
       20: 1975,
     };
     return duration[index] ?? 0;
-  }
-
-  String formatDuration(int seconds) {
-    final minutes = (seconds ~/ 60).toString().padLeft(2, '0');
-    final remainingSeconds = (seconds % 60).toString().padLeft(2, '0');
-    return '$minutes:$remainingSeconds';
   }
 
   Future<String?> getAudioDuration(String url) async {

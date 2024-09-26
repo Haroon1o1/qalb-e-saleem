@@ -83,6 +83,7 @@ class _AqwalWaIrshadaatScreenState extends State<AqwalWaIrshadaatScreen> {
                       enableInfiniteScroll: false,
                       viewportFraction: 0.75,
                       enlargeCenterPage: true,
+                      reverse: true,
                       onPageChanged: (index, reason) {
                         setState(() {
                           _currentIndex = index;

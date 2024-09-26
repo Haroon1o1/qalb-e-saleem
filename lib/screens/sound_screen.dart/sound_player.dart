@@ -136,13 +136,9 @@ class _SoundPlayerState extends State<SoundPlayer> {
                               ),
                               borderRadius: BorderRadiusDirectional.circular(5)),
                         ),
-                      )
-                    ]),
-                    SizedBox(height: 0),
-                    SizedBox(height: 0),
-                    Column(
-                      children: [
-                        Text(
+                      ),
+SizedBox(height:10),
+                      Text(
                           widget.name,
                           style: GoogleFonts.almarai(
                               fontSize: 20,
@@ -158,6 +154,11 @@ class _SoundPlayerState extends State<SoundPlayer> {
                             color: Colors.black,
                           ),
                         ),
+                    ]),
+                 
+                    Column(
+                      children: [
+                        
                         SizedBox(height: 0),
                         SliderTheme(
                           data: SliderTheme.of(context).copyWith(

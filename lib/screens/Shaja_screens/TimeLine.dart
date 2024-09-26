@@ -31,7 +31,7 @@ class TimelineStep extends StatelessWidget {
                   color: stepNumber == 1 ? Colors.black : Colors.white),
             ),
           ),
-          if (stepNumber != 28) // idr last +1 step dalna h
+         // idr last +1 step dalna h
             Container(
                 height: 20,
                 width: 2,
