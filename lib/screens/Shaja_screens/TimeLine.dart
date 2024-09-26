@@ -40,9 +40,7 @@ class TimelineStep extends StatelessWidget {
             width: double.infinity,
             height: imagePath == ""
                 ? 60
-                : (stepNumber == 2 && name == "nasbiya")
-                    ? 200
-                    : 180,
+                : 180,
             padding: EdgeInsets.only(
                 top: imagePath == "" ? 0 : 8,
                 right: 8,
@@ -88,7 +86,7 @@ class TimelineStep extends StatelessWidget {
                         description,
                         style: GoogleFonts.almarai(
                           color: imagePath == "" ? Colors.white : Colors.black,
-                          fontSize: 13,
+                          fontSize: 11,
                           fontWeight: FontWeight.w600,
                         ),
                         textAlign: TextAlign.center,
@@ -175,7 +173,7 @@ class TimelineStep extends StatelessWidget {
         Color(0xFFF0B378),
         Color(0xFFEC9085),
       ]);
-      ignoredSteps.addAll([1, 2, 3, 17, 37, 42, 43]);
+      ignoredSteps.addAll([1, 2, 3, 17, 42, 43]);
     } else {
       colorList.addAll([
         Color(0xFF2ECDBA),
@@ -192,8 +190,8 @@ class TimelineStep extends StatelessWidget {
         Color(0xFFF0B378),
         Color(0xFFEC9085),
       ]);
-      if (stepNumber > 12) {
-        colorList.add(Color(0xFFED7B92));
+      if (stepNumber > 23) {
+        // colorList.add(Color(0xFFED7B92));
       }
 
       ignoredSteps.addAll([1, 2, 3, 37]);

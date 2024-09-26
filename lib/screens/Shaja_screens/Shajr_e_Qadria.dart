@@ -190,12 +190,11 @@ class _ShajrEQadriaScreenState extends State<ShajrEQadriaScreen> {
             return itemProvider.shajraHasbiyaImageUrls[2];
           case 17:
             return itemProvider.shajraHasbiyaImageUrls[3];
-          case 37:
-            return itemProvider.shajraHasbiyaImageUrls[4];
+          
           case 42:
-            return itemProvider.shajraHasbiyaImageUrls[5];
+            return itemProvider.shajraHasbiyaImageUrls[4];
           case 43:
-            return itemProvider.shajraHasbiyaImageUrls[6];
+            return itemProvider.shajraHasbiyaImageUrls[5];
           default:
             return "";
         }

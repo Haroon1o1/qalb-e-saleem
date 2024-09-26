@@ -1,6 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:qalb/providers/HomeProvider.dart';
 import 'package:qalb/utils/firebase_options.dart';
@@ -16,6 +15,8 @@ void main() async {
   } catch (e) {
     print('Initialization error: $e');
   }
+
+  // Hide the status bar
 
   runApp(
     MultiProvider(
@@ -34,13 +35,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(
-      SystemUiOverlayStyle(
-        statusBarColor: Colors.black,
-        statusBarIconBrightness:
-            Brightness.dark,
-      ),
-    );
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
@@ -48,7 +42,9 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: Splashscreen(),
+      home: Scaffold(
+        body: Splashscreen(),
+      ),
     );
   }
 }
