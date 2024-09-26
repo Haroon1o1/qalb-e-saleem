@@ -98,7 +98,9 @@ class _SoundPlayerState extends State<SoundPlayer> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     SizedBox(height: 0),
-                    Column(children: [
+                    Column(
+                      
+                      children: [
                       Padding(
                         padding: EdgeInsets.only(
                             left: MediaQuery.of(context).size.width * 0.32),
@@ -122,7 +124,7 @@ class _SoundPlayerState extends State<SoundPlayer> {
                           ],
                         ),
                       ),
-                      SizedBox(height: 30),
+                      SizedBox(height: 50),
                       Hero(
                         tag:widget.tag,
                         child: Container(
