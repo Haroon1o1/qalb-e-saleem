@@ -55,13 +55,15 @@ class _BottomNavBarScreenState extends State<BottomNavBarScreen> {
     return Scaffold(
       endDrawer: buildDrawer(context),
       key: _scaffoldKey,
-      body: PageView(
-        controller: _pageController,
-        onPageChanged: (index) {
-          provider.setSelectedIndex(index);
-          _updateLinePosition(index);
-        },
-        children: _pages,
+      body: SafeArea(
+        child: PageView(
+          controller: _pageController,
+          onPageChanged: (index) {
+            provider.setSelectedIndex(index);
+            _updateLinePosition(index);
+          },
+          children: _pages,
+        ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
