@@ -277,7 +277,7 @@ class _TextScreenState extends State<TextScreen> {
   String getTextFile() {
     final textFileMap = {
       "اظہار تشکر": "assets/textFiles/tashakur.pdf",
-      "مقّدمۃ الکتاب": "assets/textFiles/maqadma.pdf",
+      "مقدمہ الکتاب": "assets/textFiles/maqadma.pdf",
       "الفراق": "assets/textFiles/alfiraq.pdf",
       "پیش لفظ": "assets/textFiles/peshLafz.pdf",
       "سوانح حیات": "assets/textFiles/sawana.pdf",
@@ -299,7 +299,7 @@ class _TextScreenState extends State<TextScreen> {
           .imageMap["izhar-white"],
       "الفراق": dataProvider
           .imageMap["alfiraq-white"],
-      "مقّدمۃ الکتاب": dataProvider
+      "مقدمہ الکتاب": dataProvider
           .imageMap["muqadma-white"],
       "پیش لفظ": dataProvider
           .imageMap["paish_lafz-white"],
@@ -328,7 +328,7 @@ class _TextScreenState extends State<TextScreen> {
           .pdfMap["izhar"],
       "الفراق": Provider.of<DataProvider>(context, listen: false)
           .pdfMap["alfiraq"],
-      "مقّدمۃ الکتاب": Provider.of<DataProvider>(context, listen: false)
+      "مقدمہ الکتاب": Provider.of<DataProvider>(context, listen: false)
           .pdfMap["muqadma"],
       "پیش لفظ": Provider.of<DataProvider>(context, listen: false)
           .pdfMap["paish_lafz"],
@@ -353,7 +353,7 @@ class _TextScreenState extends State<TextScreen> {
       "منقبت": Color(0xFF10A8E3),
       "اظہار تشکر": Color(0xFF2C3491),
       "الفراق": Color(0xFF281E63),
-      "مقّدمۃ الکتاب": Color(0xFF692592),
+      "مقدمہ الکتاب": Color(0xFF692592),
       "پیش لفظ": Color(0xFF00B771),
       "سوانح حیات": Color(0xFF00BEAE),
       "قلبِ سلیم": Color(0xFF1373BF),

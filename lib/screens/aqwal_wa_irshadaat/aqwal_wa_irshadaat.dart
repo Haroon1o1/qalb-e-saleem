@@ -58,7 +58,7 @@ class _AqwalWaIrshadaatScreenState extends State<AqwalWaIrshadaatScreen> {
       body: Stack(
         alignment: Alignment.bottomCenter,
         children: [
-          UpperPart(isNavbar: widget.isNavBar,),
+          UpperPart(isNavbar: widget.isNavBar,mainText: "اقوال و ارشاداِت عالیہ",subText: "امام االولیاء حضرت پیر سّید محّمد عبد اللہ شاہ مشہدی قادری",),
           Positioned(
             top: MediaQuery.of(context).size.height * 0.21,
             left: 0,
@@ -78,12 +78,14 @@ class _AqwalWaIrshadaatScreenState extends State<AqwalWaIrshadaatScreen> {
                   SizedBox(height: widget.isNavBar ? 10 : 30),
                   CarouselSlider(
                     options: CarouselOptions(
-                      height: MediaQuery.of(context).size.height * 0.5,
-                      aspectRatio: 16 / 9,
-                      enableInfiniteScroll: false,
-                      viewportFraction: 0.75,
-                      enlargeCenterPage: true,
-                      reverse: true,
+    height: MediaQuery.of(context).size.height * 0.5,
+    aspectRatio: 16 / 9,
+    enableInfiniteScroll: false,
+    viewportFraction: 0.75,
+    enlargeCenterPage: true,
+    initialPage: 0,
+    reverse: true,
+    pageSnapping: true,
                       onPageChanged: (index, reason) {
                         setState(() {
                           _currentIndex = index;

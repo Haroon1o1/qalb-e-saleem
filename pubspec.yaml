@@ -47,13 +47,11 @@ dependencies:
   video_player: ^2.9.1
   chewie: ^1.8.3
   syncfusion_flutter_pdfviewer:
-  flutter_html: ^3.0.0-beta.2
   shared_preferences: ^2.3.2
   share_plus: ^10.0.0
-  permission_handler: ^11.3.1
   url_launcher: ^6.3.0
-  flutter_url_shortener: ^2.0.0
   carousel_slider: ^5.0.0
+
 
 dev_dependencies:
   flutter_test:

@@ -59,8 +59,10 @@ class _MajlisState extends State<Majlis> {
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
                             Text(
+                              
                               "فهرست مجالس",
                               style: GoogleFonts.almarai(
+                                decoration: TextDecoration.none,
                                 color: Colors.white,
                                 fontSize:
                                     MediaQuery.of(context).size.width * 0.05,
@@ -68,8 +70,10 @@ class _MajlisState extends State<Majlis> {
                               ),
                             ),
                             Text(
+                             
                               "امام االولیاء حضرت پیر سّید محّمد عبد اللہ شاہ مشہدی قادری",
                               style: GoogleFonts.almarai(
+                                 decoration: TextDecoration.none,
                                 color: Colors.white,
                                 fontSize:
                                     MediaQuery.of(context).size.width * 0.025,
@@ -119,15 +123,14 @@ class _MajlisState extends State<Majlis> {
                 ),
                 child: ListView.builder(
                   padding: const EdgeInsets.symmetric(vertical: 20),
-                  itemCount: Provider.of<DataProvider>(context, listen: false)
-                      .majlisBookImages
-                      .length,
+                  itemCount: Provider.of<DataProvider>(context, listen: false).majlisImages.length,
                   itemBuilder: (context, index) {
-                    return majlisContainer(
-                      Provider.of<DataProvider>(context, listen: false)
-                          .majlisImages[index],
-                      index,
-                    );
+                     if (Provider.of<DataProvider>(context, listen: false).majlisImages.isNotEmpty && index < Provider.of<DataProvider>(context, listen: false).majlisImages.length) {
+                    return majlisContainer(Provider.of<DataProvider>(context, listen: false).majlisImages[index], index);
+                  }else{
+                      return Container();
+                  }
+                 
                   },
                 ),
               ),
@@ -152,7 +155,8 @@ Widget majlisContainer(String image, int index) {
             name: TextData.majlisUrdu[index],
             sub: TextData.majlisEnglish[index],
             audioPath: Provider.of<DataProvider>(context, listen: false)
-                .majlisSound[index], tag: TextData.majlisUrdu[index],
+                .majlisSound[index], 
+            tag: TextData.majlisUrdu[index],
           ),
         ),
       );
@@ -177,20 +181,26 @@ Widget majlisContainer(String image, int index) {
         children: [
           // Check if the platform is iOS
           Platform.isIOS
-              ? Image.network(
-                  image,
-                  height: 150,
-                  width: MediaQuery.of(context).size.width * 0.87,
-                  fit: BoxFit.fill,
-                )
-              : CachedNetworkImage(
-                  imageUrl: image,
-                  height: 150,
-                  width: MediaQuery.of(context).size.width * 0.87,
-                  fit: BoxFit.fill,
-                  placeholder: (context, url) => Container(),
-                  errorWidget: (context, url, error) => const Icon(Icons.error),
-                ),
+              ? Hero(
+                tag: TextData.majlisUrdu[index],
+                child: Image.network(
+                    image,
+                    height: 150,
+                    width: MediaQuery.of(context).size.width * 0.87,
+                    fit: BoxFit.fill,
+                  ),
+              )
+              : Hero(
+                tag:TextData.majlisUrdu[index],
+                child: CachedNetworkImage(
+                    imageUrl: image,
+                    height: 150,
+                    width: MediaQuery.of(context).size.width * 0.87,
+                    fit: BoxFit.fill,
+                    placeholder: (context, url) => Container(),
+                    errorWidget: (context, url, error) => const Icon(Icons.error),
+                  ),
+              ),
           SizedBox(height: MediaQuery.of(context).size.height * 0.02),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -235,7 +245,6 @@ Widget majlisContainer(String image, int index) {
                   SizedBox(
                     width: 170,
                     child: Text(
-                      
                       textAlign: TextAlign.end,
                       textDirection: TextDirection.ltr,
                       overflow: TextOverflow.ellipsis,
@@ -299,36 +308,38 @@ Widget majlisContainer(String image, int index) {
 }
 
 
-  String formatDuration(int seconds) {
+
+
+  int getDuration(int index) {
+     final duration = {
+      1: 883,
+      2: 1099,
+      3: 910,
+      4: 3465,
+      5: 2072,
+      6: 1983,
+      7: 981,
+      8: 1105,
+      9: 730,
+      10: 1059,
+      11: 1340,
+      12: 921,
+      13: 1830,
+      14: 1083,
+      15: 2402,
+      16: 1393,
+      17: 1756,
+      18: 838,
+      19: 880,
+      20: 2133,
+    };
+    return duration.containsKey(index) ? duration[index]! : 0;
+    // return duration[index] ?? 0;
+  }
+    String formatDuration(int seconds) {
     final minutes = (seconds ~/ 60).toString().padLeft(2, '0');
     final remainingSeconds = (seconds % 60).toString().padLeft(2, '0');
     return '$minutes:$remainingSeconds';
-  }
-
-  int getDuration(int index) {
-    final duration = {
-      1: 853,
-      2: 1046,
-      3: 789,
-      4: 1229,
-      5: 1848,
-      6: 1828,
-      7: 856,
-      8: 1029,
-      9: 646,
-      10: 968,
-      11: 1240,
-      12: 827,
-      13: 1631,
-      14: 932,
-      15: 2331,
-      16: 1296,
-      17: 1608,
-      18: 764,
-      19: 782,
-      20: 1975,
-    };
-    return duration[index] ?? 0;
   }
 
   Future<String?> getAudioDuration(String url) async {

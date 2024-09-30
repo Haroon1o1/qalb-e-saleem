@@ -11,7 +11,7 @@ class DataProvider with ChangeNotifier {
   List<String> _majlisSound = [];
   List<String> _majlisText = [];
   List<String> _akwalAudio = [];
-  String _video = "";
+  String _video = "https://firebasestorage.googleapis.com/v0/b/qalb-e-saleem-c7987.appspot.com/o/home_page_video.mp4?alt=media&token=0a167ebd-5a19-414a-b86e-2c630969e318";
   String _gif = "";
 
   Map<String, String> _imageMap = {};
@@ -60,16 +60,11 @@ class DataProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void getVideo() async {
-    try {
-      // Set the URL directly for testing
-      _video =
-          "https://firebasestorage.googleapis.com/v0/b/qalb-e-saleem-c7987.appspot.com/o/home_page_video.mp4?alt=media&token=0a167ebd-5a19-414a-b86e-2c630969e318";
-      notifyListeners();
-    } catch (e) {
-      print('Error fetching video URL: $e');
-    }
-  }
+  
+
+      
+    
+  
 
   void getAkwalAudio() async {
     final ListResult result =

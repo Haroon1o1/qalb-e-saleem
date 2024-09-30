@@ -20,6 +20,7 @@ class TimelineStep extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 25),
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           CircleAvatar(
             radius: 20,
@@ -40,12 +41,12 @@ class TimelineStep extends StatelessWidget {
             width: double.infinity,
             height: imagePath == ""
                 ? 60
-                : 180,
+                :  name == "nasbiya" && stepNumber == 2  ?  190 : stepNumber == 3 ? 185 : 180,
             padding: EdgeInsets.only(
                 top: imagePath == "" ? 0 : 8,
                 right: 8,
                 left: 8,
-                bottom: imagePath == "" ? 0 : 15),
+                bottom: imagePath == "" ? 0  : stepNumber == 3 ? 5: 15),
             decoration: BoxDecoration(
                 boxShadow: [
                   BoxShadow(
@@ -61,7 +62,7 @@ class TimelineStep extends StatelessWidget {
                 color: imagePath == ""
                     ? getColorForStep(stepNumber)
                     : Colors.white,
-                borderRadius: BorderRadius.circular(10)),
+                borderRadius: BorderRadius.circular(11)),
             child: Column(
               mainAxisAlignment: imagePath == ""
                   ? MainAxisAlignment.center
@@ -79,7 +80,7 @@ class TimelineStep extends StatelessWidget {
                             ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 25.0),
                   child: Column(
                     children: [
                       Text(
@@ -106,14 +107,14 @@ class TimelineStep extends StatelessWidget {
                                 color: imagePath == ""
                                     ? Colors.white
                                     : Colors.black,
-                                fontSize: 9,
+                                fontSize: 11,
                                 fontWeight: FontWeight.w600,
                               ),
                               textAlign: TextAlign.center,
                             )
                           : Text(
                               stepNumber == 1
-                                  ? "صلی الله عليه وآله وسلم"
+                                  ? ""
                                   : stepNumber == 2
                                       ? "کّرم الله تعالى وجہہ الکریم"
                                       : stepNumber == 3
@@ -125,7 +126,7 @@ class TimelineStep extends StatelessWidget {
                                 color: imagePath == ""
                                     ? Colors.white
                                     : Colors.black,
-                                fontSize: 9,
+                                fontSize: 11,
                                 fontWeight: FontWeight.w600,
                               ),
                               textAlign: TextAlign.center,

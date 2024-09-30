@@ -75,6 +75,7 @@ class _SoundPlayerState extends State<SoundPlayer> {
 
   @override
   Widget build(BuildContext context) {
+    log(images["shajra_nasbiya"]);
         soundPlayerProvider =
         Provider.of<SoundPlayerProvider>(context, listen: true);
     return PopScope(
@@ -256,11 +257,12 @@ SizedBox(height:10),
   }
 
   String getAudio() {
+    
     final audioMap = {
       "منقبت": images["manqabat1"],
       "اظہار تشکر": images["tashakur"],
       "الفراق": images["alfiraq"],
-      "مقّدمۃ الکتاب": images["muqadma"],
+      "مقدمہ الکتاب": images["muqadma"],
       "پیش لفظ": images["paishlafz"],
       "سوانح حیات": images["sawana"],
       "قلبِ سلیم": images["qalb"],
@@ -277,7 +279,7 @@ SizedBox(height:10),
       "منقبت": 160,
       "اظہار تشکر": 373,
       "الفراق": 161,
-      "مقّدمۃ الکتاب": 964,
+      "مقدمہ الکتاب": 964,
       "پیش لفظ": 2425,
       "سوانح حیات": 2207,
       "قلبِ سلیم": 628,

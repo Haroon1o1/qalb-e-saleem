@@ -7,7 +7,7 @@ class GetAllData {
     Provider.of<DataProvider>(context, listen: false).getGif();
     Provider.of<DataProvider>(context, listen: false).getPngs();
     Provider.of<DataProvider>(context, listen: false).getAllImageUrl();
-    Provider.of<DataProvider>(context, listen: false).getVideo();
+    
 
     Provider.of<DataProvider>(context, listen: false).getAudios();
 

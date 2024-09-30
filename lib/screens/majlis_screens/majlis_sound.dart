@@ -170,8 +170,9 @@ bool _isImageVisible = false;
                         Hero(
                           tag: widget.tag,
                           child: Container(
-                          height: MediaQuery.of(context).size.height * 0.45,
+                          height: MediaQuery.of(context).size.height * 0.40,
                           decoration: BoxDecoration(
+                           
                             image: DecorationImage(
                               image: Platform.isIOS ? NetworkImage(widget.image,) : CachedNetworkImageProvider(widget.image),
                               fit: BoxFit.fitWidth,
@@ -179,15 +180,13 @@ bool _isImageVisible = false;
                             borderRadius: BorderRadiusDirectional.circular(5),
                           ),
                                                   ),
-                        )
-                      ],
-                    ),
-                    Column(
-                      children: [
+                        ),
+                        SizedBox(height:20),
                         Text(
                           widget.name,
+                          textAlign: TextAlign.center,
                           style: GoogleFonts.almarai(
-                              fontSize: 20,
+                              fontSize: 19,
                               color: Colors.black,
                               fontWeight: FontWeight.bold),
                         ),
@@ -201,7 +200,12 @@ bool _isImageVisible = false;
                             color: Colors.black,
                           ),
                         ),
-                        SizedBox(height: 10),
+                      ],
+                    ),
+                    Column(
+                      children: [
+                        
+                        SizedBox(height: 0),
                         SliderTheme(
                           data: SliderTheme.of(context).copyWith(
                             activeTrackColor: Color(0xFF8590A3),
@@ -338,6 +342,7 @@ bool _isImageVisible = false;
                             ),
                           ],
                         ),
+                        SizedBox(height: 10,)
                       ],
                     ),
                   ],

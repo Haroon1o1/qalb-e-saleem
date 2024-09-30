@@ -4,7 +4,9 @@ import 'package:google_fonts/google_fonts.dart';
 // ignore: must_be_immutable
 class UpperPart extends StatelessWidget {
   bool isNavbar;
-   UpperPart( {super.key, required this.isNavbar});
+  String mainText;
+  String subText;
+   UpperPart( {super.key, required this.isNavbar, required this.mainText, required this.subText});
 
   @override
   Widget build(BuildContext context) {
@@ -34,9 +36,9 @@ class UpperPart extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
                             SizedBox(height: isNavbar ? 20 :  5),
-                            const SizedBox(height: 10),
+                            const SizedBox(height: 0),
                             Text(
-                              "اقوال و ارشاداِت عالیہ",
+                              mainText,
                               style: GoogleFonts.almarai(
                                 color: Colors.white,
                                 fontSize: 20,
@@ -44,7 +46,7 @@ class UpperPart extends StatelessWidget {
                               ),
                             ),
                             Text(
-                              "امام االولیاء حضرت پیر سّید محّمد عبد اللہ شاہ مشہدی قادری",
+                              subText,
                               style: GoogleFonts.almarai(
                                 color: Colors.white,
                                 fontSize: 10,
