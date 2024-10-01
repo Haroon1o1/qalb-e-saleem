@@ -49,7 +49,7 @@ class _MajlisState extends State<Majlis> {
                   ),
                   Padding(
                     padding: EdgeInsets.symmetric(
-                      horizontal: MediaQuery.of(context).size.width * 0.05,
+                      horizontal: 20,
                       vertical: MediaQuery.of(context).size.height * 0.03,
                     ),
                     child: Row(
@@ -176,7 +176,7 @@ Widget majlisContainer(String image, int index) {
         color: Colors.white,
         borderRadius: BorderRadius.circular(15),
       ),
-      height: 230,
+      // height: 230,
       child: Column(
         children: [
           // Check if the platform is iOS
@@ -225,15 +225,16 @@ Widget majlisContainer(String image, int index) {
                   const SizedBox(height: 17),
                 ],
               ),
-              Column(
+              Row(children: [
+                Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   SizedBox(
-                    width: 170,
+                    width: MediaQuery.of(context).size.width*0.5,
                     child: Text(
                       textAlign: TextAlign.start,
                       textDirection: TextDirection.rtl,
-                      overflow: TextOverflow.ellipsis,
+                      overflow: TextOverflow.clip,
                       TextData.majlisUrdu[index],
                       style: GoogleFonts.almarai(
                         fontWeight: FontWeight.bold,
@@ -241,21 +242,21 @@ Widget majlisContainer(String image, int index) {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 8),
-                  SizedBox(
-                    width: 170,
+                   SizedBox(height: 8),
+                  SizedBox(width: MediaQuery.of(context).size.width*0.5,
                     child: Text(
                       textAlign: TextAlign.end,
                       textDirection: TextDirection.ltr,
-                      overflow: TextOverflow.ellipsis,
+                      overflow: TextOverflow.clip,
                       TextData.majlisEnglish[index],
                       style: GoogleFonts.almarai(
-                        fontSize: 9,
+                        fontSize: 10,
                       ),
                     ),
                   ),
                 ],
               ),
+              SizedBox(width: 8),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -299,6 +300,7 @@ Widget majlisContainer(String image, int index) {
                   ),
                 ],
               ),
+              ],)
             ],
           ),
         ],

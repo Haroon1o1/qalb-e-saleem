@@ -184,7 +184,7 @@ Widget buildDrawer(BuildContext context) {
   return Padding(
     padding: const EdgeInsets.only(top: 60.0, bottom: 120),
     child: Drawer(
-      width: 270,
+      width: 300, 
       backgroundColor: Color(0xFF2e3192),
       child: 
           Padding(

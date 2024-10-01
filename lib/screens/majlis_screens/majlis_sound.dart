@@ -184,6 +184,7 @@ bool _isImageVisible = false;
                         SizedBox(height:20),
                         Text(
                           widget.name,
+                          overflow: TextOverflow.clip,
                           textAlign: TextAlign.center,
                           style: GoogleFonts.almarai(
                               fontSize: 19,
@@ -192,8 +193,9 @@ bool _isImageVisible = false;
                         ),
                         SizedBox(height: 10),
                         Text(
+                          textAlign: TextAlign.center,
                           textDirection: TextDirection.rtl,
-                          overflow: TextOverflow.ellipsis,
+                          overflow: TextOverflow.clip,
                           widget.sub,
                           style: GoogleFonts.almarai(
                             fontSize: 13,

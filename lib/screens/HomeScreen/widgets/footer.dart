@@ -15,7 +15,7 @@ class FooterContainer extends StatelessWidget {
         children: [
           GestureDetector(
             onTap: () {
-              _launchUrl("https://www.hizb-ur-rahman.com/");
+              _launchUrl("https://hria.edu.pk/");
             },
             child: Container(
               height: 240,

@@ -39,14 +39,11 @@ class TimelineStep extends StatelessWidget {
                 color: stepNumber == 1 ? Colors.white : Colors.grey.shade500),
           Container(
             width: double.infinity,
-            height: imagePath == ""
-                ? 60
-                :  name == "nasbiya" && stepNumber == 2  ?  190 : stepNumber == 3 ? 185 : 180,
-            padding: EdgeInsets.only(
-                top: imagePath == "" ? 0 : 8,
-                right: 8,
-                left: 8,
-                bottom: imagePath == "" ? 0  : stepNumber == 3 ? 5: 15),
+            // height: imagePath == ""
+            //     ? 60
+            //     :  name == "nasbiya" && stepNumber == 2  ?  190 : stepNumber == 3 ? 185 : 180,
+            padding: EdgeInsets.all(
+                8),
             decoration: BoxDecoration(
                 boxShadow: [
                   BoxShadow(
@@ -83,6 +80,7 @@ class TimelineStep extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 25.0),
                   child: Column(
                     children: [
+                      SizedBox(height:5),
                       Text(
                         description,
                         style: GoogleFonts.almarai(
@@ -114,7 +112,7 @@ class TimelineStep extends StatelessWidget {
                             )
                           : Text(
                               stepNumber == 1
-                                  ? ""
+                                  ? ''
                                   : stepNumber == 2
                                       ? "کّرم الله تعالى وجہہ الکریم"
                                       : stepNumber == 3

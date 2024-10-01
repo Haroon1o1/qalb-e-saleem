@@ -142,19 +142,24 @@ class _SoundPlayerState extends State<SoundPlayer> {
                       ),
 SizedBox(height:10),
                       Text(
+                        overflow: TextOverflow.clip,
+                        textAlign: TextAlign.center,
                           widget.name,
                           style: GoogleFonts.almarai(
                               fontSize: 20,
                               color: Colors.black,
                               fontWeight: FontWeight.bold),
                         ),
-                        Text(
-                          textDirection: TextDirection.rtl,
-                          overflow: TextOverflow.ellipsis,
-                          widget.sub,
-                          style: GoogleFonts.almarai(
-                            fontSize: 13,
-                            color: Colors.black,
+                        SizedBox(
+                          child: Text(
+                            textAlign: TextAlign.center,
+                            textDirection: TextDirection.rtl,
+                            overflow: TextOverflow.clip,
+                            widget.sub,
+                            style: GoogleFonts.almarai(
+                              fontSize: 13,
+                              color: Colors.black,
+                            ),
                           ),
                         ),
                     ]),
