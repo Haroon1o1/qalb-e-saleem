@@ -189,210 +189,212 @@ Widget buildDrawer(BuildContext context) {
       child: 
           Padding(
             padding: const EdgeInsets.only(right: 20, top:15, bottom: 15),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: <Widget>[
-                
-                Padding(
-                  padding: const EdgeInsets.only(top:8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.start,
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: <Widget>[
+                  
+                  Padding(
+                    padding: const EdgeInsets.only(top:8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        IconButton(onPressed: (){
+                          Navigator.pop(context);
+                        }, icon: Icon(Icons.close, color: Colors.white,)),
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(10),
+                          child: Image.asset(
+                          
+                          "assets/images/drawer.png",
+                          width: 130,
+                        ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Column(
                     children: [
-                      IconButton(onPressed: (){
-                        Navigator.pop(context);
-                      }, icon: Icon(Icons.close, color: Colors.white,)),
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(10),
-                        child: Image.asset(
-                        
-                        "assets/images/drawer.png",
-                        width: 130,
+                      drawerItems("فهرست مجالس", () {
+                     Navigator.pop(context);
+                    Navigator.push(
+                      context,
+                      CustomPageNavigation(
+                        child: Majlis(
+                          isNavBar: false,
+                        ),
                       ),
-                      ),
+                    );
+                  }),
+                  drawerItems("پیش لفظ", () {
+                    Navigator.pop(context);
+                    Navigator.push(
+                        context,
+                        CustomPageNavigation(
+                            child: SoundPlayer(
+                              tag: "paish",
+                                image: 'assets/images/paish_lafz-dark.png',
+                                name: "پیش لفظ",
+                                sub: 'عبد الحمید قادری عفی عنہ')));
+                  }),
+                  drawerItems("مقدمہ الکتاب", () {
+                     Navigator.pop(context);
+                    Navigator.push(
+                        context,
+                        CustomPageNavigation(
+                            child: SoundPlayer(
+                              tag: "maqadma",
+                                image: 'assets/images/muqadma-dark.png',
+                                name: "مقدمہ الکتاب",
+                                sub:
+                                    'حضرت ابو الحقائق پیر سّید امانت علی شاہ چشتی نظامی')));
+                  }),
+                  drawerItems("اظہار تشکر", () {
+                     Navigator.pop(context);
+                    Navigator.push(
+                        context,
+                        CustomPageNavigation(
+                            child: SoundPlayer(
+                              tag: "tashakur",
+                                image: 'assets/images/tashakur.png',
+                                name: "اظہار تشکر",
+                                sub: 'سید محمد فراز شاہ عفی عنہ')));
+                  }),
+                  drawerItems("منقبت", () {
+                     Navigator.pop(context);
+                    Navigator.push(
+                        context,
+                        CustomPageNavigation(
+                            child: SoundPlayer(
+                              tag: "man2",
+                                image: 'assets/images/manqabat-dark.png',
+                                name: "منقبت",
+                                sub:
+                                    "حضرت سّید محمد ظفر مشہدی قادری رحمة الله تعالى عليه")));
+                  }),
+                  drawerItems("سوانح حیات", () {
+                     Navigator.pop(context);
+                    Navigator.push(
+                        context,
+                        CustomPageNavigation(
+                            child: SoundPlayer(
+                              tag: "sawana",
+                                image: 'assets/images/sawane-dark.png',
+                                name: "سوانح حیات",
+                                sub:
+                                    "حضرت سّید محمد ظفر قادری قادری رحمة الله تعالى عليه")));
+                  }),
+                  drawerItems("قلب سلیم", () {
+                     Navigator.pop(context);
+                    Navigator.push(
+                        context,
+                        CustomPageNavigation(
+                            child: SoundPlayer(
+                              tag: "qalb",
+                                image: 'assets/images/qalb_e_saleem-dark.png',
+                                name: "قلب سلیم",
+                                sub: 'سّید محمد فراز شاہ مشہدی قادری عفی عنہ')));
+                  }),
+                  drawerItems("اقوال و ارشاداتِ عالیہ", () {
+                     Navigator.pop(context);
+                    Navigator.push(
+                        context,
+                        CustomPageNavigation(
+                            child: AqwalWaIrshadaatScreen(isNavBar: false)));
+                  }),
+                  drawerItems("شجرۂ قادریہ حسبیہ", () {
+                     Navigator.pop(context);
+                    Navigator.push(
+                        context,
+                        CustomPageNavigation(
+                            child: ShajrEQadriaScreen(
+                                text: "hasbiya", isNavBar: false)));
+                  }),
+                  drawerItems("شجرۂ قادریہ نسبیہ", () {
+                     Navigator.pop(context);
+                    Navigator.push(
+                        context,
+                        CustomPageNavigation(
+                            child: ShajrEQadriaScreen(
+                                text: "nasbiya", isNavBar: false)));
+                  }),
+                  drawerItems("شجرۂ حسبیہ منظوم مع تضمین", () {
+                     Navigator.pop(context);
+                    Navigator.push(
+                        context,
+                        CustomPageNavigation(
+                            child: SoundPlayer(
+                              tag: "",
+                          image: "assets/images/shajra_hasbia.png",
+                          name: "شجرٔہ قادریہ حسبیہ",
+                          sub: "منظوم مع تضمین",
+                        )));
+                  }),
+                  drawerItems("شجرۂ نسبیہ منظوم مع تضمین", () {
+                     Navigator.pop(context);
+                    Navigator.push(
+                        context,
+                        CustomPageNavigation(
+                          child: SoundPlayer(
+                            tag: "",
+                            image: "assets/images/nasbi.png",
+                            name: "شجرٔہ قادریہ نسبیہ",
+                            sub: "منظوم مع تضمین",
+                          ),
+                        ));
+                  }),
+                  drawerItems("الفراق", () {
+                     Navigator.pop(context);
+                    Navigator.push(
+                        context,
+                        CustomPageNavigation(
+                            child: SoundPlayer(
+                              tag: "firaq",
+                                image: 'assets/images/alfiraq-dark.png',
+                                name: 'الفراق',
+                                sub:
+                                    "'حضرت سّید محمد ظفر مشہدی قادری رحمة الله تعالى عليه'")));
+                  }),
+                  drawerItems("قطعہ تاریخ وصال", () {
+                     Navigator.pop(context);
+                    Navigator.push(
+                        context,
+                        CustomPageNavigation(
+                            child: SoundPlayer(
+                              tag: "qata",
+                                image: "assets/images/qata-dark.png",
+                                name: "قطعہ تاریخ وصال",
+                                sub:
+                                    'حضرت ابو الحقائق پیر سّید امانت علی شاہ چشتی نظامی')));
+                  }),
+                  drawerItems("منقبت", () {
+                     Navigator.pop(context);
+                    Navigator.push(
+                        context,
+                        CustomPageNavigation(
+                            child: SoundPlayer(
+                              tag: "",
+                                image: "assets/images/manqabat2-dark.png",
+                                name: "منقبت",
+                                sub: 'عبد الحمید قادری عفی عنہ')));
+                  }),
+                  drawerItems("حواشی و حوالہ جات", () {
+                     Navigator.pop(context);
+                    Navigator.push(context,
+                        CustomPageNavigation(child: HawalajatPdf()));
+                  }),
                     ],
                   ),
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                Column(
-                  children: [
-                    drawerItems("فهرست مجالس", () {
-                   Navigator.pop(context);
-                  Navigator.push(
-                    context,
-                    CustomPageNavigation(
-                      child: Majlis(
-                        isNavBar: false,
-                      ),
-                    ),
-                  );
-                }),
-                drawerItems("پیش لفظ", () {
-                  Navigator.pop(context);
-                  Navigator.push(
-                      context,
-                      CustomPageNavigation(
-                          child: SoundPlayer(
-                            tag: "paish",
-                              image: 'assets/images/paish_lafz-dark.png',
-                              name: "پیش لفظ",
-                              sub: 'عبد الحمید قادری عفی عنہ')));
-                }),
-                drawerItems("مقدمہ الکتاب", () {
-                   Navigator.pop(context);
-                  Navigator.push(
-                      context,
-                      CustomPageNavigation(
-                          child: SoundPlayer(
-                            tag: "maqadma",
-                              image: 'assets/images/muqadma-dark.png',
-                              name: "مقدمہ الکتاب",
-                              sub:
-                                  'حضرت ابو الحقائق پیر سّید امانت علی شاہ چشتی نظامی')));
-                }),
-                drawerItems("اظہار تشکر", () {
-                   Navigator.pop(context);
-                  Navigator.push(
-                      context,
-                      CustomPageNavigation(
-                          child: SoundPlayer(
-                            tag: "tashakur",
-                              image: 'assets/images/tashakur.png',
-                              name: "اظہار تشکر",
-                              sub: 'سید محمد فراز شاہ عفی عنہ')));
-                }),
-                drawerItems("منقبت", () {
-                   Navigator.pop(context);
-                  Navigator.push(
-                      context,
-                      CustomPageNavigation(
-                          child: SoundPlayer(
-                            tag: "man2",
-                              image: 'assets/images/manqabat-dark.png',
-                              name: "منقبت",
-                              sub:
-                                  "حضرت سّید محمد ظفر مشہدی قادری رحمة الله تعالى عليه")));
-                }),
-                drawerItems("سوانح حیات", () {
-                   Navigator.pop(context);
-                  Navigator.push(
-                      context,
-                      CustomPageNavigation(
-                          child: SoundPlayer(
-                            tag: "sawana",
-                              image: 'assets/images/sawane-dark.png',
-                              name: "سوانح حیات",
-                              sub:
-                                  "حضرت سّید محمد ظفر قادری قادری رحمة الله تعالى عليه")));
-                }),
-                drawerItems("قلب سلیم", () {
-                   Navigator.pop(context);
-                  Navigator.push(
-                      context,
-                      CustomPageNavigation(
-                          child: SoundPlayer(
-                            tag: "qalb",
-                              image: 'assets/images/qalb_e_saleem-dark.png',
-                              name: "قلب سلیم",
-                              sub: 'سّید محمد فراز شاہ مشہدی قادری عفی عنہ')));
-                }),
-                drawerItems("اقوال و ارشاداتِ عالیہ", () {
-                   Navigator.pop(context);
-                  Navigator.push(
-                      context,
-                      CustomPageNavigation(
-                          child: AqwalWaIrshadaatScreen(isNavBar: false)));
-                }),
-                drawerItems("شجرۂ قادریہ حسبیہ", () {
-                   Navigator.pop(context);
-                  Navigator.push(
-                      context,
-                      CustomPageNavigation(
-                          child: ShajrEQadriaScreen(
-                              text: "hasbiya", isNavBar: false)));
-                }),
-                drawerItems("شجرۂ قادریہ نسبیہ", () {
-                   Navigator.pop(context);
-                  Navigator.push(
-                      context,
-                      CustomPageNavigation(
-                          child: ShajrEQadriaScreen(
-                              text: "nasbiya", isNavBar: false)));
-                }),
-                drawerItems("شجرۂ حسبیہ منظوم مع تضمین", () {
-                   Navigator.pop(context);
-                  Navigator.push(
-                      context,
-                      CustomPageNavigation(
-                          child: SoundPlayer(
-                            tag: "",
-                        image: "assets/images/shajra_hasbia.png",
-                        name: "شجرٔہ قادریہ حسبیہ",
-                        sub: "منظوم مع تضمین",
-                      )));
-                }),
-                drawerItems("شجرۂ نسبیہ منظوم مع تضمین", () {
-                   Navigator.pop(context);
-                  Navigator.push(
-                      context,
-                      CustomPageNavigation(
-                        child: SoundPlayer(
-                          tag: "",
-                          image: "assets/images/nasbi.png",
-                          name: "شجرٔہ قادریہ نسبیہ",
-                          sub: "منظوم مع تضمین",
-                        ),
-                      ));
-                }),
-                drawerItems("الفراق", () {
-                   Navigator.pop(context);
-                  Navigator.push(
-                      context,
-                      CustomPageNavigation(
-                          child: SoundPlayer(
-                            tag: "firaq",
-                              image: 'assets/images/alfiraq-dark.png',
-                              name: 'الفراق',
-                              sub:
-                                  "'حضرت سّید محمد ظفر مشہدی قادری رحمة الله تعالى عليه'")));
-                }),
-                drawerItems("قطعہ تاریخ وصال", () {
-                   Navigator.pop(context);
-                  Navigator.push(
-                      context,
-                      CustomPageNavigation(
-                          child: SoundPlayer(
-                            tag: "qata",
-                              image: "assets/images/qata-dark.png",
-                              name: "قطعہ تاریخ وصال",
-                              sub:
-                                  'حضرت ابو الحقائق پیر سّید امانت علی شاہ چشتی نظامی')));
-                }),
-                drawerItems("منقبت", () {
-                   Navigator.pop(context);
-                  Navigator.push(
-                      context,
-                      CustomPageNavigation(
-                          child: SoundPlayer(
-                            tag: "",
-                              image: "assets/images/manqabat2-dark.png",
-                              name: "منقبت",
-                              sub: 'عبد الحمید قادری عفی عنہ')));
-                }),
-                drawerItems("حواشی و حوالہ جات", () {
-                   Navigator.pop(context);
-                  Navigator.push(context,
-                      CustomPageNavigation(child: HawalajatPdf()));
-                }),
-                  ],
-                ),
-                SizedBox(
-                  height: 0,
-                ),
-              ],
+                  SizedBox(
+                    height: 0,
+                  ),
+                ],
+              ),
             ),
           ),
           // Padding(
