@@ -52,49 +52,49 @@ class _MajlisState extends State<Majlis> {
                       horizontal: 20,
                       vertical: MediaQuery.of(context).size.height * 0.03,
                     ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            Text(
-                              
-                              "فهرست مجالس",
-                              style: GoogleFonts.almarai(
-                                decoration: TextDecoration.none,
-                                color: Colors.white,
-                                fontSize:
-                                    MediaQuery.of(context).size.width * 0.05,
-                                fontWeight: FontWeight.bold,
+                    child: GestureDetector(
+                      onTap:(){
+Navigator.pop(context);
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Text(
+                                
+                                "فهرست مجالس",
+                                style: GoogleFonts.almarai(
+                                  decoration: TextDecoration.none,
+                                  color: Colors.white,
+                                  fontSize:
+                                      MediaQuery.of(context).size.width * 0.05,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
-                            ),
-                            Text(
-                             
-                              "امام االولیاء حضرت پیر سّید محّمد عبد اللہ شاہ مشہدی قادری",
-                              style: GoogleFonts.almarai(
-                                 decoration: TextDecoration.none,
-                                color: Colors.white,
-                                fontSize:
-                                    MediaQuery.of(context).size.width * 0.025,
+                              Text(
+                               
+                                "امام االولیاء حضرت پیر سّید محّمد عبد اللہ شاہ مشہدی قادری",
+                                style: GoogleFonts.almarai(
+                                   decoration: TextDecoration.none,
+                                  color: Colors.white,
+                                  fontSize:
+                                      MediaQuery.of(context).size.width * 0.025,
+                                ),
                               ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(width: 15),
-                        Visibility(
-                          visible: widget.isNavBar ? false : true,
-                          child: InkWell(
-                            onTap: () {
-                              Navigator.pop(context);
-                            },
+                            ],
+                          ),
+                          const SizedBox(width: 15),
+                          Visibility(
+                            visible: widget.isNavBar ? false : true,
                             child: Image.asset(
                               "assets/images/back-arrow-white.png",
                               width: 25,
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 ],
