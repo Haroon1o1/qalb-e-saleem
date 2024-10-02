@@ -85,77 +85,80 @@ class _HomeState extends State<Home> {
                     LongContainerRow(),
                     SizedBox(height: 15),
                    Container(
-          padding: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
-          alignment: Alignment.bottomRight,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(15),
-              topRight: Radius.circular(15),
-              bottomLeft: Radius.circular(15),
-              bottomRight: Radius.circular(40),
-            ),
-            color: Colors.white,
-          ),
-          height: MediaQuery.of(context).size.height*0.28,
-          width: MediaQuery.of(context).size.width * 1,
-          child: Stack(
-  children: [
-    ClipRRect(
-      borderRadius: BorderRadius.only(
-        topLeft: Radius.circular(15),
-        topRight: Radius.circular(15),
-        bottomLeft: Radius.circular(15),
-        bottomRight: Radius.circular(40),
-      ),
-      child: Container(
-        // aspectRatio: 16/9,
-        width: MediaQuery.of(context).size.width * 1,
-        child: VideoPlayer(_controller),
-      ),
+  padding: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
+  alignment: Alignment.bottomRight,
+  decoration: BoxDecoration(
+    borderRadius: BorderRadius.only(
+      topLeft: Radius.circular(15),
+      topRight: Radius.circular(15),
+      bottomLeft: Radius.circular(15),
+      bottomRight: Radius.circular(40),
     ),
+    color: Colors.white,
+  ),
+  height: MediaQuery.of(context).size.height * 0.28,
+  width: MediaQuery.of(context).size.width * 1,
+  child: Stack(
+    children: [
+      ClipRRect(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(15),
+          topRight: Radius.circular(15),
+          bottomLeft: Radius.circular(15),
+          bottomRight: Radius.circular(40),
+        ),
+        child: _controller.value.isInitialized
+            ? VideoPlayer(_controller)
+            : Image.asset(
+                'assets/images/video_bg.jpg', // Custom image when video is loading
+                fit: BoxFit.cover,
+                width: MediaQuery.of(context).size.width * 1,
+                height: MediaQuery.of(context).size.height * 0.28,
+              ),
+      ),
 
-    // Text and Play button overlay
-    Positioned(
-      bottom: 10,
-      right: 10,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          Text(
-            "صدائے عبد اللہ دستاویزی فلم",
-            style: GoogleFonts.almarai(
-              fontWeight: FontWeight.bold,
-              fontSize: 15,
-              color: Colors.white,
+      // Text and Play button overlay
+      Positioned(
+        bottom: 10,
+        right: 10,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Text(
+              "صدائے عبد اللہ دستاویزی فلم",
+              style: GoogleFonts.almarai(
+                fontWeight: FontWeight.bold,
+                fontSize: 15,
+                color: Colors.white,
+              ),
             ),
-          ),
-          SizedBox(width: 15),
-          Container(
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: Colors.red,
+            SizedBox(width: 15),
+            Container(
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: Colors.red,
+              ),
+              width: 55,
+              height: 55,
+              child: IconButton(
+                icon: Icon(Icons.play_arrow, color: Colors.white, size: 35),
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => FullScreenVideoPlayer(),
+                    ),
+                  );
+                },
+              ),
             ),
-            width: 55,
-            height: 55,
-            child: IconButton(
-              icon: Icon(Icons.play_arrow, color: Colors.white, size: 35),
-              onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => FullScreenVideoPlayer(),
-                  ),
-                );
-              },
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
-    ),
-  ],
+    ],
+  ),
 ),
 
-        ),
                   ],
                 ),
               ),
