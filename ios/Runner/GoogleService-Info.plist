@@ -9,7 +9,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.hria.qalb</string>
+	<string>com.hriaa.qalb</string>
 	<key>PROJECT_ID</key>
 	<string>qalb-e-saleem-c7987</string>
 	<key>STORAGE_BUCKET</key>
@@ -25,6 +25,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:247408680959:ios:073e0838bb0157fdfa51ca</string>
+	<string>1:247408680959:ios:35f1d69c26424ed9fa51ca</string>
 </dict>
 </plist>
