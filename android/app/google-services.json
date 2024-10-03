@@ -7,9 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:247408680959:android:b7f188c41cdf0253fa51ca",
+        "mobilesdk_app_id": "1:247408680959:android:84cc16e6ed777d0dfa51ca",
         "android_client_info": {
-          "package_name": "com.hria.qalb"
+          "package_name": "com.hriaa.qalb"
         }
       },
       "oauth_client": [],
