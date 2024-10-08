@@ -20,13 +20,18 @@ class _ShajrEQadriaScreenState extends State<ShajrEQadriaScreen> {
   @override
   void initState() {
     super.initState();
-    // Load data in initState
+   // Load data in initState
     // if(widget.text == "nasbiya"){
     //   Provider.of<DataProvider>(context, listen: false)
     //     .getShajraImageUrl("shajra_nasbiya/");
     // }else{
-    //   Provider.of<DataProvider>(context, listen: false)
-    //     .getShajraImageUrl("shajra_hasbiya/");
+    //      log(Provider.of<DataProvider>(context, listen: false).shajraHasbiyaImageUrls[0] ?? "Not found");
+    // log(Provider.of<DataProvider>(context, listen: false).shajraHasbiyaImageUrls[1] ?? "Not found");
+    // log(Provider.of<DataProvider>(context, listen: false).shajraHasbiyaImageUrls[2] ?? "Not found");
+    // log(Provider.of<DataProvider>(context, listen: false).shajraHasbiyaImageUrls[3] ?? "Not found");
+    // log(Provider.of<DataProvider>(context, listen: false).shajraHasbiyaImageUrls[4] ?? "Not found");
+    // log(Provider.of<DataProvider>(context, listen: false).shajraHasbiyaImageUrls[5] ?? "Not found");
+    
     // }
   }
 
@@ -141,7 +146,7 @@ class _ShajrEQadriaScreenState extends State<ShajrEQadriaScreen> {
                                 child: TimelineStep(
                                   name: widget.text,
                                   stepNumber: index + 1,
-                                  imagePath: getImageUrl(index, itemProvider),
+                                  imagePath: getImageUrl(index, itemProvider) ?? "",
                                   description: widget.text == "nasbiya"
                                       ? TextData.shajraNasbia[index]
                                       : TextData.shajraHasbiya[index],

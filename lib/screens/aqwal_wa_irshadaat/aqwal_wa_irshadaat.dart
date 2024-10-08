@@ -5,9 +5,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qalb/providers/DataProvider.dart';
-import 'package:qalb/screens/aqwal_wa_irshadaat/widgets/imageBuilderWidget.dart';
 import 'package:qalb/screens/aqwal_wa_irshadaat/widgets/upperPart.dart';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:qalb/providers/SoundPlayerProvider.dart'; // Import SoundPlayerProvider
 import 'package:carousel_slider/carousel_slider.dart'; // Import CarouselSlider
 
@@ -77,7 +75,7 @@ class _AqwalWaIrshadaatScreenState extends State<AqwalWaIrshadaatScreen> {
                 children: [
                   SizedBox(height: widget.isNavBar ? 10 : 30),
                   CarouselSlider(
-                    options: CarouselOptions(
+  options: CarouselOptions(
     height: MediaQuery.of(context).size.height * 0.5,
     aspectRatio: 16 / 9,
     enableInfiniteScroll: false,
@@ -86,71 +84,70 @@ class _AqwalWaIrshadaatScreenState extends State<AqwalWaIrshadaatScreen> {
     initialPage: 0,
     reverse: true,
     pageSnapping: true,
-                      onPageChanged: (index, reason) {
-                        setState(() {
-                          _currentIndex = index;
-                        });
-                        // Stop audio when page changes
-                        soundProvider.stopAudio();
-                      },
+    onPageChanged: (index, reason) {
+      setState(() {
+        _currentIndex = index;
+      });
+      // Stop audio when page changes
+      soundProvider.stopAudio();
+    },
+  ),
+  carouselController: _carouselController,
+  items: akwalImageUrls.asMap().entries.map((entry) {
+    int index = entry.key;
+    String imageUrl = entry.value;
+    
+    return Builder(
+      builder: (BuildContext context) {
+        return GestureDetector(
+          onTap: () {
+            // Handle image tap
+          },
+          child: AnimatedContainer(
+            duration: Duration(milliseconds: 250),
+            width: MediaQuery.of(context).size.width,
+            margin: const EdgeInsets.symmetric(horizontal: 5.0),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(20.0),
+            ),
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  Container(
+                    alignment: Alignment.bottomCenter,
+                    margin: const EdgeInsets.only(top: 10),
+                    clipBehavior: Clip.hardEdge,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
                     ),
-                    carouselController: _carouselController,
-                    items: akwalImageUrls.map((imageUrl) {
-                      return Builder(
-                        builder: (BuildContext context) {
-                          return GestureDetector(
-                            onTap: () {
-                              
-                            },
-                            child: AnimatedContainer(
-                              duration: Duration(milliseconds: 250),
-                              width: MediaQuery.of(context).size.width,
-                              margin: const EdgeInsets.symmetric(horizontal: 5.0),
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(20.0),
-                              ),
-                              child: SingleChildScrollView(
-                                child: Column(
-                                  children: [
-                                    Container(
-                                      alignment: Alignment.bottomCenter,
-                                     
-                                      margin: const EdgeInsets.only(top: 10),
-                                      clipBehavior: Clip.hardEdge,
-                                      decoration: BoxDecoration(
-                                       
-                                        // color: Colors.black,
-                                        borderRadius: BorderRadius.circular(20),
-                                      ),child:Platform.isIOS
-              ? AnimatedContainer(
-               
-                duration: Duration(milliseconds: 300),
-                child: Image.network(
-                    imageUrl,
-                   
-                    fit: BoxFit.cover,width: MediaQuery.of(context).size.width*0.7,
-                  ),
-              )
-              : CachedNetworkImage(
-                    imageUrl: imageUrl,
-                    
-                    fit: BoxFit.cover,width: MediaQuery.of(context).size.width*0.7,
-                    placeholder: (context, url) => Container(),
-                    errorWidget: (context, url, error) => const Icon(Icons.error),
-                  ),
-              // Image.network(imageUrl,fit: BoxFit.cover,width: MediaQuery.of(context).size.width*0.7,)
-                                      
-                                    ),
-                                  ],
-                                ),
-                              ),
+                    child: Platform.isIOS
+                        ? AnimatedContainer(
+                            duration: Duration(milliseconds: 300),
+                            child: Image.network(
+                              imageUrl,
+                              fit: BoxFit.cover,
+                              width: MediaQuery.of(context).size.width * 0.7,
                             ),
-                          );
-                        },
-                      );
-                    }).toList(),
+                          )
+                        : CachedNetworkImage(
+                            imageUrl: imageUrl,
+                            fit: BoxFit.cover,
+                            width: MediaQuery.of(context).size.width * 0.7,
+                            placeholder: (context, url) => Container(),
+                            errorWidget: (context, url, error) => const Icon(Icons.error),
+                          ),
                   ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }).toList(),
+),
+
                   const SizedBox(height: 0),
                   // SizedBox(
                   //   width: MediaQuery.of(context).size.width*0.9,

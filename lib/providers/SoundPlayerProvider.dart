@@ -38,22 +38,23 @@ class SoundPlayerProvider with ChangeNotifier {
   }
 
   Future<void> togglePlayStop(String audioPath) async {
-    log("${audioPath}--------------");
-    if (_isPlaying) {
-      await _audioPlayer.pause();
-      _isPlaying = false;
-    } else {
-      try {
-        
-        await _audioPlayer.play(UrlSource(audioPath));
-        _isPlaying = true;
-      } catch (e) {
-        
-        log('Error playing audio: $e');
-      }
+  log("Audio path: $audioPath");
+  
+  if (_isPlaying) {
+    await _audioPlayer.pause();
+    _isPlaying = false;
+  } else {
+    try {
+      // Ensure the URL is valid or the local file path is correct
+      await _audioPlayer.play(UrlSource(audioPath));  // For remote URL
+      // Or use: await _audioPlayer.play(DeviceFileSource(audioPath));  // For local files
+      _isPlaying = true;
+    } catch (e) {
+      log('Error playing audio: $e');
     }
-    notifyListeners();
   }
+  notifyListeners();
+}
 
   Future<void> seekAudio(double value) async {
     log("in seek audio method --- seconds: ${value}");

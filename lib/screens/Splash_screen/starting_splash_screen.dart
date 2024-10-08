@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:qalb/screens/HomeScreen/HomeScreen.dart';
 import 'package:qalb/screens/HomeScreen/widgets/bottomNavBar.dart';
 import 'package:qalb/utils/getAllData.dart';
 import 'package:video_player/video_player.dart';
@@ -18,7 +17,7 @@ class _SplashscreenState extends State<Splashscreen>
 
   @override
   void initState() {
-    GetAllData.getData(context);
+
     super.initState();
     _controller = VideoPlayerController.asset(
       
@@ -39,6 +38,7 @@ class _SplashscreenState extends State<Splashscreen>
 
   @override
   void dispose() {
+   
     _controller.dispose();  // Clean up the controller when the widget is disposed
     super.dispose();
   }
@@ -46,7 +46,7 @@ class _SplashscreenState extends State<Splashscreen>
 
   @override
   Widget build(BuildContext context) {
-    
+     GetAllData.getData(context);
     return Scaffold(
       backgroundColor: Colors.black,
       body: Container(

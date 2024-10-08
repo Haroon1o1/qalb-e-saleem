@@ -100,7 +100,6 @@ final ScrollableState scrollable;
 final BuildContext listItemContext;
 final GlobalKey backgroundImageKey;
 
-@override
 BoxConstraints getConstraints(int i , BoxConstraints constraints) {
   return  BoxConstraints.tightFor(width: constraints.maxWidth);
 }

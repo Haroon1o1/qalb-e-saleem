@@ -1,3 +1,7 @@
+
+
+import 'dart:developer';
+
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 
@@ -46,19 +50,29 @@ class DataProvider with ChangeNotifier {
 
   final firebaseStorage = FirebaseStorage.instance.ref();
 
-  void getShajraNasbiyaImageUrl(String path) async {
-    final ListResult result =
-        await firebaseStorage.child("shajra_nasbiya/").listAll();
+  void getShajraNasbiyaImageUrl() async {
+  // Clear the existing lists to avoid duplication
+  shajraNasbiyaImageIndex.clear();
+  shajraNasbiyaImageUrls.clear();
 
-    for (final Reference ref in result.items) {
-      final String url = await ref.getDownloadURL();
-      shajraNasbiyaImageIndex.add(extractIndexFromFileName(ref.toString()));
+  // Fetch the list of files from Firebase
+  final ListResult result = await firebaseStorage.child("shajra_nasbiya/").listAll();
 
+  for (final Reference ref in result.items) {
+    final String url = await ref.getDownloadURL();
+    final int index = extractIndexFromFileName(ref.toString());
+
+    // Check if the index and URL already exist to avoid duplicates
+    if (!shajraNasbiyaImageIndex.contains(index) && !shajraNasbiyaImageUrls.contains(url)) {
+      shajraNasbiyaImageIndex.add(index);
       shajraNasbiyaImageUrls.add(url);
     }
-
-    notifyListeners();
   }
+
+  // Notify listeners to update the UI
+  notifyListeners();
+}
+
 
   
 
@@ -120,16 +134,24 @@ class DataProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void getakwalImageUrl() async {
-    final ListResult result = await firebaseStorage.child("aqwal/").listAll();
+void getakwalImageUrl() async {
+  final ListResult result = await firebaseStorage.child("aqwal/").listAll();
 
-    for (final Reference ref in result.items) {
-      final String url = await ref.getDownloadURL();
+  // Clear the existing image URLs list to prevent duplication
+  akwalImageUrls.clear();  
 
+  for (final Reference ref in result.items) {
+    final String url = await ref.getDownloadURL();
+    
+    // Check if the URL already exists to avoid duplicates
+    if (!akwalImageUrls.contains(url)) {
       akwalImageUrls.add(url);
     }
-    notifyListeners();
   }
+  
+  // Notify listeners to update the UI
+  notifyListeners();
+}
 
   void getMajlisText() async {
     final ListResult result =
@@ -144,34 +166,49 @@ class DataProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void getShajraHasbiyaImageUrl(String path) async {
-    final ListResult result =
-        await firebaseStorage.child("shajra_hasbiya/").listAll();
 
-    for (final Reference ref in result.items) {
-      final String url = await ref.getDownloadURL();
-      shajraHasbiyaImageIndex.add(extractIndexFromFileName(ref.toString()));
 
+  void getShajraHasbiyaImageUrl() async {
+  // Clear the existing lists to avoid duplication
+  shajraHasbiyaImageIndex.clear();
+    shajraHasbiyaImageUrls.clear();
+
+  // Fetch the list of files from Firebase
+  final ListResult result = await firebaseStorage.child("shajra_hasbiya/").listAll();
+
+  for (final Reference ref in result.items) {
+    final String url = await ref.getDownloadURL();
+    final int index = extractIndexFromFileName(ref.toString());
+
+    // Check if the index and URL already exist to avoid duplicates
+    if (!shajraHasbiyaImageIndex.contains(index) && !shajraHasbiyaImageUrls.contains(url)) {
+      shajraHasbiyaImageIndex.add(index);
       shajraHasbiyaImageUrls.add(url);
     }
-
-    notifyListeners();
   }
 
+  // Notify listeners to update the UI
+  notifyListeners();
+}
+
   void getMajlisThumbUrl() async {
+    _majlisThumb.clear();
     final ListResult result =
         await firebaseStorage.child("majlisThumb/").listAll();
 
     for (final Reference ref in result.items) {
       final String url = await ref.getDownloadURL();
-
-      majlisThumb.add(url);
+if(!_majlisThumb.contains(url)) {
+     _majlisThumb.add(url);
+    }
+    
     }
 
     notifyListeners();
   }
 
   void majlisBookImagesUrl() async {
+_majlisBookImages.clear();
     final ListResult result = await FirebaseStorage.instance
         .ref()
         .child("majlisBookImages/")
@@ -179,25 +216,36 @@ class DataProvider with ChangeNotifier {
 
     for (final Reference ref in result.items) {
       final String url = await ref.getDownloadURL();
-
-      _majlisBookImages.add(url);
+if(!_majlisBookImages.contains(url)) {
+     _majlisBookImages.add(url);
     }
+      
+    }
+    
 
     notifyListeners();
   }
 
   void getMajlisImagesUrl() async {
-    majlisImages.clear();
-    final ListResult result =
-        await firebaseStorage.child("majlisImages/").listAll();
 
-    for (final Reference ref in result.items) {
-      final String url = await ref.getDownloadURL();
-      majlisImages.add(url);
+ 
+  
+  final ListResult result = await firebaseStorage.child("majlisImages/").listAll();
+  _majlisImages.clear();
+
+  for (final Reference ref in result.items) {
+    final String url = await ref.getDownloadURL();
+    if(!_majlisImages.contains(url)) {
+      _majlisImages.add(url);
     }
-
-    notifyListeners();
   }
+
+  // Remove duplicates
+  _majlisImages = majlisImages.toSet().toList();
+
+  notifyListeners();
+}
+
 
   Future<void> getPngs() async {
     pngUrls.clear();
@@ -245,15 +293,7 @@ class DataProvider with ChangeNotifier {
 
     notifyListeners();
   }
-  Future<void> getGif() async {
-       String url =  await FirebaseStorage.instance.ref('doc.gif').getDownloadURL();
-    _gif = url;
-   
-    
-
-    notifyListeners();
-  }
-
+  
   int extractIndexFromFileName(String filePath) {
     final fileName = filePath.split('/').last;
     final nameWithoutExtension = fileName.split('.').first;

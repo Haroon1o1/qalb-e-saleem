@@ -31,14 +31,22 @@ class _SoundPlayerState extends State<SoundPlayer> {
   Map<String, dynamic> images = {};
   late SoundPlayerProvider soundPlayerProvider;
   @override
-  void initState() {
-    loadAudioPosition(widget.name);
-    super.initState();
+void initState() {
+  
+  super.initState();
+  Future.delayed(Duration.zero, () {
     images = Provider.of<DataProvider>(context, listen: false).audioMap;
-    soundPlayerProvider = Provider.of<SoundPlayerProvider>(context, listen: false);
-    
-    
+    log(getAudio() + "Audio link ------------------");
+    images.forEach((key, value) {
+ 
+  if (key == widget.name) {
+    log('Match found: Key: $key, Widget name: ${widget.name}');
   }
+});
+
+  });
+}
+
 
   @override
   void dispose() {
@@ -75,7 +83,7 @@ class _SoundPlayerState extends State<SoundPlayer> {
 
   @override
   Widget build(BuildContext context) {
-    log(images["shajra_nasbiya"]);
+  
         soundPlayerProvider =
         Provider.of<SoundPlayerProvider>(context, listen: true);
     return PopScope(
@@ -228,8 +236,8 @@ SizedBox(height:10),
                                     width: 30,
                                   )),
                               GestureDetector(
-                                onTap: () => soundPlayerProvider
-                                    .togglePlayStop(getAudio()),
+                                onTap: ()async{soundPlayerProvider
+                                    .togglePlayStop(await getAudio());},
                                 child: Image.asset(
                                   soundPlayerProvider.isPlaying
                                       ? "assets/images/pause.png"

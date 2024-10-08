@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
@@ -46,15 +45,13 @@ class _Majlis_SoundState extends State<Majlis_Sound> {
     soundPlayerProvider =
         Provider.of<SoundPlayerProvider>(context, listen: true);
   }
-bool _isImageVisible = false;
   @override
   void initState() {
     loadAudioPosition();
-    Future.delayed(Duration(milliseconds: 000), () {
-      setState(() {
-        _isImageVisible = true;
-      });
-    });
+   
+     
+     
+   
     super.initState();
   }
 
@@ -67,7 +64,6 @@ bool _isImageVisible = false;
 
   Future<void> saveAudioPosition(Duration position) async {
     final prefs = await SharedPreferences.getInstance();
-    log("Saving position: ${position.inSeconds}");
     if (position.inSeconds > 0) {
       prefs.setInt("majlis${widget.index + 1}", position.inSeconds);
     }
@@ -76,7 +72,6 @@ bool _isImageVisible = false;
   Future<void> loadAudioPosition() async {
     final prefs = await SharedPreferences.getInstance();
     int? savedPosition = prefs.getInt("majlis${widget.index + 1}");
-    log("Loaded position: ${savedPosition} for index ${widget.index + 1}");
     if (savedPosition != null && savedPosition > 0) {
       soundPlayerProvider.seekAudio(savedPosition.toDouble());
     } else {

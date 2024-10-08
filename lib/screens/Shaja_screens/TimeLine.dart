@@ -1,9 +1,10 @@
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class TimelineStep extends StatelessWidget {
   final int stepNumber;
-  final String? imagePath;
+  final String imagePath;
   final String description;
   final String name;
 
@@ -72,7 +73,7 @@ class TimelineStep extends StatelessWidget {
                       : imagePath == ""
                           ? Container()
                           : Image.network(
-                              imagePath!,
+                              imagePath,
                               fit: BoxFit.cover,
                             ),
                 ),
@@ -214,4 +215,4 @@ class TimelineStep extends StatelessWidget {
 
     return colorList[colorIndex - 1]; // Adjust for 0-based index
   }
-}
+} 

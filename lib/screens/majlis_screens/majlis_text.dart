@@ -37,7 +37,10 @@ class _Majlis_TextState extends State<Majlis_Text> {
   void initState() {
     super.initState();
   }
-
+@override
+void dispose() {
+  super.dispose();
+}
   @override
   Widget build(BuildContext context) {
     return Scaffold(

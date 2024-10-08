@@ -31,6 +31,11 @@ class TextScreen extends StatefulWidget {
 }
 
 class _TextScreenState extends State<TextScreen> {
+
+  @override
+void dispose() {
+  super.dispose();
+}
   @override
   Widget build(BuildContext context) {
     return Scaffold(

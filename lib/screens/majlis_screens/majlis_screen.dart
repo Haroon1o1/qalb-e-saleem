@@ -11,6 +11,7 @@ import 'package:qalb/providers/DataProvider.dart';
 import 'package:qalb/providers/SoundPlayerProvider.dart';
 import 'package:qalb/screens/majlis_screens/majlis_sound.dart';
 
+// ignore: must_be_immutable
 class Majlis extends StatefulWidget {
   bool isNavBar;
   Majlis({super.key, required this.isNavBar});
@@ -102,40 +103,39 @@ Navigator.pop(context);
             ],
           ),
           Positioned(
-            top: MediaQuery.of(context).size.height * 0.19,
-            left: 0,
-            right: 0,
-            bottom:
-                0, // Ensure the content does not overflow outside the container
-            child: Container(
-              padding: EdgeInsets.only(top: 20),
-              decoration: const BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(40),
-                  topRight: Radius.circular(40),
-                ),
-              ),
-              child: ClipRRect(
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(40),
-                  topRight: Radius.circular(40),
-                ),
-                child: ListView.builder(
-                  padding: const EdgeInsets.symmetric(vertical: 20),
-                  itemCount: Provider.of<DataProvider>(context, listen: false).majlisImages.length,
-                  itemBuilder: (context, index) {
-                     if (Provider.of<DataProvider>(context, listen: false).majlisImages.isNotEmpty && index < Provider.of<DataProvider>(context, listen: false).majlisImages.length) {
-                    return majlisContainer(Provider.of<DataProvider>(context, listen: false).majlisImages[index], index);
-                  }else{
-                      return Container();
-                  }
-                 
-                  },
-                ),
-              ),
-            ),
-          ),
+  top: MediaQuery.of(context).size.height * 0.19,
+  left: 0,
+  right: 0,
+  bottom: 0,
+  child: Container(
+    padding: EdgeInsets.only(top: 20),
+    decoration: const BoxDecoration(
+      color: Colors.white,
+      borderRadius: BorderRadius.only(
+        topLeft: Radius.circular(40),
+        topRight: Radius.circular(40),
+      ),
+    ),
+    child: ClipRRect(
+      borderRadius: const BorderRadius.only(
+        topLeft: Radius.circular(40),
+        topRight: Radius.circular(40),
+      ),
+      child: Consumer<DataProvider>(
+        builder: (context, dataProvider, _) {
+          return ListView.builder(
+            padding: const EdgeInsets.symmetric(vertical: 20),
+            itemCount: dataProvider.majlisImages.length,
+            itemBuilder: (context, index) {
+              return majlisContainer(dataProvider.majlisImages[index], index);
+            },
+          );
+        },
+      ),
+    ),
+  ),
+),
+
         ],
       ),
     );

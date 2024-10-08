@@ -44,6 +44,6 @@ class SmallContainerRow extends StatelessWidget {
                           audioPath: '',
                         ),
                       ],
-                    );;
+                    );
   }
 }
