@@ -33,12 +33,14 @@ class Majlis_Text extends StatefulWidget {
 }
 
 class _Majlis_TextState extends State<Majlis_Text> {
+  PdfViewerController controller = new PdfViewerController();
   @override
   void initState() {
     super.initState();
   }
 @override
 void dispose() {
+  controller.dispose();
   super.dispose();
 }
   @override
@@ -259,6 +261,7 @@ void dispose() {
                       width: MediaQuery.of(context).size.width * 0.9,
                       child: Container(
                           child: SfPdfViewer.network(
+                            controller: controller,
                         Provider.of<DataProvider>(context, listen: false)
                             .majlisText[widget.index],
                         canShowScrollHead: false,

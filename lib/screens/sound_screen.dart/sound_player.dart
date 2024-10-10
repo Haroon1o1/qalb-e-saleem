@@ -247,7 +247,7 @@ SizedBox(height:10),
                               ),
                               GestureDetector(
                               onTap: () {
-                                Share.share('Download Qalb-E-Saleem App: https://play.google.com/store/apps/details?id=com.hizburehman.qalb_e_saleem&hl=en');
+                                Share.share('Download Qalb-E-Saleem App: https://play.google.com/store/apps/details?id=com.hriaa.qalb&hl=en');
                               },
                               child: Image.asset(
                                 "assets/images/share-grey.png",

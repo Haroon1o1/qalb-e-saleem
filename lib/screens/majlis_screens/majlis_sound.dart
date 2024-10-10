@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
@@ -47,6 +48,7 @@ class _Majlis_SoundState extends State<Majlis_Sound> {
   }
   @override
   void initState() {
+    log(Provider.of<DataProvider>(context,listen: false).majlisBookImages.length.toString());
     loadAudioPosition();
    
      
@@ -311,12 +313,17 @@ class _Majlis_SoundState extends State<Majlis_Sound> {
                                 if (widget.index > 0)
                                   GestureDetector(
                                     onTap: () {
-                                      saveAudioPosition(
+                                      if(Platform.isAndroid){
+                                        saveAudioPosition(
                                               soundPlayerProvider.position)
                                           .then((_) {
                                         soundPlayerProvider.stopAudio();
                                         navigateToMajlis(widget.index - 1);
                                       });
+                                      }else{
+soundPlayerProvider.stopAudio();
+                                        navigateToMajlis(widget.index - 1);
+                                      }
                                     },
                                     child: Image.asset(
                                       "assets/new_images/next-right.png",
@@ -330,7 +337,7 @@ class _Majlis_SoundState extends State<Majlis_Sound> {
                             GestureDetector(
                               onTap: () {
                                 Share.share(
-                                    'Download Qalb-E-Saleem App: https://play.google.com/store/apps/details?id=com.hizburehman.qalb_e_saleem&hl=en');
+                                    'Download Qalb-E-Saleem App: https://play.google.com/store/apps/details?id=com.hriaa.qalb&hl=en');
                               },
                               child: Image.asset(
                                 "assets/images/share-grey.png",

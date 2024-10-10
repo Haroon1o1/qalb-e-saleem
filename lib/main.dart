@@ -16,8 +16,6 @@ void main() async {
     print('Initialization error: $e');
   }
 
-  // Hide the status bar
-
   runApp(
     MultiProvider(
       providers: [

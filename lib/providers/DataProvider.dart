@@ -28,7 +28,7 @@ class DataProvider with ChangeNotifier {
   Map<String, String> get audioMap => _audioMap;
   List<String?> get shajraHasbiyaImageUrls => _shajraHasbiyaImageUrls;
   Map<String, String> get pdfMap => _pdfMap;
-  List<int> get shajraHasbiyaImageIndex => _shajraHasbiyaImageIndex;
+  List<int?> get shajraHasbiyaImageIndex => _shajraHasbiyaImageIndex;
   List<String?> get shajraNasbiyaImageUrls => _shajraNasbiyaImageUrls;
   List<String> get simpleSound => _simpleSound;
   List<String> get majlisSound => _majlisSound;
@@ -81,40 +81,49 @@ class DataProvider with ChangeNotifier {
   
 
   void getAkwalAudio() async {
+    akwalAudio.clear();
     final ListResult result =
         await firebaseStorage.child("aqwal_voice/").listAll();
 
     for (final Reference ref in result.items) {
       final String url = await ref.getDownloadURL();
 
-      akwalAudio.add(url);
+      if(!akwalAudio.contains(url)){
+        akwalAudio.add(url);
+      }
     }
 
     notifyListeners();
   }
 
   void getMajlisAudios() async {
+    majlisSound.clear();
     final ListResult result =
         await firebaseStorage.child("majlis_audio/").listAll();
 
     for (final Reference ref in result.items) {
       final String url = await ref.getDownloadURL();
 
-      majlisSound.add(url);
+     if(!majlisSound.contains(url)){
+       majlisSound.add(url);
+     }
     }
 
     notifyListeners();
   }
 
   void getAllImageUrl() async {
+    imageMap.clear();
     final ListResult result = await firebaseStorage.child("pngs/").listAll();
 
     for (final Reference ref in result.items) {
       final String url = await ref.getDownloadURL();
 
       String fileName = ref.name.replaceAll('.png', '');
-
-      imageMap[fileName] = url;
+if(!imageMap.containsKey(fileName)){
+ imageMap[fileName] = url;
+}
+     
     }
 
     // Print or use the map as needed
@@ -122,13 +131,16 @@ class DataProvider with ChangeNotifier {
   }
 
   void getSounds() async {
+    simpleSound.clear();
     final ListResult result =
         await firebaseStorage.child("aqwal_voice/").listAll();
 
     for (final Reference ref in result.items) {
       final String url = await ref.getDownloadURL();
 
-      simpleSound.add(url);
+      if(simpleSound.contains(url)){
+        simpleSound.add(url);
+      }
     }
 
     notifyListeners();
@@ -154,13 +166,16 @@ void getakwalImageUrl() async {
 }
 
   void getMajlisText() async {
+    majlisText.clear();
     final ListResult result =
         await firebaseStorage.child("majlis_text/").listAll();
 
     for (final Reference ref in result.items) {
       final String url = await ref.getDownloadURL();
 
-      majlisText.add(url);
+      if(!majlisText.contains(url)){
+        majlisText.add(url);
+      }
     }
 
     notifyListeners();
@@ -256,15 +271,17 @@ if(!_majlisBookImages.contains(url)) {
       String fileName = ref.name.split('.').first;
 
       String url = await ref.getDownloadURL();
-
-      _pngUrls[fileName] = url;
+  if(!_pngUrls.containsKey(fileName)){
+_pngUrls[fileName] = url;
+  }
+      
     }
 
     notifyListeners();
   }
 
   Future<void> getAudios() async {
-    pngUrls.clear();
+    audioMap.clear();
     final ListResult result =
         await FirebaseStorage.instance.ref('audio/').listAll();
 
@@ -273,7 +290,9 @@ if(!_majlisBookImages.contains(url)) {
 
       String url = await ref.getDownloadURL();
 
-      audioMap[fileName] = url;
+      if(!audioMap.containsKey(fileName)){
+        audioMap[fileName] = url;
+      }
     }
 
     notifyListeners();
@@ -288,7 +307,9 @@ if(!_majlisBookImages.contains(url)) {
 
       String url = await ref.getDownloadURL();
 
-      pdfMap[fileName] = url;
+      if(!pdfMap.containsKey(fileName)){
+        pdfMap[fileName] = url;
+      }
     }
 
     notifyListeners();

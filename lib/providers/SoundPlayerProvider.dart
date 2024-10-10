@@ -17,7 +17,6 @@ class SoundPlayerProvider with ChangeNotifier {
     // Listening to duration changes of the audio file
     _audioPlayer.onDurationChanged.listen((duration) {
       _duration = duration;
-      log("Duration updated: $_duration");
       notifyListeners();
     });
 
@@ -38,30 +37,26 @@ class SoundPlayerProvider with ChangeNotifier {
   }
 
   Future<void> togglePlayStop(String audioPath) async {
-  log("Audio path: $audioPath");
   
   if (_isPlaying) {
     await _audioPlayer.pause();
     _isPlaying = false;
   } else {
     try {
-      // Ensure the URL is valid or the local file path is correct
-      await _audioPlayer.play(UrlSource(audioPath));  // For remote URL
-      // Or use: await _audioPlayer.play(DeviceFileSource(audioPath));  // For local files
+      await _audioPlayer.play(UrlSource(audioPath)); 
+            
+       // For remote URL
       _isPlaying = true;
     } catch (e) {
-      log('Error playing audio: $e');
     }
   }
   notifyListeners();
 }
 
   Future<void> seekAudio(double value) async {
-    log("in seek audio method --- seconds: ${value}");
   final position = Duration(seconds: value.toInt());
     await _audioPlayer.seek(position);
     _position = position;
-    log('Seek to position: $position');
     notifyListeners();
 
 }

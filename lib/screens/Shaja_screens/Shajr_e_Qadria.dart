@@ -1,4 +1,6 @@
 
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -37,6 +39,9 @@ class _ShajrEQadriaScreenState extends State<ShajrEQadriaScreen> {
 
   @override
   Widget build(BuildContext context) {
+log("\n\n\n\n\n${Provider.of<DataProvider>(context, listen: false).shajraNasbiyaImageUrls.length}\n\n\n\n\n\n\n");
+log("\n\n\n\n\n${Provider.of<DataProvider>(context, listen: false).shajraHasbiyaImageUrls.length}\n\n\n\n\n\n\n");
+
     double screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
@@ -129,7 +134,7 @@ class _ShajrEQadriaScreenState extends State<ShajrEQadriaScreen> {
                           textAlign: TextAlign.right,
                         ),
                       ),
-                      Consumer<DataProvider>(
+                       Provider.of<DataProvider>(context, listen: false).shajraNasbiyaImageUrls.length != 4 && Provider.of<DataProvider>(context, listen: false).shajraHasbiyaImageIndex.length != 6 ? Container() :  Consumer<DataProvider>(
                         builder: (context, itemProvider, child) {
                           return ListView.builder(
                             shrinkWrap: true,
@@ -138,9 +143,7 @@ class _ShajrEQadriaScreenState extends State<ShajrEQadriaScreen> {
                                 : TextData.shajraHasbiya.length,
                             physics: NeverScrollableScrollPhysics(),
                             itemBuilder: (context, index) {
-                              if(itemProvider.shajraHasbiyaImageIndex.isEmpty){
-                                return Container();
-                              }else{
+                              
                                 return Container(
                                 margin: EdgeInsets.symmetric(vertical: 0.0),
                                 child: TimelineStep(
@@ -153,7 +156,7 @@ class _ShajrEQadriaScreenState extends State<ShajrEQadriaScreen> {
                                 ),
                               );
                               }
-                            },
+                            
                           );
                         },
                       ),
