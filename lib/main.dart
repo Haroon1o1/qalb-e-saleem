@@ -9,17 +9,15 @@ import 'package:qalb/screens/Splash_screen/starting_splash_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
-  try {
+  try{
     await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  } catch (e) {
+  }catch(e){
     print('Initialization error: $e');
   }
 
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (context) => DataProvider()),
         ChangeNotifierProvider(create: (context) => SoundPlayerProvider()),
         ChangeNotifierProvider(create: (context) => HomeNavBarProvider()),
       ],

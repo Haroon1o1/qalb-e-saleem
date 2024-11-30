@@ -21,7 +21,7 @@ class SocialMediaRow extends StatelessWidget {
       'asset': 'assets/images/web.png',
     },
     {
-      'url': 'https://play.google.com/store/apps/details?id=com.hizburehman.qalb_e_saleem&hl=en',
+      'url': 'https://play.google.com/store/apps/details?id=com.bookreadqbs.qalbesaleem&hl=en',
       'asset': 'assets/images/share.png',
       'isShare': 'true', // Flag for share button
     },

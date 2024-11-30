@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:qalb/screens/HomeScreen/widgets/bottomNavBar.dart';
-import 'package:qalb/utils/getAllData.dart';
 import 'package:video_player/video_player.dart';
 
 class Splashscreen extends StatefulWidget {
@@ -46,7 +45,6 @@ class _SplashscreenState extends State<Splashscreen>
 
   @override
   Widget build(BuildContext context) {
-     GetAllData.getData(context);
     return Scaffold(
       backgroundColor: Colors.black,
       body: Container(

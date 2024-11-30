@@ -75,28 +75,22 @@ void dispose() {
                               children: [
                                 Row(
                                   children: [
-                                    Consumer<DataProvider>(
-                                      builder: (context, dataProvider, child) {
-                                        String imageUrl = getImageAddress(dataProvider);
-                                        return imageUrl.isEmpty
-                                            ? Container(width: 70)
-                                            : Platform.isIOS
+                                   Platform.isIOS
               ? Image.network(
-                  imageUrl,
+                  getImageAddress(),
                   height: 70,
                   width: 70,
                   fit: BoxFit.fill,
                 )
               : CachedNetworkImage(
-                  imageUrl: imageUrl,
+                  imageUrl: getImageAddress(),
                   height: 70,
                   width: 70,
                   fit: BoxFit.fill,
                   placeholder: (context, url) => Container(),
                   errorWidget: (context, url, error) => const Icon(Icons.error),
-                );
-                                      },
-                                    ),
+                ),
+                                      
                                     SizedBox(width: 10),
                                     GestureDetector(
                                       onTap: () => soundPlayerProvider
@@ -279,47 +273,19 @@ void dispose() {
   }
 
 
-  String getTextFile() {
-    final textFileMap = {
-      "اظہار تشکر": "assets/textFiles/tashakur.pdf",
-      "مقدمہ الکتاب": "assets/textFiles/maqadma.pdf",
-      "الفراق": "assets/textFiles/alfiraq.pdf",
-      "پیش لفظ": "assets/textFiles/peshLafz.pdf",
-      "سوانح حیات": "assets/textFiles/sawana.pdf",
-      "قلبِ سلیم": "assets/textFiles/qalb.pdf",
-      "شجرٔہ قادریہ حسبیہ": "assets/textFiles/hasbia.pdf",
-      "شجرٔہ قادریہ نسبیہ": "assets/textFiles/nasbiya.pdf",
-      "قطعہ تاریخ وصال": "assets/textFiles/qata.pdf",
-      "منقبت": "assets/textFiles/manqabat1.pdf",
-      "2منقبت": "assets/textFiles/manqabat2.pdf",
-    };
-    return textFileMap[widget.name] ?? "";
-  }
-
-  String getImageAddress(DataProvider dataProvider) {
+  String getImageAddress() {
     final imageMap = {
-      "منقبت": dataProvider
-          .imageMap["manqabat-white"],
-      "اظہار تشکر": dataProvider
-          .imageMap["izhar-white"],
-      "الفراق": dataProvider
-          .imageMap["alfiraq-white"],
-      "مقدمہ الکتاب": dataProvider
-          .imageMap["muqadma-white"],
-      "پیش لفظ": dataProvider
-          .imageMap["paish_lafz-white"],
-      "سوانح حیات": dataProvider
-          .imageMap["sawane-white"],
-      "قلبِ سلیم": dataProvider
-          .imageMap["qalb_e_saleem-white"],
-      "شجرٔہ قادریہ حسبیہ": dataProvider
-          .imageMap["shajra_hasbia"],
-      "شجرٔہ قادریہ نسبیہ": dataProvider
-          .imageMap["shajra_nasbia"],
-      "قطعہ تاریخ وصال": dataProvider
-          .imageMap["qata_white"],
-      "2منقبت": dataProvider
-          .imageMap["manqabat2-white"],
+      "منقبت": "https://firebasestorage.googleapis.com/v0/b/qalb-e-saleem-c7987.appspot.com/o/pngs%2Fmanqabat-white.png?alt=media&token=eaa3c36e-80c0-4f93-82c2-874f7f9df704",
+      "اظہار تشکر": "https://firebasestorage.googleapis.com/v0/b/qalb-e-saleem-c7987.appspot.com/o/pngs%2Fizhar-white.png?alt=media&token=926120f6-72b1-4911-bb88-82053107ad60",
+      "الفراق": "https://firebasestorage.googleapis.com/v0/b/qalb-e-saleem-c7987.appspot.com/o/pngs%2Falfiraq-white.png?alt=media&token=6457350d-b92c-4137-8c0b-3458a8ac766f",
+      "مقدمہ الکتاب": "https://firebasestorage.googleapis.com/v0/b/qalb-e-saleem-c7987.appspot.com/o/pngs%2Fmuqadma-white.png?alt=media&token=708c31c0-5f78-4b0a-9c54-7d89651be058",
+      "پیش لفظ": "https://firebasestorage.googleapis.com/v0/b/qalb-e-saleem-c7987.appspot.com/o/pngs%2Fpaish_lafz-white.png?alt=media&token=c96fd275-b73a-48a2-b8b7-888a633c25a1",
+      "سوانح حیات": "https://firebasestorage.googleapis.com/v0/b/qalb-e-saleem-c7987.appspot.com/o/pngs%2Fsawane-white.png?alt=media&token=a36b7833-abd0-4d58-a94f-cd13db32ed91",
+      "قلبِ سلیم": "https://firebasestorage.googleapis.com/v0/b/qalb-e-saleem-c7987.appspot.com/o/pngs%2Fqalb_e_saleem-white.png?alt=media&token=5f6b40ff-deba-44b2-a33d-08d71ad1c1db",
+      "شجرٔہ قادریہ حسبیہ": "https://firebasestorage.googleapis.com/v0/b/qalb-e-saleem-c7987.appspot.com/o/pngs%2Fshajra_hasbia.png?alt=media&token=7d24e2a2-317f-4798-90fd-8909a8b763d9",
+      "شجرٔہ قادریہ نسبیہ": "https://firebasestorage.googleapis.com/v0/b/qalb-e-saleem-c7987.appspot.com/o/pngs%2Fshajra_nasbia.png?alt=media&token=747a78a2-137c-413f-877c-52c724b2c00c",
+      "قطعہ تاریخ وصال": "https://firebasestorage.googleapis.com/v0/b/qalb-e-saleem-c7987.appspot.com/o/pngs%2Fqata-white.png?alt=media&token=eb630353-a13f-4b2b-9c49-ce0402b7659d",
+      "2منقبت": "https://firebasestorage.googleapis.com/v0/b/qalb-e-saleem-c7987.appspot.com/o/pngs%2Fmanqabat2-white.png?alt=media&token=3251e169-aac7-4222-902b-8ffc0af48a89",
     };
     return imageMap[widget.name] ?? "";
   }
@@ -327,31 +293,20 @@ void dispose() {
 
   String getPdfsName() {
     final pdfMap = {
-      "منقبت": Provider.of<DataProvider>(context, listen: false)
-          .pdfMap["manqabat"],
-      "اظہار تشکر": Provider.of<DataProvider>(context, listen: false)
-          .pdfMap["izhar"],
-      "الفراق": Provider.of<DataProvider>(context, listen: false)
-          .pdfMap["alfiraq"],
-      "مقدمہ الکتاب": Provider.of<DataProvider>(context, listen: false)
-          .pdfMap["muqadma"],
-      "پیش لفظ": Provider.of<DataProvider>(context, listen: false)
-          .pdfMap["paish_lafz"],
-      "سوانح حیات": Provider.of<DataProvider>(context, listen: false)
-          .pdfMap["sawane"],
-      "قلبِ سلیم": Provider.of<DataProvider>(context, listen: false)
-          .pdfMap["qalb_e_saleem"],
-      "شجرٔہ قادریہ حسبیہ": Provider.of<DataProvider>(context, listen: false)
-          .pdfMap["shajra_hasbia"],
-      "شجرٔہ قادریہ نسبیہ": Provider.of<DataProvider>(context, listen: false)
-          .pdfMap["shajra_nasbia"],
-      "قطعہ تاریخ وصال": Provider.of<DataProvider>(context, listen: false)
-          .pdfMap["qata"],
-      "2منقبت": Provider.of<DataProvider>(context, listen: false)
-          .pdfMap["manqabat2"],
+      "منقبت": "https://firebasestorage.googleapis.com/v0/b/qalb-e-saleem-c7987.appspot.com/o/pdfs%2Fmanqabat.pdf?alt=media&token=b3a2ab54-ea00-4d2b-a413-7a4ee2261bac",
+      "اظہار تشکر": "https://console.firebase.google.com/project/qalb-e-saleem-c7987/storage/qalb-e-saleem-c7987.appspot.com/files/~2Fpdfs",
+      "الفراق": "https://firebasestorage.googleapis.com/v0/b/qalb-e-saleem-c7987.appspot.com/o/pdfs%2Falfiraq.pdf?alt=media&token=a4105358-93ef-4142-9602-d66927c1bf0c",
+      "مقدمہ الکتاب": "https://firebasestorage.googleapis.com/v0/b/qalb-e-saleem-c7987.appspot.com/o/pdfs%2Fmuqadma.pdf?alt=media&token=1b1795ec-a528-4001-994a-0dd212f141f0",
+      "پیش لفظ":"https://firebasestorage.googleapis.com/v0/b/qalb-e-saleem-c7987.appspot.com/o/pdfs%2Fpaish_lafz.pdf?alt=media&token=770bc9ba-56b3-4548-bf80-aac876052caa" ,
+      "سوانح حیات": "https://firebasestorage.googleapis.com/v0/b/qalb-e-saleem-c7987.appspot.com/o/pdfs%2Fsawane.pdf?alt=media&token=8e41532a-1d73-46b1-8559-4021e088ad3f",
+      "قلبِ سلیم": "https://firebasestorage.googleapis.com/v0/b/qalb-e-saleem-c7987.appspot.com/o/pdfs%2Fqalb_e_saleem.pdf?alt=media&token=9b1a4b90-0ac6-4c93-8e54-dde768a799b7",
+      "شجرٔہ قادریہ حسبیہ":"https://firebasestorage.googleapis.com/v0/b/qalb-e-saleem-c7987.appspot.com/o/pdfs%2Fshajra_hasbia.pdf?alt=media&token=b86df206-484b-4611-8a98-78e0ce931510" ,
+      "شجرٔہ قادریہ نسبیہ":"https://firebasestorage.googleapis.com/v0/b/qalb-e-saleem-c7987.appspot.com/o/pdfs%2Fshajra_nasbia.pdf?alt=media&token=c392c645-d187-452b-8f69-39b04ad6cc25" ,
+      "قطعہ تاریخ وصال":"https://firebasestorage.googleapis.com/v0/b/qalb-e-saleem-c7987.appspot.com/o/pdfs%2Fqata.pdf?alt=media&token=370b6ed1-e243-49f2-9e41-fd71726f0cfd" ,
+      "2منقبت": "https://firebasestorage.googleapis.com/v0/b/qalb-e-saleem-c7987.appspot.com/o/pdfs%2Fmanqabat2.pdf?alt=media&token=fef71bc8-9758-45f0-8efa-199e9adfffe1",
     };
-    return pdfMap[widget.name] ?? "";
-  }
+      return pdfMap[widget.name] ?? "";
+    }
 
   Color? getColor() {
     final colorMap = {

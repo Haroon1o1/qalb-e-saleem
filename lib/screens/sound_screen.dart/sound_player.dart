@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:qalb/providers/DataProvider.dart';
 import 'package:qalb/providers/SoundPlayerProvider.dart';
 import 'package:qalb/screens/sound_screen.dart/text_screen.dart';
 import 'package:share_plus/share_plus.dart';
@@ -32,19 +31,7 @@ class _SoundPlayerState extends State<SoundPlayer> {
   late SoundPlayerProvider soundPlayerProvider;
   @override
 void initState() {
-  
   super.initState();
-  Future.delayed(Duration.zero, () {
-    images = Provider.of<DataProvider>(context, listen: false).audioMap;
-    log(getAudio() + "Audio link ------------------");
-    images.forEach((key, value) {
- 
-  if (key == widget.name) {
-    log('Match found: Key: $key, Widget name: ${widget.name}');
-  }
-});
-
-  });
 }
 
 
@@ -57,7 +44,6 @@ void initState() {
 
   Future<void> saveAudioPosition(String name, Duration position) async {
     final prefs = await SharedPreferences.getInstance();
-        log("in saving audio method for name ${name} --- seconds: ${position.inSeconds}"); 
 
     if(position.inSeconds.toDouble() > 0){
       prefs.setInt(name, position.inSeconds);
@@ -247,7 +233,7 @@ SizedBox(height:10),
                               ),
                               GestureDetector(
                               onTap: () {
-                                Share.share('Download Qalb-E-Saleem App: https://play.google.com/store/apps/details?id=com.hriaa.qalb&hl=en');
+                                Share.share('Download Qalb-E-Saleem App: https://play.google.com/store/apps/details?id=com.bookreadqbs.qalbesaleem&hl=en');
                               },
                               child: Image.asset(
                                 "assets/images/share-grey.png",
@@ -272,17 +258,17 @@ SizedBox(height:10),
   String getAudio() {
     
     final audioMap = {
-      "منقبت": images["manqabat1"],
-      "اظہار تشکر": images["tashakur"],
-      "الفراق": images["alfiraq"],
-      "مقدمہ الکتاب": images["muqadma"],
-      "پیش لفظ": images["paishlafz"],
-      "سوانح حیات": images["sawana"],
-      "قلبِ سلیم": images["qalb"],
-      "شجرٔہ قادریہ حسبیہ": images["shajra_hasbiya"],
-      "شجرٔہ قادریہ نسبیہ": images["shajra_nasbiya"],
-      "قطعہ تاریخ وصال": images["qata"],
-      "2منقبت": images["manqabat2"],
+      "منقبت": "https://firebasestorage.googleapis.com/v0/b/qalb-e-saleem-c7987.appspot.com/o/audio%2Fmanqabat1.mp3?alt=media&token=7480350d-aebd-4072-a880-a4bbb49e7e41",
+      "اظہار تشکر": "https://firebasestorage.googleapis.com/v0/b/qalb-e-saleem-c7987.appspot.com/o/audio%2Ftashakur.mp3?alt=media&token=6a66383b-0081-433a-8ac4-4b7edc11f871",
+      "الفراق": "https://firebasestorage.googleapis.com/v0/b/qalb-e-saleem-c7987.appspot.com/o/audio%2Falfiraq.mp3?alt=media&token=af74c030-2970-4710-92a0-e02c1d0fe955",
+      "مقدمہ الکتاب":"https://firebasestorage.googleapis.com/v0/b/qalb-e-saleem-c7987.appspot.com/o/audio%2Fmuqadma.mp3?alt=media&token=7c0c25fb-0396-4a00-9d1e-d07e224eaed2" ,
+      "پیش لفظ":"https://firebasestorage.googleapis.com/v0/b/qalb-e-saleem-c7987.appspot.com/o/audio%2Fpaishlafz.mp3?alt=media&token=7c676ba1-c4f6-40ae-95d8-00af09232f7c" ,
+      "سوانح حیات": "https://firebasestorage.googleapis.com/v0/b/qalb-e-saleem-c7987.appspot.com/o/audio%2Fsawana.mp3?alt=media&token=849ee633-d3c7-42fb-b10e-e06992af6493",
+      "قلبِ سلیم": "https://console.firebase.google.com/project/qalb-e-saleem-c7987/storage/qalb-e-saleem-c7987.appspot.com/files/~2Faudio",
+      "شجرٔہ قادریہ حسبیہ": "https://firebasestorage.googleapis.com/v0/b/qalb-e-saleem-c7987.appspot.com/o/audio%2Fshajra_hasbiya.mp3?alt=media&token=c07580d8-2e59-4370-b8eb-13fcb1c3ef3d",
+      "شجرٔہ قادریہ نسبیہ": "https://firebasestorage.googleapis.com/v0/b/qalb-e-saleem-c7987.appspot.com/o/audio%2Fshajra_nasbiya.mp3?alt=media&token=15c54dc3-8082-46b4-9a8c-456ed7bcd7a5",
+      "قطعہ تاریخ وصال": "https://firebasestorage.googleapis.com/v0/b/qalb-e-saleem-c7987.appspot.com/o/audio%2Fqata.mp3?alt=media&token=2087f0db-1c42-4a65-8fcd-db5f6fa795f7",
+      "2منقبت": "https://firebasestorage.googleapis.com/v0/b/qalb-e-saleem-c7987.appspot.com/o/audio%2Fmanqabat2.mp3?alt=media&token=a0a1b5f7-5778-4041-977d-09c514500a19",
     };
     return audioMap[widget.name] ?? "";
   }

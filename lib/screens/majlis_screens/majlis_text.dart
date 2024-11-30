@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
-import 'package:qalb/providers/DataProvider.dart';
+import 'package:qalb/data/links.dart';
 import 'package:qalb/providers/SoundPlayerProvider.dart';
 import 'package:qalb/screens/sound_screen.dart/sound_player.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
@@ -79,13 +79,13 @@ void dispose() {
                                   children: [
                                     Platform.isIOS
               ? Image.network(
-                  widget.image,
+                  Links.MajlisTextImage[widget.index],
                   width: 80,
                   height:80,
                   fit: BoxFit.fill,
                 )
               : CachedNetworkImage(
-                  imageUrl: widget.image,
+                  imageUrl: Links.MajlisTextImage[widget.index],
                   width: 80,
                   height:80,
                   fit: BoxFit.fill,
@@ -262,8 +262,7 @@ void dispose() {
                       child: Container(
                           child: SfPdfViewer.network(
                             controller: controller,
-                        Provider.of<DataProvider>(context, listen: false)
-                            .majlisText[widget.index],
+                        Links.majlisText[widget.index],
                         canShowScrollHead: false,
                         canShowPaginationDialog: false,
                         pageSpacing: 0,

@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
@@ -7,7 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:qalb/Transition/CustomPageTransition.dart';
 import 'package:qalb/data/data.dart';
-import 'package:qalb/providers/DataProvider.dart';
+import 'package:qalb/data/links.dart';
 import 'package:qalb/providers/SoundPlayerProvider.dart';
 import 'package:qalb/screens/majlis_screens/majlis_text.dart';
 import 'package:qalb/screens/sound_screen.dart/sound_player.dart';
@@ -48,7 +47,6 @@ class _Majlis_SoundState extends State<Majlis_Sound> {
   }
   @override
   void initState() {
-    log(Provider.of<DataProvider>(context,listen: false).majlisBookImages.length.toString());
     loadAudioPosition();
    
      
@@ -87,13 +85,11 @@ class _Majlis_SoundState extends State<Majlis_Sound> {
       CustomPageNavigation(
         child: Majlis_Sound(
           tag: TextData.majlisUrdu[newIndex],
-          image: Provider.of<DataProvider>(context, listen: false)
-              .majlisThumb[newIndex],
+          image: Links.MajlisSoundImage[newIndex],
           index: newIndex,
           name: TextData.majlisUrdu[newIndex],
           sub: TextData.majlisUrdu[newIndex],
-          audioPath: Provider.of<DataProvider>(context, listen: false)
-              .majlisSound[newIndex],
+          audioPath: Links.majlisSound[newIndex],
         ),
       ),
     );
@@ -260,14 +256,9 @@ class _Majlis_SoundState extends State<Majlis_Sound> {
                                         duration: getDuration(),
                                         audioPath: widget.audioPath,
                                         index: widget.index,
-                                        image: Provider.of<DataProvider>(
-                                                context,
-                                                listen: false)
-                                            .majlisBookImages[widget.index],
+                                        image: Links.MajlisSoundImage[widget.index],
                                         name: widget.name,
-                                        file: Provider.of<DataProvider>(context,
-                                                listen: false)
-                                            .majlisText[widget.index],
+                                        file: Links.majlisText[widget.index],
                                       ),
                                     ));
                               },
@@ -337,7 +328,7 @@ soundPlayerProvider.stopAudio();
                             GestureDetector(
                               onTap: () {
                                 Share.share(
-                                    'Download Qalb-E-Saleem App: https://play.google.com/store/apps/details?id=com.hriaa.qalb&hl=en');
+                                    'Download Qalb-E-Saleem App: https://play.google.com/store/apps/details?id=com.bookreadqbs.qalbesaleem&hl=en');
                               },
                               child: Image.asset(
                                 "assets/images/share-grey.png",

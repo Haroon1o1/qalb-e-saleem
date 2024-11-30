@@ -7,25 +7,15 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:qalb/Transition/CustomPageTransition.dart';
 import 'package:qalb/data/data.dart';
-import 'package:qalb/providers/DataProvider.dart';
+import 'package:qalb/data/links.dart';
 import 'package:qalb/providers/SoundPlayerProvider.dart';
 import 'package:qalb/screens/majlis_screens/majlis_sound.dart';
 
 // ignore: must_be_immutable
-class Majlis extends StatefulWidget {
+class Majlis extends StatelessWidget {
   bool isNavBar;
   Majlis({super.key, required this.isNavBar});
 
-  @override
-  State<Majlis> createState() => _MajlisState();
-}
-
-class _MajlisState extends State<Majlis> {
-  @override
-  void initState() {
-   Provider.of<DataProvider>(context, listen: false).majlisBookImagesUrl();
-    super.initState();
-  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -88,7 +78,7 @@ Navigator.pop(context);
                           ),
                           const SizedBox(width: 15),
                           Visibility(
-                            visible: widget.isNavBar ? false : true,
+                            visible: isNavBar ? false : true,
                             child: Image.asset(
                               "assets/images/back-arrow-white.png",
                               width: 25,
@@ -121,15 +111,11 @@ Navigator.pop(context);
         topLeft: Radius.circular(40),
         topRight: Radius.circular(40),
       ),
-      child: Consumer<DataProvider>(
-        builder: (context, dataProvider, _) {
-          return ListView.builder(
-            padding: const EdgeInsets.symmetric(vertical: 20),
-            itemCount: dataProvider.majlisImages.length,
-            itemBuilder: (context, index) {
-              return majlisContainer(dataProvider.majlisImages[index], index);
-            },
-          );
+      child: ListView.builder(
+        padding: const EdgeInsets.symmetric(vertical: 20),
+        itemCount: Links.majlisMainList.length,
+        itemBuilder: (context, index) {
+          return majlisContainer(Links.majlisMainList[index], index, context);
         },
       ),
     ),
@@ -141,21 +127,18 @@ Navigator.pop(context);
     );
   }
 
-
-Widget majlisContainer(String image, int index) {
+Widget majlisContainer(String image, int index, BuildContext context) {
   return GestureDetector(
     onTap: () {
       Navigator.push(
         context,
         CustomPageNavigation(
           child: Majlis_Sound(
-            image: Provider.of<DataProvider>(context, listen: false)
-                .majlisThumb[index],
+            image: Links.MajlisSoundImage[index],
             index: index,
             name: TextData.majlisUrdu[index],
             sub: TextData.majlisEnglish[index],
-            audioPath: Provider.of<DataProvider>(context, listen: false)
-                .majlisSound[index], 
+            audioPath: Links.majlisSound[index], 
             tag: TextData.majlisUrdu[index],
           ),
         ),
@@ -309,9 +292,6 @@ Widget majlisContainer(String image, int index) {
   );
 }
 
-
-
-
   int getDuration(int index) {
      final duration = {
       1: 883,
@@ -338,13 +318,14 @@ Widget majlisContainer(String image, int index) {
     return duration.containsKey(index) ? duration[index]! : 0;
     // return duration[index] ?? 0;
   }
+
     String formatDuration(int seconds) {
     final minutes = (seconds ~/ 60).toString().padLeft(2, '0');
     final remainingSeconds = (seconds % 60).toString().padLeft(2, '0');
     return '$minutes:$remainingSeconds';
   }
 
-  Future<String?> getAudioDuration(String url) async {
+  Future<String?> getAudioDuration(String url, BuildContext context) async {
     final player = AudioPlayer();
     try {
       await player.setSourceUrl(url);

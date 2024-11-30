@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:qalb/data/links.dart';
 import 'package:qalb/providers/DataProvider.dart';
 import 'package:qalb/screens/aqwal_wa_irshadaat/widgets/upperPart.dart';
 import 'package:qalb/providers/SoundPlayerProvider.dart'; // Import SoundPlayerProvider
@@ -35,8 +36,7 @@ class _AqwalWaIrshadaatScreenState extends State<AqwalWaIrshadaatScreen> {
   }
 
   void _toggleAudio() {
-    final akwalProvider = Provider.of<DataProvider>(context, listen: false);
-    final akwalAudioUrls = akwalProvider.akwalAudio;
+    final akwalAudioUrls =Links.akwalAudio;
     
     if (_currentIndex < 0 || _currentIndex >= akwalAudioUrls.length) {
       log("Invalid index: $_currentIndex");
@@ -49,8 +49,8 @@ class _AqwalWaIrshadaatScreenState extends State<AqwalWaIrshadaatScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final akwalImageUrls = Provider.of<DataProvider>(context, listen: false).akwalImageUrls;
-    final soundProvider = Provider.of<SoundPlayerProvider>(context); // Access SoundPlayerProvider
+    final akwalImageUrls = Links.akwalImages;
+    final soundProvider = Provider.of<SoundPlayerProvider>(context); 
     
     return Scaffold(
       body: Stack(
@@ -94,7 +94,6 @@ class _AqwalWaIrshadaatScreenState extends State<AqwalWaIrshadaatScreen> {
   ),
   carouselController: _carouselController,
   items: akwalImageUrls.asMap().entries.map((entry) {
-    int index = entry.key;
     String imageUrl = entry.value;
     
     return Builder(
